@@ -1,44 +1,67 @@
 *.rbc
-capybara-*.html
-.rspec
-/log
-/tmp
-/db/*.sqlite3
-/db/*.sqlite3-journal
-/public/system
-/coverage/
-/spec/tmp
-*.orig
-rerun.txt
-pickle-email-*.html
+Rails/capybara-*.html
+Rails/.rspec
+Rails/log
+Rails/tmp
+Rails/db/*.sqlite3
+Rails/db/*.sqlite3-journal
+Rails/public/system
+Rails/coverage/
+Rails/spec/tmp
+Rails/*.orig
+Rails/rerun.txt
+Rails/pickle-email-*.html
 
 # TODO Comment out this rule if you are OK with secrets being uploaded to the repo
-config/initializers/secret_token.rb
+Rails/config/initializers/secret_token.rb
 
 # Only include if you have production secrets in this file, which is no longer a Rails default
 # config/secrets.yml
 
 # dotenv
 # TODO Comment out this rule if environment variables can be committed
-.env
+Rails/.env
 
 ## Environment normalization:
-/.bundle
-/vendor/bundle
+Rails/.bundle
+Rails/vendor/bundle
 
 # these should all be checked in to normalize the environment:
 # Gemfile.lock, .ruby-version, .ruby-gemset
 
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
-.rvmrc
+Rails/.rvmrc
 
 # if using bower-rails ignore default bower_components path bower.json files
-/vendor/assets/bower_components
-*.bowerrc
-bower.json
+Rails/vendor/assets/bower_components
+Rails/*.bowerrc
+Rails/bower.json
 
 # Ignore pow environment settings
-.powenv
+Rails/.powenv
 
 # Ignore Byebug command history file.
-.byebug_history
+Rails/.byebug_history
+
+
+
+#React
+# dependencies
+react-dir/node_modules
+
+# testing
+react-dir/coverage
+
+# production
+react-dir/build
+
+# misc
+react-dir/.DS_Store
+react-dir/.env.local
+react-dir/.env.development.local
+react-dir/.env.test.local
+react-dir/.env.production.local
+
+react-dir/npm-debug.log*
+react-dir/yarn-debug.log*
+react-dir/yarn-error.log*
