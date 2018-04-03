@@ -22,7 +22,7 @@ export default class Friends extends React.Component{
     handleInput = (e)=>{
         this.setState({input:e.target.value})
     }
-    remove = (e)=>{
+    removeFriend = (e)=>{
         console.log("removing"+e.target);
         
     }
@@ -42,21 +42,23 @@ export default class Friends extends React.Component{
                             <Icon name='users' circular/>
                             <Header.Content>Friends List</Header.Content>
                         </Header>
+                        {
+                            this.state.friends.length==0 && (<h1 align="center">Start adding your friends...</h1>)
+                        }
                         <Card.Group className="eight wide">
                         {
                             this.state.friends.map(friend=>{
                                 return (
-                                <Card  key={uuid()}>
-                                    <Card.Content>
-                                        <Image className="ui avatar image" floated='right' size='mini' src='https://react.semantic-ui.com/assets/images/avatar/large/steve.jpg'/>
-                                        <Card.Header>{friend}</Card.Header>
-                                    </Card.Content>
-                                    <Card.Content extra>
-                                        <Button className="ui button" size='mini' basic color='red'>Remove</Button>
-                                    </Card.Content>
-                                </Card>
-                            )
-
+                                    <Card  key={uuid()}>
+                                        <Card.Content>
+                                            <Image className="ui avatar image" floated='right' size='mini' src='https://react.semantic-ui.com/assets/images/avatar/large/steve.jpg'/>
+                                            <Card.Header>{friend}</Card.Header>
+                                        </Card.Content>
+                                        <Card.Content extra>
+                                            <Button className="ui button" size='mini' basic color='red'onClick={this.removeFriend}>Remove</Button>
+                                        </Card.Content>
+                                    </Card>
+                                )
                             })
                         }
                         </Card.Group>  
