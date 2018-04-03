@@ -42,11 +42,11 @@ export default class Friends extends React.Component{
                             <Icon name='users' circular/>
                             <Header.Content>Friends List</Header.Content>
                         </Header>
-                        <Card.Group>
+                        <Card.Group className="eight wide">
                         {
                             this.state.friends.map(friend=>{
                                 return (
-                                <Card key={uuid()}>
+                                <Card  key={uuid()}>
                                     <Card.Content>
                                         <Image className="ui avatar image" floated='right' size='mini' src='https://react.semantic-ui.com/assets/images/avatar/large/steve.jpg'/>
                                         <Card.Header>{friend}</Card.Header>
