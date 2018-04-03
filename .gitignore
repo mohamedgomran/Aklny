@@ -1,3 +1,4 @@
+.sublime-project
 *.rbc
 Rails/capybara-*.html
 Rails/.rspec

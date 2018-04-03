@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import { Icon, Menu, Image, Grid } from 'semantic-ui-react'
 import logo from '../logo.svg';
-export default class MenuExampleIcons extends Component {
+
+export default class Header extends Component {
   state = { activeItem: 'home' }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
