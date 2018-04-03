@@ -5,19 +5,12 @@ import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import 'semantic-ui-css/semantic.min.css';
 
-import Friends from './friends.js';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class App extends React.Component{
     render(){
         return(
-                <Router>
-                    <div>
-                        <Link to="/friends">Friends</Link>
-                        <Route path="/friends" Component={Friends} />
-                    </div>
-                </Router>
-        )
+          <div></div>
+        );
     }
 }
 
