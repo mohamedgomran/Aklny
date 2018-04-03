@@ -28,6 +28,10 @@ export default class MenuExampleIcons extends Component {
 	          <Icon name='group' />
 	        </Menu.Item>
 	              
+	        <Menu.Item as={Link} to='/orders' name='orders' active={activeItem === 'orders'} onClick={this.handleItemClick}>
+	          <Icon name='list' />
+	        </Menu.Item>
+	              
 	        <Menu.Menu position='right'>
 		        
 		        <Menu.Item name='notifications' active={activeItem === 'notifications'} onClick={this.handleItemClick}>
