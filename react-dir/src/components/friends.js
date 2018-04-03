@@ -1,7 +1,8 @@
 import React from 'react'
 import { Input, Button, Container, Header, Icon, Card, Image } from 'semantic-ui-react'
 var uuid = require('uuid-v4');
-class Friends extends React.Component{
+
+export default class Friends extends React.Component{
     emailRegex = new RegExp('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/')
     state = {
         friends:[],
@@ -37,7 +38,7 @@ class Friends extends React.Component{
                 </div>
                 <div>
                     <Container fluid>
-                        <Header as='h3' icon >
+                        <Header as='h3' icon>
                             <Icon name='users' circular/>
                             <Header.Content>Friends List</Header.Content>
                         </Header>
@@ -68,4 +69,4 @@ class Friends extends React.Component{
 // const AddFriendToGroup = () => (
 // )
 
-export default Friends
+// export default Friends
