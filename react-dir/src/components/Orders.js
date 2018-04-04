@@ -1,17 +1,22 @@
 import React from 'react'
-import { Button, Confirm ,Table,Grid,Icon } from 'semantic-ui-react'
+import { Button, Confirm ,Table,Grid,Icon,Pagination } from 'semantic-ui-react'
 
 
 class Orders extends React.Component {
 
   constructor(props){
    super(props);
-   this.state = {size: 3,
+   this.state = {
+        offset : 0,
+        size: 3,
         open: false,
         result: 'show the modal to capture a result'
    }
  }
 
+ handleClick(offset) {
+    this.setState({offset});
+  }
  show = () => this.setState({open: true })
  handleConfirm = () => this.setState({ result: 'confirmed', open: false })
  handleCancel = () => this.setState({ result: 'cancelled', open: false })
@@ -40,7 +45,7 @@ class Orders extends React.Component {
   </Grid.Row>
 		<Grid.Row>
     <Grid.Column computer={12}>
-      <Table size='small' textAlign='center'>
+      <Table size='small' textAlign='center' celled selectable>
     <Table.Header>
       <Table.Row>
         <Table.HeaderCell >Order</Table.HeaderCell>
@@ -95,7 +100,14 @@ class Orders extends React.Component {
       </Grid.Column>
 
   </Grid.Row>
-
+  <Grid.Row>
+  <Pagination
+         offset={this.state.offset}
+         limit={10}
+         total={100}
+         onClick={(e, props, offset) => this.handleClick(offset)}
+       />
+  </Grid.Row>
 </Grid>
 
     );
