@@ -6,7 +6,7 @@ class Register extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {username: '',password:'',Email:'',confirmpass:'',errmsg:''};
+    this.state = {username: '',password:'',Email:'',confirmpass:'',errmsg:'',image:''};
 
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
@@ -36,14 +36,21 @@ class Register extends React.Component {
     this.setState({confirmpass: event.target.value});
   }
 
+  handleChangecimage(event) {
+    console.log(event.target.value);
+    // this.setState({image: event.target.value});
+  }
+
 
   handleSubmit(event) {
     console.log('register data: ' + this.state.username+this.state.password+' '+this.state.confirmpass+' '+this.state.Email);
      if(this.state.password != this.state.confirmpass)
      {
          this.setState({errmsg:'invalid Password'});
+
      }else{
        //send data to backend
+       console.log('image',this.state.image);
      }
     event.preventDefault();
   }
@@ -97,6 +104,15 @@ class Register extends React.Component {
               placeholder='Confirm Password'
               type='password'
               value={this.state.confirmpass} onChange={this.handleChangeconfirm} required
+            />
+
+            <Form.Input
+              fluid
+              icon='lock'
+              iconPosition='left'
+              placeholder='Upload Image'
+              type='file'
+              value={this.state.image} onChange={this.handleChangecimage} required
             />
 
             <Button color='teal' fluid size='large'>Register</Button>
