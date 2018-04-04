@@ -19,8 +19,8 @@ const AppRouter =()=> (
                 <Route path="/orders/:id" component={Orders}/>
                 <Route path="/groups" component={Groups} exact={true} />
                 <Route path="/groups/:name" component={Groups}/>
-                <Route path="/Login" component={Login}/>
-                <Route path="/Register" component={Register}/>
+                <Route path="/login" component={Login}/>
+                <Route path="/register" component={Register}/>
             </Switch>
         </div>
     </BrowserRouter>
