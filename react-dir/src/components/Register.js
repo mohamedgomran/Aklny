@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import GridColumn, { Button, Form, Message, Icon, Label, Input, Grid, Header, Image, Segment} from 'semantic-ui-react'
+import { Button, Form, Message, Icon, Label, Input, Grid, Header, Image, Segment} from 'semantic-ui-react'
 
 
-class Register extends React.Component {
+export default class Register extends Component {
 
   constructor(props) {
     super(props);
@@ -136,4 +136,3 @@ class Register extends React.Component {
   }
 }
 
-export default Register;

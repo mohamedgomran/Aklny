@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import { Image, Grid, List, Label, Segment } from 'semantic-ui-react'
 import logo from '../logo.svg';
+let uuid = require('uuid-v4');
 
 
 export default class Home extends Component {
@@ -28,7 +29,7 @@ export default class Home extends Component {
 					{
 						this.state.latestOrders.map((order)=>{
 							return(
-								<List.Item as={Link} to={`/orders/${order.id}`}>
+								<List.Item key={uuid()} as={Link} to={`/orders/${order.id}`}>
 								  <List.Icon name={order.type==='BF' ? "sun" : "food"} />
 								  <List.Content>{order.date}</List.Content>
 								</List.Item>
@@ -46,7 +47,7 @@ export default class Home extends Component {
 					{
 						this.state.friendActivities.map((order)=>{
 							return(
-								<List.Item>
+								<List.Item key={uuid()}>
 							        <Image avatar src={logo} />
 									<List.Content>
 									<List.Header as='a'>{order.friendName}</List.Header>
