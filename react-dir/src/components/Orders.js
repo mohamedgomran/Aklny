@@ -21,16 +21,16 @@ class Orders extends React.Component {
       rows.push(<tr key={i} id={rowID}>{cell}</tr>)
     }
     return(
-      <div className="container" class="ui grid centered">
+      <div className="container ui grid centered">
       <div className="four column row">
-          <div class="left floated column"><h2>Orders</h2></div>
-          <div class="right floated column">
-              <button class="ui right floated button">Start New Order</button>
+          <div className="left floated column"><h2>Orders</h2></div>
+          <div className="right floated column">
+              <button className="ui right floated button">Start New Order</button>
           </div>
       </div>
       <div className="row centered">
-        <div class="row">
-        <table class="ui selectable inverted table ten wide column">
+        <div className="row">
+        <table className="ui selectable inverted table ten wide column">
             <thead>
              <tr>
                <th>Order</th>
@@ -38,7 +38,7 @@ class Orders extends React.Component {
                <th>Invited</th>
                <th>Joined</th>
                <th>Status</th>
-               <th class="five wide">Actions</th>
+               <th className="five wide">Actions</th>
              </tr>
            </thead>
            <tbody>
@@ -49,9 +49,9 @@ class Orders extends React.Component {
                 <td>10</td>
                 <td>waiting</td>
                 <td>
-                <button class="mini ui active button">View</button>
-                <button class="mini positive ui button">Finish</button>
-                <button class="mini negative ui button">Cancel</button>
+                <button className="mini ui active button">View</button>
+                <button className="mini positive ui button">Finish</button>
+                <button className="mini negative ui button">Cancel</button>
                 </td>
               </tr>
            </tbody>

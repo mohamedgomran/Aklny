@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Link, NavLink, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Friends from '../components/Friends';
 import Orders from '../components/Orders';
 import Home from '../components/Home';

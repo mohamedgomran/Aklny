@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Button, Container, Icon, Card, Image } from "semantic-ui-react";
+import { Input, Button, Container, Card, Image } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 var uuid = require("uuid-v4");
 
