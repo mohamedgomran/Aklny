@@ -15,7 +15,7 @@ export default class Header extends Component {
    
 	      <Menu icon size='massive'>
 	      
-	        <Menu.Item />
+	        {/* <Menu.Item /> */}
 
 	        <Menu.Item as={Link} to='/' name='home' active={activeItem === 'home'} link='true' onClick={this.handleItemClick}>
 	          <Icon name='home' />
@@ -25,7 +25,7 @@ export default class Header extends Component {
 	          <Icon name='address book' />
 	        </Menu.Item>
 
-	        <Menu.Item name='group' active={activeItem === 'group'} onClick={this.handleItemClick}>
+	        <Menu.Item as={Link} to='/groups' name='group' active={activeItem === 'group'} onClick={this.handleItemClick}>
 	          <Icon name='group' />
 	        </Menu.Item>
 	              
