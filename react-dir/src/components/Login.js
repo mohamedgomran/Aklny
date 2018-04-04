@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import GridColumn, { Button, Form, Message, Icon, Label, Input, Grid, Header, Image, Segment } from 'semantic-ui-react'
-import GridRow from 'semantic-ui-react';
+import { Button, Form, Message, Icon, Grid, Header, Segment } from 'semantic-ui-react'
 
 
-class Login extends React.Component {
+export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {Email: '',password:'',errmsg:''};
@@ -119,5 +118,3 @@ class Login extends React.Component {
     );
   }
 }
-
-export default Login;

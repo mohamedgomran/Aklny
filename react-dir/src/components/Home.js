@@ -2,11 +2,21 @@ import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import { Image, Grid, List, Label, Segment } from 'semantic-ui-react'
 import logo from '../logo.svg';
+let uuid = require('uuid-v4');
 
 
 export default class Home extends Component {
 
-
+	state = {
+		'latestOrders' : [
+			{'type': "BF", 'date':"18-2-2018", 'id':"1"},
+			{'type': "LN", 'date':"22-3-2018", 'id':"2"}
+		],
+		'friendActivities' : [
+			{'friendName':"Ahmed", 'orderId':"1", 'type': "BF", 'from':"Mac"},
+			{'friendName':"Omran", 'orderId':"2", 'type': "LN", 'from':"Mac"},
+		],
+	}
   render() {
 
     return (
@@ -16,14 +26,16 @@ export default class Home extends Component {
 				<Segment>
 					<Label color='teal' ribbon>Latest Orders</Label>
 					<List>
-					<List.Item as={Link} to='/'>
-					  <List.Icon name='sun' />
-					  <List.Content>19-2-2017</List.Content>
-					</List.Item>
-					<List.Item as={Link} to='/'>
-					  <List.Icon name='food' />
-					  <List.Content>22-8-2017</List.Content>
-					</List.Item>
+					{
+						this.state.latestOrders.map((order)=>{
+							return(
+								<List.Item key={uuid()} as={Link} to={`/orders/${order.id}`}>
+								  <List.Icon name={order.type==='BF' ? "sun" : "food"} />
+								  <List.Content>{order.date}</List.Content>
+								</List.Item>
+							)
+						})
+					}
 					</List>
 				</Segment>
 			</Grid.Column>
@@ -32,28 +44,24 @@ export default class Home extends Component {
 				<Segment>
 					<Label color='teal' ribbon>Freinds Activities</Label>
 					<List>
-					<List.Item>
-				        <Image avatar src={logo} />
-						<List.Content>
-						<List.Header as='a'>Rachel</List.Header>
-						<List.Description>Created an <Link to={`/orders/${8}`}><b>order</b></Link> for <a><b>lunch</b></a> from <a><b>Mac</b></a>.</List.Description>
-						</List.Content>
-					</List.Item>
-
-					<List.Item>
-				        <Image avatar src={logo} />
-						<List.Content>
-						<List.Header as='a'>Ahmed</List.Header>
-						<List.Description>Created an <Link to={`/orders/${9}`}><b>order</b></Link> for <a><b>lunch</b></a> from <a><b>Tabbie</b></a>.</List.Description>
-						</List.Content>
-					</List.Item>
+					{
+						this.state.friendActivities.map((order)=>{
+							return(
+								<List.Item key={uuid()}>
+							        <Image avatar src={logo} />
+									<List.Content>
+									<List.Header as='a'>{order.friendName}</List.Header>
+									<List.Description>Created an <Link to={`/orders/${order.orderId}`}><b>order</b></Link> for <a><b>{order.type==='BF' ? "breakfast" : "lunch"}</b></a> from <a><b>{order.from}</b></a>.</List.Description>
+									</List.Content>
+								</List.Item>
+							)
+						})
+					}
 					</List>
 				</Segment>
 			</Grid.Column>
 		</Grid.Row>
 	</Grid>
-
-
     )
   }
 }
