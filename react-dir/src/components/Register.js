@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Form, Message, Icon, Label, Input, Grid, Header, Image, Segment} from 'semantic-ui-react'
 
+// import Form from 'react-validation/build/form';
+// import Input from 'react-validation/build/input';
 
 export default class Register extends Component {
 
@@ -37,20 +39,34 @@ export default class Register extends Component {
   }
 
   handleChangecimage(event) {
-    console.log(event.target.value);
-    // this.setState({image: event.target.value});
+    console.log('image',event.target.files[0]);
   }
-
 
   handleSubmit(event) {
     console.log('register data: ' + this.state.username+this.state.password+' '+this.state.confirmpass+' '+this.state.Email);
-     if(this.state.password != this.state.confirmpass)
+     if(this.state.password != this.state.confirmpass )
      {
-         this.setState({errmsg:'invalid Password'});
 
-     }else{
-       //send data to backend
-       console.log('image',this.state.image);
+      this.setState({errmsg:'invalid Password'});
+
+     }else if(this.state.name=='')
+     {
+      this.setState({errmsg:'User Name is Required'});
+     }
+     else if(this.state.Email=='')
+     {
+      this.setState({errmsg:'Email is'});
+     }
+     else{
+            //send data to backend
+            let form=document.getElementById('registerform');
+            let data = new FormData(form);
+            console.log(data.get('userimage'));
+            // Display the values
+            for (var value of data.values()) {
+              console.log(value); 
+            }
+
      }
     event.preventDefault();
   }
@@ -67,24 +83,28 @@ export default class Register extends Component {
       >
       <Grid.Column style={{ maxWidth: 450 }}>
         <Header as='h2' color='teal' textAlign='center'>
-          {/* <Image src='/logo.png' /> */}
           {' '}Registeration
         </Header>
-        <Form size='large' onSubmit={this.handleSubmit}>
+        <Form size='large' onSubmit={this.handleSubmit} id ='registerform'>
           <Segment stacked>
           <Form.Input
               fluid
               icon='user'
               iconPosition='left'
               placeholder='User Name'
+              name='username'
               value={this.state.username} onChange={this.handleChangeName} required 
             />
+
+           
 
             <Form.Input
               fluid
               icon='user'
               iconPosition='left'
               placeholder='E-mail address'
+              type='email'
+              name='useremail'
               value={this.state.Email} onChange={this.handleChangeEmail} required 
             />
 
@@ -94,6 +114,7 @@ export default class Register extends Component {
               iconPosition='left'
               placeholder='Password'
               type='password'
+              name='userpass'
               value={this.state.password} onChange={this.handleChangePass} required
             />
 
@@ -108,18 +129,25 @@ export default class Register extends Component {
 
             <Form.Input
               fluid
-              icon='lock'
+              icon='upload icon'
               iconPosition='left'
               placeholder='Upload Image'
               type='file'
-              value={this.state.image} onChange={this.handleChangecimage} required
+              name='userimage'
+              onChange={this.handleChangecimage} required
             />
 
             <Button color='teal' fluid size='large'>Register</Button>
           </Segment>
         </Form>
         <label>
-        {this.state.errmsg}
+        { this.state.errmsg !=''?
+        <Message
+         error
+         header=''
+         content={this.state.errmsg}
+        />
+         :''}
         </label>
       </Grid.Column>
     </Grid>

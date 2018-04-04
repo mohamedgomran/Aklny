@@ -7,6 +7,7 @@ import Login from '../components/Login';
 import Register from '../components/Register';
 import Header from '../components/Header';
 import Groups from '../components/Groups';
+import Forgetpassword from '../components/Forgetpassword';
 
 const AppRouter =()=> (
     <BrowserRouter>
@@ -21,6 +22,7 @@ const AppRouter =()=> (
                 <Route path="/groups/:name" component={Groups}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/register" component={Register}/>
+                <Route path="/forgetpassword" component={Forgetpassword}/>
             </Switch>
         </div>
     </BrowserRouter>
