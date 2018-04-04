@@ -14,7 +14,7 @@ export default class Home extends Component {
 		<Grid.Row>
 			<Grid.Column computer={3}>
 				<Segment>
-					<Label color='blue' ribbon>Latest Orders</Label>
+					<Label color='teal' ribbon>Latest Orders</Label>
 					<List>
 					<List.Item as={Link} to='/'>
 					  <List.Icon name='sun' />
@@ -30,7 +30,7 @@ export default class Home extends Component {
 
 			<Grid.Column computer={5}>
 				<Segment>
-					<Label color='blue' ribbon>Freinds Activities</Label>
+					<Label color='teal' ribbon>Freinds Activities</Label>
 					<List>
 					<List.Item>
 				        <Image avatar src={logo} />
@@ -44,7 +44,7 @@ export default class Home extends Component {
 				        <Image avatar src={logo} />
 						<List.Content>
 						<List.Header as='a'>Ahmed</List.Header>
-						<List.Description>Created an <Link as={Link} to={`/orders/${9}`}><b>order</b></Link> for <a><b>lunch</b></a> from <a><b>Tabbie</b></a>.</List.Description>
+						<List.Description>Created an <Link to={`/orders/${9}`}><b>order</b></Link> for <a><b>lunch</b></a> from <a><b>Tabbie</b></a>.</List.Description>
 						</List.Content>
 					</List.Item>
 					</List>
