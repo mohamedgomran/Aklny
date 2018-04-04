@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Confirm ,Table} from 'semantic-ui-react'
+import { Button, Confirm ,Table,Grid,Icon } from 'semantic-ui-react'
 
 
 class Orders extends React.Component {
@@ -29,7 +29,18 @@ class Orders extends React.Component {
       rows.push(<tr key={i} id={rowID}>{cell}</tr>)
     }
     return(
-      <Table size='small'>
+
+  <Grid centered celled='internally centered'  columns={8} >
+  <Grid.Row className='centered three columns'>
+  <Confirm
+   open={open}
+   onCancel={this.handleCancel}
+   onConfirm={this.handleConfirm}
+  />
+  </Grid.Row>
+		<Grid.Row>
+    <Grid.Column computer={12}>
+      <Table size='small' textAlign='center'>
     <Table.Header>
       <Table.Row>
         <Table.HeaderCell >Order</Table.HeaderCell>
@@ -49,11 +60,9 @@ class Orders extends React.Component {
         <Table.Cell>6</Table.Cell>
         <Table.Cell>waiting</Table.Cell>
         <Table.Cell>
-        <button class="mini ui active button">View</button>
-        <button class="mini positive ui button" id="btnsuccessRight">Finish</button>
-        <button class="mini negative ui button" onClick={this.show} id="btnDangerRight">
-        Cancel
-        </button>
+        <Icon link name='folder open' size='big' color='teal'/>
+        <Icon link name='checkmark'  size='big' color='grean'/>
+        <Icon link name='delete' size='big' color='red'onClick={this.show}/>
         </Table.Cell>
           </Table.Row>
           <Table.Row>
@@ -63,11 +72,9 @@ class Orders extends React.Component {
             <Table.Cell>6</Table.Cell>
             <Table.Cell>waiting</Table.Cell>
             <Table.Cell>
-            <button class="mini ui active button">View</button>
-            <button class="mini positive ui button" id="btnsuccessRight">Finish</button>
-            <button class="mini negative ui button" onClick={this.show} id="btnDangerRight">
-            Cancel
-            </button>
+            <Icon link name='folder open' size='big' color='teal'/>
+            <Icon link name='checkmark'  size='big' color='grean'/>
+            <Icon link name='delete' size='big' color='red'onClick={this.show}/>
             </Table.Cell>
               </Table.Row>
               <Table.Row>
@@ -77,15 +84,19 @@ class Orders extends React.Component {
                 <Table.Cell>6</Table.Cell>
                 <Table.Cell>waiting</Table.Cell>
                 <Table.Cell>
-                <button class="mini ui active button">View</button>
-                <button class="mini positive ui button" id="btnsuccessRight">Finish</button>
-                <button class="mini negative ui button" onClick={this.show} id="btnDangerRight">
-                Cancel
-                </button>
+                <Icon link name='folder open' size='big' color='teal'/>
+                <Icon link name='checkmark'  size='big' color='grean'/>
+                <Icon link name='delete' size='big' color='red'onClick={this.show}/>
                 </Table.Cell>
                   </Table.Row>
         </Table.Body>
       </Table>
+
+      </Grid.Column>
+
+  </Grid.Row>
+
+</Grid>
 
     );
   }
