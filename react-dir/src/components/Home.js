@@ -27,7 +27,7 @@ export default class Home extends Component {
 					<Label color='teal' ribbon>Latest Orders</Label>
 					<List>
 					{
-						this.state.latestOrders.map((order)=>{
+						this.state.latestOrders && this.state.latestOrders.map((order)=>{
 							return(
 								<List.Item key={uuid()} as={Link} to={`/orders/${order.id}`}>
 								  <List.Icon name={order.type==='BF' ? "sun" : "food"} />
@@ -45,7 +45,7 @@ export default class Home extends Component {
 					<Label color='teal' ribbon>Freinds Activities</Label>
 					<List>
 					{
-						this.state.friendActivities.map((order)=>{
+						this.state.friendActivities && this.state.friendActivities.map((order)=>{
 							return(
 								<List.Item key={uuid()}>
 							        <Image avatar src={logo} />
