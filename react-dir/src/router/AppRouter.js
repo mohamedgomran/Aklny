@@ -5,6 +5,7 @@ import Orders from '../components/Orders';
 import Home from '../components/Home';
 import Header from '../components/Header';
 import Groups from '../components/Groups';
+import AddOreder from '../components/AddOrder';
 
 const AppRouter =()=> (
     <BrowserRouter>
@@ -17,6 +18,8 @@ const AppRouter =()=> (
                 <Route path="/orders/:id" component={Orders}/>
                 <Route path="/groups" component={Groups} exact={true} />
                 <Route path="/groups/:name" component={Groups}/>
+                <Route path="/add-order" component={AddOreder} />
+                
             </Switch>
         </div>
     </BrowserRouter>
