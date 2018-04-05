@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import GridColumn, { Button, Form, Message, Icon, Label, Input, Grid, Header, Image, Segment} from 'semantic-ui-react'
+import { Button, Form, Message, Icon, Label, Input, Grid, Header, Image, Segment} from 'semantic-ui-react'
 
+// import Form from 'react-validation/build/form';
+// import Input from 'react-validation/build/input';
 
-class Register extends React.Component {
+export default class Register extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {username: '',password:'',Email:'',confirmpass:'',errmsg:''};
+    this.state = {username: '',password:'',Email:'',confirmpass:'',errmsg:'',image:''};
 
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
@@ -36,14 +38,35 @@ class Register extends React.Component {
     this.setState({confirmpass: event.target.value});
   }
 
+  handleChangecimage(event) {
+    console.log('image',event.target.files[0]);
+  }
 
   handleSubmit(event) {
     console.log('register data: ' + this.state.username+this.state.password+' '+this.state.confirmpass+' '+this.state.Email);
-     if(this.state.password != this.state.confirmpass)
+     if(this.state.password != this.state.confirmpass )
      {
-         this.setState({errmsg:'invalid Password'});
-     }else{
-       //send data to backend
+
+      this.setState({errmsg:'invalid Password'});
+
+     }else if(this.state.name=='')
+     {
+      this.setState({errmsg:'User Name is Required'});
+     }
+     else if(this.state.Email=='')
+     {
+      this.setState({errmsg:'Email is'});
+     }
+     else{
+            //send data to backend
+            let form=document.getElementById('registerform');
+            let data = new FormData(form);
+            console.log(data.get('userimage'));
+            // Display the values
+            for (var value of data.values()) {
+              console.log(value); 
+            }
+
      }
     event.preventDefault();
   }
@@ -60,24 +83,28 @@ class Register extends React.Component {
       >
       <Grid.Column style={{ maxWidth: 450 }}>
         <Header as='h2' color='teal' textAlign='center'>
-          {/* <Image src='/logo.png' /> */}
           {' '}Registeration
         </Header>
-        <Form size='large' onSubmit={this.handleSubmit}>
+        <Form size='large' onSubmit={this.handleSubmit} id ='registerform'>
           <Segment stacked>
           <Form.Input
               fluid
               icon='user'
               iconPosition='left'
               placeholder='User Name'
+              name='username'
               value={this.state.username} onChange={this.handleChangeName} required 
             />
+
+           
 
             <Form.Input
               fluid
               icon='user'
               iconPosition='left'
               placeholder='E-mail address'
+              type='email'
+              name='useremail'
               value={this.state.Email} onChange={this.handleChangeEmail} required 
             />
 
@@ -87,6 +114,7 @@ class Register extends React.Component {
               iconPosition='left'
               placeholder='Password'
               type='password'
+              name='userpass'
               value={this.state.password} onChange={this.handleChangePass} required
             />
 
@@ -99,11 +127,27 @@ class Register extends React.Component {
               value={this.state.confirmpass} onChange={this.handleChangeconfirm} required
             />
 
+            <Form.Input
+              fluid
+              icon='upload icon'
+              iconPosition='left'
+              placeholder='Upload Image'
+              type='file'
+              name='userimage'
+              onChange={this.handleChangecimage} required
+            />
+
             <Button color='teal' fluid size='large'>Register</Button>
           </Segment>
         </Form>
         <label>
-        {this.state.errmsg}
+        { this.state.errmsg !=''?
+        <Message
+         error
+         header=''
+         content={this.state.errmsg}
+        />
+         :''}
         </label>
       </Grid.Column>
     </Grid>
@@ -136,4 +180,3 @@ class Register extends React.Component {
   }
 }
 
-export default Register;

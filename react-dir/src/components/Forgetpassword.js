@@ -3,13 +3,12 @@ import { Button, Form, Message, Icon, Grid, Header, Segment } from 'semantic-ui-
 import { Link } from "react-router-dom";
 
 
-export default class Login extends Component {
+export default class Forgetpassword extends Component {
   constructor(props) {
     super(props);
-    this.state = {Email: '',password:'',errmsg:''};
+    this.state = {Email: '',errmsg:''};
 
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
-    this.handleChangePass = this.handleChangePass.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
   }
@@ -20,17 +19,13 @@ export default class Login extends Component {
   }
 
 
-  handleChangePass(event) {
-    this.setState({password: event.target.value});
-  }
-
 
   handleSubmit(event) {
-    console.log('UserName and Pass are  submitted: ' + this.state.Email+this.state.password);
+    console.log('UserName and Pass are  submitted: ' + this.state.Email);
        //if data incorrect show in errmsg
-    if(this.state.Email ==''||this.state.password=='')
+    if(this.state.Email =='')
     {
-      this.setState({errmsg: 'Email and password are required'});
+      this.setState({errmsg: 'Please enter Your Email'});
     }else
     {
           //send data to backend
@@ -77,17 +72,9 @@ export default class Login extends Component {
               name='usermail'
               value={this.state.Email} onChange={this.handleChangeEmail} required 
             />
-            <Form.Input
-              fluid
-              icon='lock'
-              iconPosition='left'
-              placeholder='Password'
-              type='password'
-              name='password'
-              value={this.state.password} onChange={this.handleChangePass} required
-            />
+        
 
-            <Button color='teal' fluid size='large'>Login</Button>
+            <Button color='teal' fluid size='large'>Reset my password</Button>
           </Segment>
         </Form>
 
@@ -101,32 +88,12 @@ export default class Login extends Component {
          :''}
         </label>
 
-        <Message>
-          New to us?<Link to="/register"> Sign Up</Link>
-          <br/>
-          forget your password?<Link to="/forgetpassword">here</Link>
-        </Message>
-        
-        <Grid.Row>
-        <Message> 
-        <Grid.Column  computer={2}>
-            
-            <Button color='facebook' fluid >
-                    <Icon name='facebook' /> Facebook
-            </Button>
-            <br/>
-          
-            <Button color='google plus' fluid >
-                    <Icon name='google plus' /> Google 
-            </Button>
-          
-        </Grid.Column>
-        </Message>
-        </Grid.Row>
       </Grid.Column>
-    </Grid>      
+    </Grid>
+   
+      
       <br/>
-    
+
 
     </div>
   

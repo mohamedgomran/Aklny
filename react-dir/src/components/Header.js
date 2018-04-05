@@ -53,7 +53,7 @@ console.log(value);
 			  	<Dropdown item icon = 'bell outline'>
 				  <Dropdown.Menu value={this.state.value} onChange={this.handleChange}>
                 {this.state.items.map(item =>
-              <Dropdown.Item key={item.value}>{item.value}<Icon link name='add square' size='big' color='teal'/></Dropdown.Item>
+              <Dropdown.Item key={item.value}>{item.value}<Button size='mini' color='teal'  >Joined</Button></Dropdown.Item>
             )}
 				  </Dropdown.Menu>
 				</Dropdown>

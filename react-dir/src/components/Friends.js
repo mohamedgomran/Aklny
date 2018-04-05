@@ -10,12 +10,10 @@ export default class Friends extends React.Component{
     }
 
     addFriend = ()=>{
-        {
             var friendsArr = this.state.friends.slice()
             // if(this.state.input.match(this.emailRegex)){
                 friendsArr.push(this.state.input)
             // }
-        }
             this.setState({friends:friendsArr}, ()=>document.getElementById('addFriend').value="")
     }
 
