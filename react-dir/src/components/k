@@ -1,9 +1,0 @@
-<Form onSubmit={this.submit}>
-                    <Dropdown name="drp" placeholder="Order For" fluid search selection options={this.options} />
-                    <Form.Input name="rest" placeholder="Restaurant Name" />
-                    <Dropdown placeholder="Invite Friends" fluid multiple search selection options={this.friendsOptions} />
-                    <Form.Field>
-                        <input type="text" name="l" placeholder="Menu Image"/>
-                    </Form.Field>
-                    <Button basic color="green" size="large" floated="right">Puplish</Button>
-                </Form>

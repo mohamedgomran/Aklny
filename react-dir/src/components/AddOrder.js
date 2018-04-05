@@ -5,17 +5,17 @@ export default class AddOrder extends React.Component{
 
     friends = [
             {
-                name: 'Jenny Hess',
+                name: 'Omran',
                 id: 1,
                 image:'https://react.semantic-ui.com/assets/images/avatar/large/steve.jpg',
             },
             {
-                name: 'G Hess',
+                name: 'Hassan',
                 id: 2,
                 image:'https://react.semantic-ui.com/assets/images/avatar/large/steve.jpg',
             },
             {
-                name: 'M Hess',
+                name: 'George',
                 id: 3,
                 image:'https://react.semantic-ui.com/assets/images/avatar/large/steve.jpg',
             }
@@ -33,19 +33,29 @@ export default class AddOrder extends React.Component{
     }
 
     inviteFriend = (e)=>{
-        let invitedFriendsArr = this.state.invitedFriends.slice();
-        this.friends.forEach(friend=>{
-            if(e.target.value == friend.id){
+        console.log("befor",this.state.invitedFriends)
+            let invitedFriendsArr = this.state.invitedFriends.slice();
+            this.friends.forEach(friend=>{
+                if(e.target.value == friend.id){
                 let invitedFriend = friend;
                 invitedFriendsArr.push(invitedFriend);
-            }
-        })
-        this.setState({invitedFriends:invitedFriendsArr})
+                }
+            })
+            this.setState({invitedFriends:invitedFriendsArr})
     }
 
     notInvite = (e)=>{
-        console.log(e);
+        let newInvitedArr = [];
+        this.state.invitedFriends.forEach(invitedFriend=>{
+            if(e.target.value != invitedFriend.id){
+                newInvitedArr.push(invitedFriend);
+            }
+        })
+        this.setState({invitedFriends:newInvitedArr}, ()=>{
+            console.log(this.state.invitedFriends);
+        })  
         
+              
     }
 
     render = ()=>{
@@ -95,10 +105,14 @@ export default class AddOrder extends React.Component{
                         {
                             this.state.invitedFriends.map(invitedFriend =>{
                                 return(
-                                     <Label key={invitedFriend.id} size="large" image>
+                                     <Label key={invitedFriend.id} size="huge" image>
                                         <img src={invitedFriend.image}/>
                                         {invitedFriend.name}
-                                        <Icon name="delete" onClick={this.notInvite}/>
+                                        <Button size="mini" value={invitedFriend.id} name="delete" onClick={this.notInvite} circular/>
+                                        {/*<Button size="mini" value={invitedFriend.id} name="delete" onClick={this.notInvite} circular>
+                                            <i className="icon close"></i>
+                                </Button>*/}
+
                                      </Label>
                                 )
                             })

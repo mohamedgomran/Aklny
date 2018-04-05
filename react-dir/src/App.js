@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import Orders from './Orders';
 import Friends from './friends';
+import Login from '../components/Login';
+import Register from '../components/Register';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class App extends Component {
@@ -15,6 +17,12 @@ class App extends Component {
           </div>
           <div>
               <Route exact path="/Orders" Component={Orders} />
+          </div>
+          <div>
+              <Route exact path="/Login" Component={Login} />
+          </div>
+          <div>
+              <Route exact path="/Register" Component={Register} />
           </div>
       </Router>
       </div>
