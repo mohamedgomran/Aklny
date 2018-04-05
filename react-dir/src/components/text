@@ -1,0 +1,107 @@
+import { Input, Button, Container, Card, Image } from "semantic-ui-react";
+import { Link } from "react-router-dom";
+var uuid = require("uuid-v4");
+
+export default class Groups extends React.Component{
+    state = {
+        groups:["os", "telecom", "iot"],
+        selectedGroup:"",
+        groupMembers:["ali", "ahmed", "alaa","ali", "ahmed", "alaa","ali", "ahmed", "alaa"]
+
+    }
+
+    render = (remove)=>{
+        return (
+            <div>
+                <h1>Groups</h1>
+                <div align="center">
+                    <label htmlFor="groupName">Group</label>
+                    <Input icon="group" iconPosition="left" type="text" id="groupName" placeholder="Enter a new group"/>
+                    <Button secondary onClick={this.addGroup}>Add Group</Button>
+                </div>
+                <div>
+                    <Container className="four wide">
+                        <h3>Groups</h3>
+                        <table>
+                            <tbody>
+                        {
+                            this.state.groups.map(group=>{
+                                return (
+                                    <tr key={uuid()}>
+                                        <td>
+                                            <Link to={`/groups/${group}`} >{group}</Link>
+                                        </td>
+                                        <td>
+                                            <Link to={`/groups/${group}`} >
+                                                <Button icon="add user" circular onClick={this.focusAdd} />
+                                            </Link>
+                                        </td>
+                                        <td>
+                                            <Button icon="close" circular onClick={this.removeGroup}/>                                            
+                                        </td>                                                                                        
+                                    </tr>
+                                )
+                            })
+                        }
+                            </tbody>
+                        </table>
+                    </Container>
+                    
+                    {
+                        this.props.match.params.name && (
+                        <Container className="twelve wide">
+                            <h3>{this.props.match.params.name}</h3>
+                            <div>
+                                <label htmlFor="friendEmail">Your Freind's Email</label>
+                                <Input icon="user" iconPosition="left" type="email" id="friendEmail" placeholder="mail@example.com"/>
+                                <Button secondary onClick={this.addFriend}>Add Friend</Button>
+                            </div>
+                            <br/>
+                            <Card.Group className="eight wide">
+                                {
+                                    this.state.groupMembers.map(member=>{
+                                        return(
+                                            <Card  key={uuid()}>
+                                                <Card.Content>
+                                                    <Image className="ui avatar image" floated='right' size='mini' src='https://react.semantic-ui.com/assets/images/avatar/large/steve.jpg'/>
+                                                    <Card.Header>{member}</Card.Header>
+                                                </Card.Content>
+                                                <Card.Content extra>
+                                                    <Button className="ui button" size='mini' basic color='red' onClick={this.removeFriend}>Remove</Button>
+                                                </Card.Content>
+                                            </Card>
+                                        )
+                                    })
+                                }
+                            </Card.Group>
+                        </Container>
+                        )
+                    }
+                </div>
+            </div>
+        )
+    }
+
+    addGroup = ()=>{
+        console.log("add new grp");
+        
+    }
+
+    addFriend = ()=>{
+        console.log("add friend");
+        
+    }
+
+    removeFriend = ()=>{
+        console.log("remove friend");
+        
+    }
+
+    removeGroup = ()=>{
+        console.log("remove group");
+        
+    }
+
+    // focusAdd = ()=>{
+    //     document.getElementById("friendEmail").focus();
+    // }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
-import { Icon, Menu, Image, Grid } from 'semantic-ui-react'
+import { Icon, Menu, Image, Dropdown } from 'semantic-ui-react'
 import logo from '../logo.svg';
 
 export default class Header extends Component {
@@ -17,7 +17,7 @@ export default class Header extends Component {
 	      
 	        {/* <Menu.Item /> */}
 
-	        <Menu.Item as={Link} to='/' name='home' active={activeItem === 'home'} link='true' onClick={this.handleItemClick}>
+	        <Menu.Item as={Link} to='/' name='home' active={activeItem === 'home'} onClick={this.handleItemClick}>
 	          <Icon name='home' />
 	        </Menu.Item>
 
@@ -33,11 +33,15 @@ export default class Header extends Component {
 	          <Icon name='list' />
 	        </Menu.Item>
 	              
-	        <Menu.Menu position='right'>
-		        
-		        <Menu.Item name='notifications' active={activeItem === 'notifications'} onClick={this.handleItemClick}>
-		          <Icon name='bell outline' />
-		        </Menu.Item>  
+			<Menu.Menu position='right' size='massive'>
+			  	<Dropdown item icon = 'bell outline'>
+				  <Dropdown.Menu>
+				    <Dropdown.Item>Electronics</Dropdown.Item>
+				    <Dropdown.Item>Automotive</Dropdown.Item>
+				    <Dropdown.Item>Home</Dropdown.Item>
+				  </Dropdown.Menu>
+				</Dropdown>
+
 		        <Menu.Item
 		          name='profile'
 		          active={activeItem === 'profile'}
@@ -47,12 +51,12 @@ export default class Header extends Component {
 			      <span>Username</span>
 		        </Menu.Item>
 
-		        <Menu.Item name='log out' active={activeItem === 'log out'} onClick={this.handleItemClick} Float Right>
+		        <Menu.Item name='log-out' active={activeItem === 'log-out'} onClick={this.handleItemClick}>
 		          <Icon name='log out' />
 		        </Menu.Item>
 	        	<Menu.Item />
-
-	        </Menu.Menu>
+        	
+			</Menu.Menu>
 	      </Menu>
     )
   }

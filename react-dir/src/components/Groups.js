@@ -19,6 +19,10 @@ export default class Groups extends React.Component {
             ]
         }
     }
+
+    componentWillUpdate(newprops){
+        console.log("my new props are ",newprops)
+    }
     groupRegex = new RegExp('/[:alpha:]+$/')
 
     handleItemClick = (e, { name }) => {
@@ -67,16 +71,17 @@ export default class Groups extends React.Component {
         }
     })
 
+
         //loop on the array and remove the removed group
     }
     render() {
         return (
                  <Grid>
-                    <Grid.Row>
-                        <Grid.Column width={6}>
+                    <Grid.Row centered>
+                        <Grid.Column width={5}>
                             <h1>Groups</h1>
                         </Grid.Column>
-                        <Grid.Column width={6}>
+                        <Grid.Column width={5}>
                             <div centered>
                                 <Input validations={{matchRegexp:this.groupRegex}} onChange={this.handleChange} value={this.state.groupName}  id="addGroup" icon='group' iconPosition='left' placeholder='Group Name' />  
                                 <Button secondary onClick={this.addGroup}>ADD</Button>
@@ -84,8 +89,8 @@ export default class Groups extends React.Component {
                         </Grid.Column>
                         
                     </Grid.Row>
-                    <Grid.Row>
-                        <Grid.Column width={5}>
+                    <Grid.Row centered>
+                        <Grid.Column width={4}>
                             <Segment>
                                 <Container fluid>
                                     <Header as='h3' icon textAlign='center'>
@@ -99,15 +104,15 @@ export default class Groups extends React.Component {
                                     <List verticalAlign='middle' divided animated vertical relaxed>
                                         {this.state.groups.map(group => {
                                             return (
-                                                <List.Item as={Link} to={`/groups/${group.id}`} name={group.name} active={this.state.activeItem === group.name} onClick={this.handleItemClick}>
+                                                <List.Item key={uuid()} as={Link} to={`/groups/${group.id}`} name={group.name} active={this.state.activeItem === group.name} onClick={this.handleItemClick}>
                                                     <List.Content>
                                                         <List.Header>{group.name}</List.Header>
                                                     </List.Content>
-                                                    <Button class="ui icon button" value={group.id} floated="right" color='red' onClick={this.removeGroup} >
-                                                        <i class="icon remove"></i>
+                                                    <Button class="ui icon button" value={group.id} floated="right" circular color='red' onClick={this.removeGroup} >
+                                                        <i className="icon remove"></i>
                                                     </Button>
-                                                    <Button value={group.id} floated="right" color='green' >
-                                                        <i class="icon add user"></i>
+                                                    <Button value={group.id} floated="right" circular color='green' >
+                                                        <i class="icon add user" value={group.id}></i>
                                                     </Button>
                                                 </List.Item>
                                             )
@@ -117,10 +122,11 @@ export default class Groups extends React.Component {
                                 </Container>
                             </Segment>
                         </Grid.Column>
-                        <Grid.Column width={11}>
-                            <Segment>
-                                <GroupMember groupName={this.state.activeItem} />                           
+                        <Grid.Column width={9}>
+                        {this.props.match.params.name && <Segment>
+                            <GroupMember groupId={this.state.activeItem} />              
                             </Segment>
+                        }   
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
