@@ -3,19 +3,17 @@ import { Input, Button, Container, Header, Icon, Card, Image } from 'semantic-ui
 var uuid = require('uuid-v4');
 
 export default class Friends extends React.Component{
-    emailRegex = new RegExp('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/')
+   /*  emailRegex = new RegExp('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/')
     state = {
         friends:[],
         input: ""
-    }
+    }*/
 
     addFriend = ()=>{
-        {
             var friendsArr = this.state.friends.slice()
             // if(this.state.input.match(this.emailRegex)){
                 friendsArr.push(this.state.input)
             // }
-        }
             this.setState({friends:friendsArr}, ()=>document.getElementById('addFriend').value="")
     }
 
