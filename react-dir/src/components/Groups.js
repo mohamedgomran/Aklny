@@ -112,7 +112,7 @@ export default class Groups extends React.Component {
                                                         <i className="icon remove"></i>
                                                     </Button>
                                                     <Button value={group.id} floated="right" circular color='green' >
-                                                        <i class="icon add user" value={group.id}></i>
+                                                        <i className="icon add user" value={group.id}></i>
                                                     </Button>
                                                 </List.Item>
                                             )

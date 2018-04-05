@@ -7,6 +7,7 @@ import Login from '../components/Login';
 import Register from '../components/Register';
 import Header from '../components/Header';
 import Groups from '../components/Groups';
+import AddOreder from '../components/AddOrder';
 import GroupMembers from '../components/GroupMembers'
 import Forgetpassword from '../components/Forgetpassword';
 import ViewOrder from '../components/ViewOrder';
@@ -23,6 +24,8 @@ const AppRouter =()=> (
                 <Route path="/orders/:id" component={ViewOrder}/>
                 <Route path="/groups" component={Groups} exact={true} />
                 <Route path="/groups/:name" component={Groups}/>
+                <Route path="/add-order" component={AddOreder} />
+                
                 {/* <Route path="/groups/:id" component={Groups}/>   check what to do either a new component or same one */}
                 <Route path="/login" component={Login}/>
                 <Route path="/register" component={Register}/>
