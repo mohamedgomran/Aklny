@@ -19,9 +19,9 @@ export default class Header extends Component {
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
   handleChange(event, index, value) {this.setState({value});
-console.log(event);
-console.log(index);
-console.log(value);
+console.log("event "+event);
+console.log("index "+index);
+console.log("value "+value);
 
 }
   render() {
@@ -49,11 +49,11 @@ console.log(value);
 	          <Icon name='list' />
 	        </Menu.Item>
 
-			<Menu.Menu position='right' size='massive'>
-			  	<Dropdown item icon = 'bell outline'>
-				  <Dropdown.Menu value={this.state.value} onChange={this.handleChange}>
+			<Menu.Menu position='right' size='massive'  >
+			  	<Dropdown item icon = 'bell outline' value={this.state.value} onClick={this.handleChange}>
+				  <Dropdown.Menu>
                 {this.state.items.map(item =>
-              <Dropdown.Item key={item.value}>{item.value}<Button size='mini' color='teal'  >Joined</Button></Dropdown.Item>
+              <Dropdown.Item key={item.value}>{item.value}<Button size='mini' color='teal'>Joined</Button></Dropdown.Item>
             )}
 				  </Dropdown.Menu>
 				</Dropdown>
