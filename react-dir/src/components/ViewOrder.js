@@ -79,7 +79,7 @@ export default class ViewOrder extends Component {
 			</Grid.Column>
 		</Grid.Row>
 		<Grid.Row>
-			<Grid.Column computer={7}>
+			<Grid.Column computer={8}>
 			    <Form onSubmit={this.handleSubmit} id='itemForm'>
 			        <Form.Group>
 			          <Form.Input required name='item' type='text' placeholder='Item'/>

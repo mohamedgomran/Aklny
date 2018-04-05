@@ -10,7 +10,7 @@ export default class Groups extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            groupName: null,
+            groupName: "lihk",
             activeItem: 'inbox',
             groups: [
                 {name:'1', id:1},
