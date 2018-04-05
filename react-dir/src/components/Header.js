@@ -1,20 +1,36 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
-import { Icon, Menu, Image, Dropdown } from 'semantic-ui-react'
+import { Icon, Menu, Image, Dropdown ,Button} from 'semantic-ui-react'
 import logo from '../logo.svg';
 
 export default class Header extends Component {
-  state = { activeItem: 'home' }
+  state = { activeItem: 'home' ,
+            items : [
+          { value: "ahmed has joined you to orders  ",Status: 'orders' },
+          { value: "ahmed invited you to his breakfast  ",Status: 'joined' },
+          { value: "omran Joined to your order  ",Status: 'orders' },
+          ]
+ }
+
+ constructor(props) {
+    super(props);
+    this.handleChange=this.handleChange.bind(this);
+  }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  handleChange(event, index, value) {this.setState({value});
+console.log(event);
+console.log(index);
+console.log(value);
 
+}
   render() {
     const { activeItem } = this.state
 
     return (
-   
+
 	      <Menu icon size='massive'>
-	      
+
 	        <Menu.Item />
 
 	        <Menu.Item as={Link} to='/' name='home' active={activeItem === 'home'} onClick={this.handleItemClick}>
@@ -28,17 +44,17 @@ export default class Header extends Component {
 	        <Menu.Item as={Link} to='/groups' name='group' active={activeItem === 'group'} onClick={this.handleItemClick}>
 	          <Icon name='group' />
 	        </Menu.Item>
-	              
+
 	        <Menu.Item as={Link} to='/orders' name='orders' active={activeItem === 'orders'} onClick={this.handleItemClick}>
 	          <Icon name='list' />
 	        </Menu.Item>
-	              
+
 			<Menu.Menu position='right' size='massive'>
 			  	<Dropdown item icon = 'bell outline'>
-				  <Dropdown.Menu>
-				    <Dropdown.Item>Electronics</Dropdown.Item>
-				    <Dropdown.Item>Automotive</Dropdown.Item>
-				    <Dropdown.Item>Home</Dropdown.Item>
+				  <Dropdown.Menu value={this.state.value} onChange={this.handleChange}>
+                {this.state.items.map(item =>
+              <Dropdown.Item key={item.value}>{item.value}<Icon link name='add square' size='big' color='teal'/></Dropdown.Item>
+            )}
 				  </Dropdown.Menu>
 				</Dropdown>
 
@@ -55,7 +71,7 @@ export default class Header extends Component {
 		          <Icon name='log out' />
 		        </Menu.Item>
 	        	<Menu.Item />
-        	
+
 			</Menu.Menu>
 	      </Menu>
     )
