@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
-import { Icon, Menu, Image, Dropdown ,Button} from 'semantic-ui-react'
+import { Icon, Menu, Image, Dropdown ,Button,List} from 'semantic-ui-react'
 import logo from '../logo.svg';
+
+let uuid = require('uuid-v4');
 
 export default class Header extends Component {
   state = { activeItem: 'home' ,
@@ -49,12 +51,25 @@ console.log("value "+value);
 	          <Icon name='list' />
 	        </Menu.Item>
 
-			<Menu.Menu position='right' size='massive'  >
-			  	<Dropdown item icon = 'bell outline' value={this.state.value} onClick={this.handleChange}>
+			<Menu.Menu position='right' size='massive' >
+			  	<Dropdown item simple direction='left' icon = 'bell outline' value={this.state.value} onClick={this.handleChange}>
 				  <Dropdown.Menu>
                 {this.state.items.map(item =>
-              <Dropdown.Item key={item.value}>{item.value}<Button size='mini' color='teal'>Joined</Button></Dropdown.Item>
+              <Dropdown.Item key={uuid()}>
+                  <List>
+                      <List.Item key={uuid()}>
+                        <List.Content floated='left'>
+                          {item.value}
+                        </List.Content>
+
+                        <List.Content floated='right'>
+                        <Button size='mini' color='teal'>Joined</Button>
+                        </List.Content>
+                    </List.Item>
+                </List>
+              </Dropdown.Item>
             )}
+              <Dropdown.Item key={uuid()} content={<a href='/AllNotification'>View All Notification</a>} />
 				  </Dropdown.Menu>
 				</Dropdown>
 
