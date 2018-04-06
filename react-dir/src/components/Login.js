@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Form, Message, Icon, Grid, Header, Segment } from 'semantic-ui-react'
+import { Button, Form, Message, Icon, Grid, Header, Segment } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
+import SocialButton from './SocialButton';
 
 
 export default class Login extends Component {
@@ -23,6 +24,17 @@ export default class Login extends Component {
   handleChangePass(event) {
     this.setState({password: event.target.value});
   }
+
+  
+  handleSocialLogin = (user) => {
+    console.log(user)
+  }
+  
+ handleSocialLoginFailure = (err) => {
+    console.error(err)
+  }
+
+
 
 
   handleSubmit(event) {
@@ -112,12 +124,33 @@ export default class Login extends Component {
         <Grid.Column  computer={2}>
             
             <Button color='facebook' fluid >
-                    <Icon name='facebook' /> Facebook
+                    
+                    <SocialButton  
+                    color='facebook' fluid 
+                    provider='facebook'
+                    appId='156850814994978'
+                    onLoginSuccess={this.handleSocialLogin}
+                    onLoginFailure={this.handleSocialLoginFailure}
+                    >
+                    <Icon name='facebook' /> 
+                    Login with Facebook
+                  </SocialButton>
             </Button>
             <br/>
           
             <Button color='google plus' fluid >
-                    <Icon name='google plus' /> Google 
+            {/* 372012466129-l3ap3uobl7qffkq1d135o1eiopqctmpb.apps.googleusercontent.com */}
+            {/* w29azHba8hc1zqKHfqJC_tnd */}
+                   <SocialButton  
+                   
+                    provider='google'
+                    appId='372012466129-caq5oueii3a9vq2sd5babaunvrgh8pkb.apps.googleusercontent.com'
+                    onLoginSuccess={this.handleSocialLogin}
+                    onLoginFailure={this.handleSocialLoginFailure}
+                    >
+                    <Icon name='google plus' /> 
+                    Login with Google 
+                    </SocialButton>
             </Button>
           
         </Grid.Column>
