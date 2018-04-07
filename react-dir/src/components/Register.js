@@ -66,6 +66,12 @@ export default class Register extends Component {
             for (var value of data.values()) {
               console.log(value); 
             }
+            /**axios.post('upload_file', formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+              })
+            */
 
      }
     event.preventDefault();
