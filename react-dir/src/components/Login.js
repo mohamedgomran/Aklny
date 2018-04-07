@@ -28,6 +28,7 @@ export default class Login extends Component {
   
   handleSocialLogin = (user) => {
     console.log(user)
+    console.log(user.profile)
   }
   
  handleSocialLoginFailure = (err) => {
@@ -144,7 +145,7 @@ export default class Login extends Component {
                    <SocialButton  
                    
                     provider='google'
-                    appId='372012466129-caq5oueii3a9vq2sd5babaunvrgh8pkb.apps.googleusercontent.com'
+                    appId='372012466129-7c90lsva9cs12qgihfc54pk061vecle5.apps.googleusercontent.com'
                     onLoginSuccess={this.handleSocialLogin}
                     onLoginFailure={this.handleSocialLoginFailure}
                     >

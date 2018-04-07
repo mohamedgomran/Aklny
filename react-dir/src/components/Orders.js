@@ -36,6 +36,15 @@ class Orders extends React.Component {
     return(
 
   <Grid centered celled='internally centered'  columns={8} >
+  <Grid.Column celled='centered' width={4}>
+      <h1><b>Orders</b></h1>
+  </Grid.Column>
+
+
+  <Grid.Column floated='right' width={3}>
+    <Icon link name='add square' size='big' color='teal'/>
+  </Grid.Column>
+
   <Grid.Row className='centered three columns'>
   <Confirm
    open={open}
@@ -45,10 +54,11 @@ class Orders extends React.Component {
   </Grid.Row>
 		<Grid.Row>
     <Grid.Column computer={12}>
-      <Table size='small' textAlign='center' celled selectable>
+
+    <Table size='small' textAlign='center' celled selectable>
     <Table.Header>
       <Table.Row>
-        <Table.HeaderCell >Order</Table.HeaderCell>
+        <Table.HeaderCell >Order Owner</Table.HeaderCell>
         <Table.HeaderCell >Resturnats</Table.HeaderCell>
         <Table.HeaderCell >Invited</Table.HeaderCell>
         <Table.HeaderCell >Joined</Table.HeaderCell>
@@ -66,7 +76,7 @@ class Orders extends React.Component {
         <Table.Cell>waiting</Table.Cell>
         <Table.Cell>
         <Icon link name='folder open' size='big' color='teal'/>
-        <Icon link name='checkmark'  size='big' color='grean'/>
+        <Icon link name='checkmark'  size='big' color='green'/>
         <Icon link name='delete' size='big' color='red'onClick={this.show}/>
         </Table.Cell>
           </Table.Row>
@@ -78,7 +88,7 @@ class Orders extends React.Component {
             <Table.Cell>waiting</Table.Cell>
             <Table.Cell>
             <Icon link name='folder open' size='big' color='teal'/>
-            <Icon link name='checkmark'  size='big' color='grean'/>
+            <Icon link name='checkmark'  size='big' color='green'/>
             <Icon link name='delete' size='big' color='red'onClick={this.show}/>
             </Table.Cell>
               </Table.Row>
@@ -90,7 +100,7 @@ class Orders extends React.Component {
                 <Table.Cell>waiting</Table.Cell>
                 <Table.Cell>
                 <Icon link name='folder open' size='big' color='teal'/>
-                <Icon link name='checkmark'  size='big' color='grean'/>
+                <Icon link name='checkmark'  size='big' color='green'/>
                 <Icon link name='delete' size='big' color='red'onClick={this.show}/>
                 </Table.Cell>
                   </Table.Row>
