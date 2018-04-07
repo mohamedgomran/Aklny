@@ -15,7 +15,13 @@ class GroupsController < ApplicationController
         end
     end
 
-    def add_friend
+    def list
+        user_id = 5 #to be get from authentication
+        @user = User.find(user_id)
+        render json: @user.user_groups.select(:id, :name)
+    end
+
+    def add_member
         # params.require(:group).permit!
         user_id = 5 #to be get from authentication
         @user = User.find(user_id)
@@ -23,9 +29,27 @@ class GroupsController < ApplicationController
         @friend = User.find(params[:friend_id])
 		if @user.user_groups.include?(@group) && @group.users.include?(@friend)
             render json: {success: false, message: "already added"}
-        else
+        elsif @group && @friend
         	@group.users << @friend
             render json: {success: true, message: "friend added"}
         end
+    end
+
+    def del_member
+        user_id = 5 #to be get from authentication
+        @user = User.find(user_id)
+        @group = Group.find(params[:gid])
+        @friend = User.find(params[:fid])
+		if @user.user_groups.include?(@group) && @group.users.include?(@friend)
+			@group.users.delete(@friend)
+            render json: {success: true, message: "friend deleted"}
+        else
+            render json: {success: false, message: "group or friend not found"}
+        end
+    end
+
+    def list_members
+        @group = Group.find(params[:gid])
+        render json: @group.users.select(:id, :name)
     end
 end

@@ -4,8 +4,11 @@ Rails.application.routes.draw do
   post 'users', to: 'users#register'
 
 
+  get 'groups', to: 'groups#list'
+  get 'groups/:gid', to: 'groups#list_members'
   post 'groups', to: 'groups#create'
-  post 'groups/:gid', to: 'groups#add_friend'
+  post 'groups/:gid', to: 'groups#add_member'
+  delete 'groups/:gid/friends/:fid', to: 'groups#del_member'
 
 
 end
