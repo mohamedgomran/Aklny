@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Form, Message, Icon, Grid, Header, Segment } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 import SocialButton from './SocialButton';
-
+import axios from 'axios';
 
 export default class Login extends Component {
   constructor(props) {
@@ -29,6 +29,18 @@ export default class Login extends Component {
   handleSocialLogin = (user) => {
     console.log(user)
     console.log(user.profile)
+
+    axios.post('http://localhost:3000/login', user.profile, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+      }).then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
   }
   
  handleSocialLoginFailure = (err) => {
@@ -54,6 +66,19 @@ export default class Login extends Component {
           for (var value of data.values()) {
             console.log(value); 
           }
+          
+          const body={auth:{"email":data.get('usermail'),"password":data.get('password')}}
+          axios.post('http://localhost:3000/user_token',body,{
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+              
+            }).then(function (response) {
+                console.log(response);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
 
     }
 
