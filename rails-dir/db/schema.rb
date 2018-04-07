@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180407110929) do
+ActiveRecord::Schema.define(version: 20180407183840) do
 
   create_table "friends", id: false, force: :cascade do |t|
     t.integer "user_id"
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20180407110929) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string "status"
+    t.string "status", default: "waiting"
     t.string "order_for"
     t.string "res_name"
     t.string "menu"
