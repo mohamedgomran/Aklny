@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   post 'orders/:oid/items', to: 'order_details#create'
   #list item for an order (order details)
   get 'orders/:oid/items', to: 'order_details#list'
-  #delete item fromn order (order details)
+  #delete item from order (order details)
   delete 'orders/:oid/items/:iid', to: 'order_details#delete'
 
 end

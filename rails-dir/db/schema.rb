@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180407183840) do
+ActiveRecord::Schema.define(version: 20180407203633) do
 
   create_table "friends", id: false, force: :cascade do |t|
     t.integer "user_id"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20180407183840) do
     t.integer "order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "invited"
     t.index ["order_id"], name: "index_notifications_on_order_id"
   end
 
