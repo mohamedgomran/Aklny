@@ -4,11 +4,17 @@ Rails.application.routes.draw do
   post 'users', to: 'users#register'
 
 
-  get 'groups', to: 'groups#list'
-  get 'groups/:gid', to: 'groups#list_members'
+  ##Groups routes##
+  #create a group
   post 'groups', to: 'groups#create'
-  post 'groups/:gid', to: 'groups#add_member'
-  delete 'groups/:gid/friends/:fid', to: 'groups#del_member'
+  #get a list of a user's groups
+  get 'groups', to: 'groups#list'
+  #add a member to a group
+  post 'groups/:gid/memebrs', to: 'groups#add_member'
+  #get a list of a group's memebrs
+  get 'groups/:gid/memebrs', to: 'groups#list_members'
+  #delete a member from a group
+  delete 'groups/:gid/memebrs/:fid', to: 'groups#del_member'
 
 
 end
