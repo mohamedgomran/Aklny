@@ -3,7 +3,7 @@ class GroupsController < ApplicationController
         params.require(:group).permit!
         user_id = 5 #to be get from authentication
 		if User.find(user_id).user_groups.find_by(params[:group])
-            render json: {success: false, message: params}
+            render json: {success: false, message: 'dublicate'}
         else
         	params[:group][:user_id] = user_id
             @group = Group.new(params[:group]) 
