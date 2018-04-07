@@ -9,6 +9,7 @@ class UsersController < ApplicationController
         end 
     end
 
+
     def add_friend
         params.permit(:email)
         # user_id = 5 #to be get from authentication
@@ -30,5 +31,4 @@ class UsersController < ApplicationController
     end
             
 
-            
 end
