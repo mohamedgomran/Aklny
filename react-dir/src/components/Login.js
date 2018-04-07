@@ -30,9 +30,9 @@ export default class Login extends Component {
     console.log(user)
     console.log(user.profile)
 
-    axios.post('http://localhost:3000/login', user.profile, {
+    axios.post('http://localhost:3000/user_token', user.profile, {
       headers: {
-        'Content-Type': 'multipart/form-data'
+        'Content-Type': 'application/json'
       }
       }).then(function (response) {
         console.log(response);
@@ -68,9 +68,9 @@ export default class Login extends Component {
           }
           
           const body={auth:{"email":data.get('usermail'),"password":data.get('password')}}
-          axios.post('http://localhost:3000/user_token',body,{
+          axios.post('http://localhost:3000/user_token',{auth:{"email":data.get('usermail'),"password":data.get('password')}},{
               headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/json'
               }
               
             }).then(function (response) {

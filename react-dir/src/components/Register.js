@@ -61,6 +61,7 @@ export default class Register extends Component {
             //send data to backend
             let form=document.getElementById('registerform');
             let data = new FormData(form);
+            console.log(data);
             console.log(data.get('userimage'));
             // Display the values
             for (var value of data.values()) {
