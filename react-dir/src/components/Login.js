@@ -68,7 +68,7 @@ export default class Login extends Component {
           }
           
           const body={auth:{"email":data.get('usermail'),"password":data.get('password')}}
-          axios.post('http://localhost:3000/user_token',{auth:{"email":data.get('usermail'),"password":data.get('password')}},{
+          axios.post('http://localhost:3000/user_token',body,{
               headers: {
                 'Content-Type': 'application/json'
               }
