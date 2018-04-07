@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  status: MyString
+  order_for: MyString
+  res_name: MyString
+  menu: MyString
+  user: one
+
+two:
+  status: MyString
+  order_for: MyString
+  res_name: MyString
+  menu: MyString
+  user: two
