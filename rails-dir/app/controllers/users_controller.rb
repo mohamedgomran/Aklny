@@ -9,6 +9,7 @@ class UsersController < ApplicationController
         end 
     end
 
+
     def add_friend
         # user_id = 5 #to be get from authentication
         @user = User.find(params[:id].to_i);

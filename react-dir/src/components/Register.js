@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, Message, Icon, Label, Input, Grid, Header, Image, Segment} from 'semantic-ui-react'
-
+import axios from 'axios';
 // import Form from 'react-validation/build/form';
 // import Input from 'react-validation/build/input';
 
@@ -61,17 +61,35 @@ export default class Register extends Component {
             //send data to backend
             let form=document.getElementById('registerform');
             let data = new FormData(form);
+            console.log(data);
             console.log(data.get('userimage'));
             // Display the values
             for (var value of data.values()) {
               console.log(value); 
             }
-            /**axios.post('upload_file', formData, {
+            
+            axios.post('http://localhost:3000/users', data, {
               headers: {
                 'Content-Type': 'multipart/form-data'
               }
+              }).then(function (response) {
+                console.log(response);
               })
-            */
+              .catch(function (error) {
+                console.log(error);
+              });
+            /**
+             * axios.post('/user', {
+                firstName: 'Fred',
+                lastName: 'Flintstone'
+              })
+              .then(function (response) {
+                console.log(response);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+             */
 
      }
     event.preventDefault();
