@@ -30,9 +30,21 @@ export default class Login extends Component {
     console.log(user)
     console.log(user.profile)
 
-    axios.post('http://localhost:3000/user_token', user.profile, {
+    // axios.post('http://localhost:3000/user_token', user.profile, {
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    //   }).then(function (response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+    
+    axios.get('http://localhost:3000/auth', {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer"+' eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1M…6NDR9.zeHSOrvQUFcoON4MHfyopfnihoEdxHCZHPIGaxlPSfo'
       }
       }).then(function (response) {
         console.log(response);
@@ -40,6 +52,7 @@ export default class Login extends Component {
       .catch(function (error) {
         console.log(error);
       });
+
 
   }
   
@@ -61,13 +74,13 @@ export default class Login extends Component {
           //send data to backend
           let form=document.getElementById('loginform');
           let data = new FormData(form);
-          console.log(data.get('usermail'));
+          console.log(data.get('email'));
           // Display the values
           for (var value of data.values()) {
             console.log(value); 
           }
           
-          const body={auth:{"email":data.get('usermail'),"password":data.get('password')}}
+          const body={auth:{"email":data.get('email'),"password":data.get('password')}}
           axios.post('http://localhost:3000/user_token',body,{
               headers: {
                 'Content-Type': 'application/json'
@@ -75,6 +88,7 @@ export default class Login extends Component {
               
             }).then(function (response) {
                 console.log(response);
+                console.log(response.data);
               })
               .catch(function (error) {
                 console.log(error);
@@ -112,7 +126,7 @@ export default class Login extends Component {
               iconPosition='left'
               placeholder='E-mail address'
               type='email'
-              name='usermail'
+              name='email'
               value={this.state.Email} onChange={this.handleChangeEmail} required 
             />
             <Form.Input
@@ -170,7 +184,7 @@ export default class Login extends Component {
                    <SocialButton  
                    
                     provider='google'
-                    appId='372012466129-7c90lsva9cs12qgihfc54pk061vecle5.apps.googleusercontent.com'
+                    appId='372012466129-8uv0cpjq7v3cforvq0evfq2vl9v0f9sd.apps.googleusercontent.com'
                     onLoginSuccess={this.handleSocialLogin}
                     onLoginFailure={this.handleSocialLoginFailure}
                     >

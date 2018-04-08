@@ -63,6 +63,7 @@ export default class Register extends Component {
             let data = new FormData(form);
             console.log(data);
             console.log(data.get('userimage'));
+            console.log('pppp',data.get('password'));
             // Display the values
             for (var value of data.values()) {
               console.log(value); 
@@ -116,7 +117,7 @@ export default class Register extends Component {
               icon='user'
               iconPosition='left'
               placeholder='User Name'
-              name='username'
+              name='name'
               value={this.state.username} onChange={this.handleChangeName} required 
             />
 
@@ -128,7 +129,7 @@ export default class Register extends Component {
               iconPosition='left'
               placeholder='E-mail address'
               type='email'
-              name='useremail'
+              name='email'
               value={this.state.Email} onChange={this.handleChangeEmail} required 
             />
 
@@ -138,7 +139,7 @@ export default class Register extends Component {
               iconPosition='left'
               placeholder='Password'
               type='password'
-              name='userpass'
+              name='password'
               value={this.state.password} onChange={this.handleChangePass} required
             />
 

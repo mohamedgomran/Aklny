@@ -63,6 +63,10 @@ ActiveRecord::Schema.define(version: 20180407225520) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "menu_file_name"
+    t.string "menu_content_type"
+    t.integer "menu_file_size"
+    t.datetime "menu_updated_at"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
