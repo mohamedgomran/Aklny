@@ -48,7 +48,7 @@ Rails.application.routes.draw do
   #delete item from order (order details)
   delete 'orders/:oid/items/:iid', to: 'order_details#delete'
   #join order
-  put 'orders/:oid/join/:uid', to: 'orders#join'
+  put 'orders/:oid/join', to: 'orders#join'
   # invited
   get 'orders/:oid/invited', to: 'orders#show_invited'
   # joined
