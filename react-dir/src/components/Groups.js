@@ -43,6 +43,7 @@ export default class Groups extends React.Component {
         GroupsAPI.addGroup(name, (res)=>{
             if (res.success) {
                 this.setState({groups:res.message})
+                this.addGroupRef.current.inputRef.value = ""
             }else{
                 this.setState({groupError:res.message})
             }

@@ -48,12 +48,12 @@ class GroupsController < ApplicationController
         user_id = current_user.id
         @user = User.find(user_id)
         @group = Group.find(params[:gid])
-        @friend = User.find(params[:friend_id])
+        @friend = User.find_by(email: params[:email])
 		if @user.user_groups.include?(@group) && @group.users.include?(@friend)
             render json: {success: false, message: "already added"}
         elsif @group && @friend
         	@group.users << @friend
-            render json: {success: true, message: @group.users}
+            render json: {success: true, message: @group.users.select(:email, :name, :id)}
         else
             render json: {success: false, message: "Email not found"}
         end

@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     def list_friends
         # user_id = ####
         user_id = current_user.id        
-        @friends = User.find(user_id).friends
+        @friends = User.find(user_id).friends.select(:email, :name, :id)
         render json: {success: true, message: @friends}
     end
 

@@ -54,11 +54,11 @@ let GroupsAPI={
             callback(error)
         })
 	},
-	addMember:(gid, callback)=>{
-        axios.post(`http://localhost:3000/groups/${gid}/members/` ,{ headers: headers })
+	addMember:(gid, email,callback)=>{
+		let payLoad = {'email':email}
+        axios.post(`http://localhost:3000/groups/${gid}/members/`, payLoad ,{ headers: headers })
           .then((response)=> {
-          	console.log(response)
-            // callback(response.data)
+            callback(response.data)
           })
           .catch((error)=> {
             callback(error)
