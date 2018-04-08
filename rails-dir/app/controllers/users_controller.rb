@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+    before_action :authenticate_user,  only: [:auth]
+
     def register
         # password_digest
         uparams = params.permit(:name, :email, :password)

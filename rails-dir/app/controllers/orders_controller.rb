@@ -1,7 +1,10 @@
 class OrdersController < ApplicationController
+    before_action :authenticate_user,  only: [:auth]
+
     def create
         params.require(:order).permit!
-        user_id = 5 #to be get from authentication
+        # user_id = 5 #to be get from authentication
+        user_id = current_user.id
         params[:order][:user_id] = user_id
         @order = Order.new(params[:order])
         if @order.save

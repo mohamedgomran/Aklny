@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20180407211630) do
     t.string "status", default: "waiting"
     t.string "order_for"
     t.string "res_name"
+    t.string "menu"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
