@@ -71,8 +71,8 @@ export default class GroupMember extends React.Component {
                     {
                         this.state.groupMembers.map(member=>{
                             return(
-                                <Grid.Column width={7} floated >
-                                    <Card key={uuid()}>
+                                <Grid.Column width={7} key={uuid()}>
+                                    <Card>
                                         <Card.Content>
                                             <Image className="ui avatar image" floated='right' size='mini' src='https://react.semantic-ui.com/assets/images/avatar/large/steve.jpg'/>
                                             <Card.Header>{member}</Card.Header>
