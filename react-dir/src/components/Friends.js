@@ -17,11 +17,6 @@ export default class Friends extends React.Component{
 		}
 		
     addFriend = ()=>{
-           {/* var friendsArr = this.state.friends.slice()
-            // if(this.state.input.match(this.emailRegex)){
-                friendsArr.push(this.state.input)
-            // }
-           this.setState({friends:friendsArr}, ()=>document.getElementById('addFriend').value="")*/}
 			this.setState({input:document.getElementById("friendEmail").value}, ()=>{
 				if (this.emailRegex.test(this.state.input)){
 				
@@ -41,11 +36,17 @@ export default class Friends extends React.Component{
 			
     }
 
-    handleInput = (e)=>{
-        // this.setState({input:e.target.value})
-    }
     removeFriend = (e)=>{
-        console.log("removing"+e.target);
+				console.log("removing"+e.target.value);
+				axios.delete(`http://localhost:3000/users/${this.userId}/friends/${e.target.value}`, {
+					headers:{
+							'Content-Type': 'application/json'
+					}}).then((response)=>{
+						this.getMyFriends();
+					}).catch((error)=>{
+
+					})
+				
         
     }
 
@@ -55,7 +56,6 @@ export default class Friends extends React.Component{
                 'Content-Type': 'application/json'
             }
         }).then((response)=>{
-            // console.log(response);
             this.setState({friends:response.data.message});
             
         }).catch((error)=>{
@@ -93,7 +93,7 @@ export default class Friends extends React.Component{
                                             <Card.Header>{friend.name}</Card.Header>
                                         </Card.Content>
                                         <Card.Content extra>
-                                            <Button className="ui button" size='mini' basic color='red'onClick={this.removeFriend}>Remove</Button>
+                                            <Button className="ui button" size='mini' value={friend.id} basic color='red'onClick={this.removeFriend}>Remove</Button>
                                         </Card.Content>
                                     </Card>
                                 )
