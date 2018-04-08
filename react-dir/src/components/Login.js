@@ -44,7 +44,7 @@ export default class Login extends Component {
     axios.get('http://localhost:3000/auth', {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization':"Bearer"+' eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1M…6NDR9.zeHSOrvQUFcoON4MHfyopfnihoEdxHCZHPIGaxlPSfo'
+        'Authorization':"Bearer "+localStorage.getItem('token')
       }
       }).then(function (response) {
         console.log(response);
@@ -88,7 +88,22 @@ export default class Login extends Component {
               
             }).then(function (response) {
                 console.log(response);
-                console.log(response.data);
+                console.log(response.data.jwt);
+                localStorage.setItem('token',response.data.jwt)
+                //request to get User data 
+                axios.get('http://localhost:3000/auth', {
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization':"Bearer "+localStorage.getItem('token')
+                  }
+                  }).then(function (response) {
+                    console.log(response);
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+
+                  
               })
               .catch(function (error) {
                 console.log(error);

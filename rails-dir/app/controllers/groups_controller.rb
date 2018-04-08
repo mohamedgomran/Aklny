@@ -1,12 +1,12 @@
 class GroupsController < ApplicationController
-    #    before_action :authenticate_user
-    #    before_action :authenticate_user,  only: [:auth]
- 
+    before_action :authenticate_user,  only: [:auth]
+
+
     def create
         params.require(:group).permit!
-        user_id = 1 #to be get from authentication
+        user_id = current_user.id
         @user = User.find(user_id)
-		if @users.user_groups.find_by(params[:group])
+        if @users.user_groups.find_by(params[:group])
             render json: {success: false, message: 'dublicate'}
         else
         	params[:group][:user_id] = user_id

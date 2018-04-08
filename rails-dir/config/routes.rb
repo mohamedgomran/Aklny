@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   get 'users/:id/friends', to: 'users#list_friends'
   # list my notifications
   get 'users/:id/notifications', to: 'users#list_notifications'
-
+  #list my joined orders
+  get 'users/:id/joined', to: 'users#list_joined_orders'
   ##Groups routes##
   #create a group
   post 'groups', to: 'groups#create'
