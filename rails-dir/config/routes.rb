@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   # add friend
   post 'users/:id/friends', to: 'users#add_friend'
   # unfriend
-  delete 'users/:id/friends', to: 'users#del_friend'
+  delete 'users/:id/friends/:friend_id', to: 'users#del_friend'
   # list my friends
   get 'users/:id/friends', to: 'users#list_friends'
   # list my notifications

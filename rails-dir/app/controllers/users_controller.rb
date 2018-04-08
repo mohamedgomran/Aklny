@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :authenticate_user,  only: [:auth]
+    # before_action :authenticate_user,  only: [:auth]
 
     def register
         # password_digest
