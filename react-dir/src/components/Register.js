@@ -75,8 +75,17 @@ export default class Register extends Component {
                 'Content-Type': 'multipart/form-data'
               }
               }).then(function (response) {
-                console.log(response);
-                <Redirect to="/login"/>
+                console.log('register response ',response.data.success);
+                if(response.data.success == false)
+                {
+                  console.log('error in registeration')
+                  this.setState({errmsg:'invalid User data'});
+                   
+                }else
+                {
+                  <Redirect to="/login"/>
+                }
+               
               })
               .catch(function (error) {
                 console.log(error);
