@@ -23,8 +23,9 @@ export default class Friends extends React.Component{
                     'email': this.state.input
                 },
                 {headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'application/json'
                 }}).then((response)=>{
+                    this.getMyFriends();
                     console.log("response",response);
                     
                 }).catch((error)=>{
@@ -43,9 +44,26 @@ export default class Friends extends React.Component{
         
     }
 
+    getMyFriends = ()=>{
+        axios.get(`http://localhost:3000/users/${this.userId}/friends`, {
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }).then((response)=>{
+            console.log(response);
+            this.state.friends = response.data.message;
+            
+        }).catch((error)=>{
+            console.log("error", error);
+            
+        })
+    }
+
     render(){
         return (
             <div>
+            {this.getMyFriends()}
+            
                 <h1>Friends</h1>
                 {/*console.log("current user id",this.userId)*/}
                 <div align="center">
@@ -69,7 +87,7 @@ export default class Friends extends React.Component{
                                     <Card  key={uuid()}>
                                         <Card.Content>
                                             <Image className="ui avatar image" floated='right' size='mini' src='https://react.semantic-ui.com/assets/images/avatar/large/steve.jpg'/>
-                                            <Card.Header>{friend}</Card.Header>
+                                            <Card.Header>{friend.name}</Card.Header>
                                         </Card.Content>
                                         <Card.Content extra>
                                             <Button className="ui button" size='mini' basic color='red'onClick={this.removeFriend}>Remove</Button>
