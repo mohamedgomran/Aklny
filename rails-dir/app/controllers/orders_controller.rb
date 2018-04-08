@@ -46,12 +46,21 @@ class OrdersController < ApplicationController
         end
     end
 
-    def invited
+    def show_invited
         params.permit(:oid)
         @invited = []
         Notification.where(order_id: params[:oid], notification_type: "invitation").find_each do |notif|
             @invited << notif.user_id
         end
         render json: {success: true, message: @invited}
+    end
+
+    def show_joined
+        params.permit(:oid)
+        @joined = []
+        Notification.where(order_id: params[:oid], notification_type: "join").find_each do |notif|
+            @joined << notif.user_id
+        end
+        render json: {success: true, message: @joined}
     end
 end

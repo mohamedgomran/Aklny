@@ -44,5 +44,7 @@ Rails.application.routes.draw do
   #join order
   post 'orders/:oid/join/:uid', to: 'orders#join'
   # invited
-  get 'orders/:oid/invited', to: 'orders#invited'
+  get 'orders/:oid/invited', to: 'orders#show_invited'
+  # joined
+  get 'orders/:oid/joined', to: 'orders#show_joined'
 end
