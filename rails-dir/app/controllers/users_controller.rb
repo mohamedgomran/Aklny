@@ -56,12 +56,12 @@ class UsersController < ApplicationController
         @myorders = User.find(user_id).orders.find_each do |order|
             order.notifications.where(notification_type: "join").select(:order_id,:user_id,:created_at).each do |notif|
                 user= User.where(id: notif.user_id).select(:id,:name)[0]
-                @join_notif << {order_id: notif.order_id, user: user}
+                @join_notif << {order_id: notif.order_id, user: user, created_at: notif.created_at}
             end
         end
         Notification.where(user_id: user_id).select(:order_id,:user_id,:created_at).each do |notif|
             user = {name: Order.find(notif.order_id).user.name, id: Order.find(notif.order_id).user.id}
-            @invite_notif << {order_id: notif.order_id, user: user}
+            @invite_notif << {order_id: notif.order_id, user: user, created_at: notif.created_at}
         end
         render json: {success: true, message: {join_notif: @join_notif, invite_notif: @invite_notif }}
     end
