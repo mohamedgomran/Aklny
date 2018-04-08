@@ -23,7 +23,7 @@ export default class Header extends Component {
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
 	handellogout(){
-		{localStorage.getItem('token') != null ?localStorage.removeItem('token'):''}
+		{localStorage.getItem('token') !== null ?localStorage.removeItem('token'):''}
 	};
 
   handleChange(event, index, value) {this.setState({value});
@@ -86,7 +86,7 @@ console.log("value "+value);
 		        >
 			      <Image src={logo} avatar />
 			      <span>
-							{ localStorage.getItem('user')!=null?
+							{ localStorage.getItem('user')!==null?
 							 JSON.parse(localStorage.getItem('user')).name
 							:'Username'}
 							</span>

@@ -12,8 +12,11 @@ export default class Login extends Component {
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangePass = this.handleChangePass.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
   }
+
+  // handleLoginerr(){
+  //   this.setState({errmsg:"invalid user mail or passwprd"});
+  // }
 
   handleChangeEmail(event) {
     this.setState({Email: event.target.value});
@@ -82,6 +85,8 @@ export default class Login extends Component {
       })
       .catch(function (error) {
         console.log(error);
+        console.log('Social Login error ',error);
+        this.setState({errmsg:"invalid Social Login"})
       });
     
     
@@ -99,7 +104,7 @@ export default class Login extends Component {
   handleSubmit(event) {
     console.log('UserName and Pass are  submitted: ' + this.state.Email+this.state.password);
        //if data incorrect show in errmsg
-    if(this.state.Email ==''||this.state.password=='')
+    if(this.state.Email === ''||this.state.password === '')
     {
       this.setState({errmsg: 'Email and password are required'});
     }else
@@ -120,9 +125,9 @@ export default class Login extends Component {
               }
               
             }).then(function (response) {
-                console.log(response);
+                console.log('Login res status',response.status);
                 console.log(response.data.jwt);
-                if(response.status=='201'){
+                if(response.status === '201'){
                 localStorage.setItem('token',response.data.jwt)
                 //request to get User data 
                 axios.get('http://localhost:3000/auth', {
@@ -141,13 +146,16 @@ export default class Login extends Component {
                   })
                   .catch(function (error) {
                     console.log(error);
+                    
                   });
 
 
               
                 }})
               .catch(function (error) {
-                console.log(error);
+                console.log('Login error ',error);
+                // this.setState({errmsg:"invalid user mail or passwprd"});
+                
               });
 
     }
@@ -200,7 +208,7 @@ export default class Login extends Component {
         </Form>
 
         <label>
-        { this.state.errmsg !=''?
+        { this.state.errmsg !==''?
         <Message
          error
          header=''
