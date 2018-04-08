@@ -1,7 +1,19 @@
 import React from 'react';
 import { Form, Grid, Dropdown, Button, Icon, Label } from "semantic-ui-react";
+import axios from 'axios';
+
+var uuid = require('uuid-v4');
+
 
 export default class AddOrder extends React.Component{
+
+  constructor(props) {
+    super(props);
+    this.handleChangeList = this.handleChangeList.bind(this);
+
+  }
+
+  userId = this.props.match.params.id;
 
     friends = [
             {
@@ -32,8 +44,22 @@ export default class AddOrder extends React.Component{
 
     }
 
+    getallFriends = ()=>{
+         axios.get(`http://localhost:3000/users/${this.userId}/friends`, {
+             headers:{
+                               'Content-Type': 'application/json'
+             }
+         }).then((response)=>{
+             console.log(response);
+             this.state.friends = response.data.message;
 
-    
+         }).catch((error)=>{
+             console.log("error", error);
+
+        })
+
+  }
+
 
 
 
@@ -66,6 +92,8 @@ export default class AddOrder extends React.Component{
     render = ()=>{
         return (
             <Grid divided='vertically'>
+
+            {this.getallFriends()}
                 <h1>Add Order</h1>
                 <Grid.Row columns={2}>
                     <Grid.Column>

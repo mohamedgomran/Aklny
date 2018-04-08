@@ -17,7 +17,7 @@ export default class Friends extends React.Component{
                 friendsArr.push(this.state.input)
             // }
             this.setState({friends:friendsArr}, ()=>document.getElementById('addFriend').value="")
-            
+
             if (this.emailRegex.test(this.state.input)){
                 axios.post(`http://localhost:3000/users/${this.userId}/friends`,{
                     'email': this.state.input
@@ -27,12 +27,12 @@ export default class Friends extends React.Component{
                 }}).then((response)=>{
                     this.getMyFriends();
                     console.log("response",response);
-                    
+
                 }).catch((error)=>{
                     console.log("error", error);
-                    
+
                 })
-                
+
             }
     }
 
@@ -41,7 +41,7 @@ export default class Friends extends React.Component{
     }
     removeFriend = (e)=>{
         console.log("removing"+e.target);
-        
+
     }
 
     getMyFriends = ()=>{
@@ -52,10 +52,10 @@ export default class Friends extends React.Component{
         }).then((response)=>{
             console.log(response);
             this.state.friends = response.data.message;
-            
+
         }).catch((error)=>{
             console.log("error", error);
-            
+
         })
     }
 
@@ -63,12 +63,12 @@ export default class Friends extends React.Component{
         return (
             <div>
             {this.getMyFriends()}
-            
+
                 <h1>Friends</h1>
                 {/*console.log("current user id",this.userId)*/}
                 <div align="center">
-                    <label htmlFor="addFriend" >Your Freind's Email</label>
-                    <Input  validations={{matchRegexp:this.emailRegex}} id="addFriend" icon='user' iconPosition='left' placeholder='mail@example.com' value={this.state.input} onChange={this.handleInput} />  
+                    <label htmlFor="addFriend" >Your Freinds Email</label>
+                    <Input  validations={{matchRegexp:this.emailRegex}} id="addFriend" icon='user' iconPosition='left' placeholder='mail@example.com' value={this.state.input} onChange={this.handleInput} />
                     <Button secondary onClick={this.addFriend}>ADD</Button>
                 </div>
                 <div>
@@ -96,7 +96,7 @@ export default class Friends extends React.Component{
                                 )
                             })
                         }
-                        </Card.Group>  
+                        </Card.Group>
                     </Container>
                 </div>
             </div>

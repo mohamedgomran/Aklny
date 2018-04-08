@@ -9,7 +9,7 @@ var uuid = require('uuid-v4');
 export default class Groups extends React.Component {
 
     groupRegex = new RegExp('/[:alpha:]+$/')
-  
+
     constructor(props) {
         super(props);
         this.state = {
@@ -80,11 +80,11 @@ export default class Groups extends React.Component {
                         </Grid.Column>
                         <Grid.Column width={5}>
                             <div>
-                                <Input validations={{matchRegexp:this.groupRegex}} id="addGroup" icon='group' iconPosition='left' placeholder='Group Name' />  
+                                <Input validations={{matchRegexp:this.groupRegex}} id="addGroup" icon='group' iconPosition='left' placeholder='Group Name' />
                                 <Button secondary onClick={this.addGroup}>ADD</Button>
                             </div>
                         </Grid.Column>
-                        
+
                     </Grid.Row>
                     <Grid.Row centered>
                         <Grid.Column width={4}>
@@ -121,13 +121,13 @@ export default class Groups extends React.Component {
                         </Grid.Column>
                         <Grid.Column width={9}>
                         {this.props.match.params.name && <Segment>
-                            <GroupMember groupId={this.state.activeItem} />              
+                            <GroupMember groupId={this.state.activeItem} />
                             </Segment>
-                        }   
+                        }
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-            
+
         )
     }
 }
