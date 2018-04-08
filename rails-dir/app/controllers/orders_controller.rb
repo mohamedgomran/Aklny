@@ -28,6 +28,8 @@ class OrdersController < ApplicationController
     end
 
     def join
+        @order = Order.find(params[:oid])
+        @invited = Notification.where(user_id)
         self.class.notify(params[:uid],"join",params[:oid],"false")
     end
 
@@ -42,5 +44,14 @@ class OrdersController < ApplicationController
             @notification = Notification.create(notif);
             #action cable here
         end
+    end
+
+    def invited
+        params.permit(:oid)
+        @invited = []
+        Notification.where(order_id: params[:oid], notification_type: "invitation").find_each do |notif|
+            @invited << notif.user_id
+        end
+        render json: {success: true, message: @invited}
     end
 end

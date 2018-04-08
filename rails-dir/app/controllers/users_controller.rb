@@ -42,4 +42,10 @@ class UsersController < ApplicationController
         @friends = User.find(params[:id]).friends
         render json: {success: true, message: @friends}
     end
+
+    def list_notifications
+        user_id = params[:id]
+        notifications = Notification.where(user_id: user_id)
+        render json: {success: true, message: notifications}
+    end
 end
