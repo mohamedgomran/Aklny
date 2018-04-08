@@ -30,10 +30,7 @@ class OrdersController < ApplicationController
     	end
     end
 
-    def list
-        user_id = 1 #to be get from authentication
-        render json: User.find(user_id).orders
-    end
+    
 
     def join
         @notification = Notification.find_by(order_id: params[:oid], user_id: params[:uid], notification_type: "invitation")
