@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form, Message, Icon, Label, Input, Grid, Header, Image, Segment} from 'semantic-ui-react'
 import axios from 'axios';
+import { Link,Redirect } from "react-router-dom";
 // import Form from 'react-validation/build/form';
 // import Input from 'react-validation/build/input';
 
@@ -75,6 +76,7 @@ export default class Register extends Component {
               }
               }).then(function (response) {
                 console.log(response);
+                <Redirect to="/login"/>
               })
               .catch(function (error) {
                 console.log(error);

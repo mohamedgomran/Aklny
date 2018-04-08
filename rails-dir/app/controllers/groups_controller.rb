@@ -2,12 +2,14 @@ class GroupsController < ApplicationController
     before_action :authenticate_user,  only: [:auth]
 
 
+
     def create
         params.require(:group).permit!
-        user_id = 1
+        # user_id = 1
+        user_id = current_user.id
         @user = User.find(user_id)
         if @user.user_groups.find_by(params[:group])
-            render json: {success: false, message: 'dublicate'}
+            render json: {success: false, message: 'Dublicate!'}
         else
         	params[:group][:user_id] = user_id
             @group = Group.new(params[:group]) 
@@ -20,10 +22,24 @@ class GroupsController < ApplicationController
     end
 
     def list
+        #  user_id = 44 #to be get from authentication
+        user_id = current_user.id
+        puts user_id
+        @user = User.find(user_id)
+        render json: @user.user_groups.select(:id, :name)
+    end
+
+    def delete
         # user_id = 5 #to be get from authentication
         user_id = current_user.id
         @user = User.find(user_id)
-        render json: @user.user_groups.select(:id, :name)
+        @group = Group.find(params[:gid])
+        if @user.user_groups.include?(@group)
+            @user.user_groups.delete(@group)
+            render json: {success: true, message: @user.user_groups}
+        else
+            render json: {success: false, message: "error"}
+        end
     end
 
     def add_member
@@ -57,6 +73,6 @@ class GroupsController < ApplicationController
 
     def list_members
         @group = Group.find(params[:gid])
-        render json: @group.users.select(:id, :name)
+        render json: @group.users.select(:email, :name, :id)
     end
 end
