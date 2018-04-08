@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :authenticate_user,  only: [:auth]
+    # before_action :authenticate_user,  only: [:auth]
 
     def register
         # password_digest
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
         if @user.friends.include?(@friend)
             render json: {success: false, message: "already a friend"}
-        elsif @friend != [] && params[:email] != @user.email
+        elsif @friend != [] && params[:email] != @user.email && @friend
         	@user.friends << @friend
             render json: {success: true, message: @user.friends}
         else
@@ -51,8 +51,23 @@ class UsersController < ApplicationController
 
     def list_notifications
         user_id = params[:id]
-        notifications = Notification.where(user_id: user_id)
-        render json: {success: true, message: notifications}
+        @join_notif=[]
+        @invite_notif = []
+        @myorders = User.find(user_id).orders.find_each do |order|
+            order.notifications.where(notification_type: "join").order(created_at: :desc).each do |notif|
+                user= User.where(id: notif.user_id).select(:id,:name)[0]
+                @join_notif << {order_id: notif.order_id, user: user, created_at: notif.created_at}
+            end
+        end
+        Notification.where(user_id: user_id).order(created_at: :desc).each do |notif|
+            user = {name: Order.find(notif.order_id).user.name, id: Order.find(notif.order_id).user.id}
+            @invite_notif << {order_id: notif.order_id, user: user, created_at: notif.created_at}
+        end
+        render json: {success: true, message: {join_notif: @join_notif, invite_notif: @invite_notif }}
+    end
+
+    def list_my_orders
+        render json: User.find(params[:id]).orders
     end
 
     def list_joined_orders

@@ -9,7 +9,7 @@ class OrdersController < ApplicationController
         @order = Order.new(params[:order])
         if @order.save
             invited = params[:invited]
-            self.class.notify(invited,"invitation",@order.id,"true");
+            self.class.notify(invited,"invitation",@order.id,"true",sender);
             render json: {success: true, message: invited}
         else
             render json: {success: false, message: @order.errors}
@@ -30,10 +30,15 @@ class OrdersController < ApplicationController
     	end
     end
 
+<<<<<<< HEAD
     def list
-        user_id = 1 #to be get from authentication
+        # user_id = 1 #to be get from authentication
+        user_id = current_user.id
         render json: User.find(user_id).orders
     end
+=======
+    
+>>>>>>> f815d504d1950ab922578fdfa0f40d2080f5c882
 
     def join
         @notification = Notification.find_by(order_id: params[:oid], user_id: params[:uid], notification_type: "invitation")
@@ -43,13 +48,14 @@ class OrdersController < ApplicationController
         end
     end
 
-    def self.notify(users,type,oid,invited) 
+    def self.notify(users,type,oid,invited,sender) 
         users.each do |user|
             notif = {
                 notification_type: type,
                 order_id: oid,
                 invited: invited,
                 user_id: user,
+                sender_id: sender,
             }
             @notification = Notification.create(notif);
             #action cable here

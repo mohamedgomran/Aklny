@@ -9,38 +9,44 @@ export default class Friends extends React.Component{
     state = {
         friends:[],
         input: ""
-    }
+		}
+
+		constructor(props){
+			super(props);
+			this.getMyFriends()
+		}
 
     addFriend = ()=>{
-            var friendsArr = this.state.friends.slice()
-            // if(this.state.input.match(this.emailRegex)){
-                friendsArr.push(this.state.input)
-            // }
-            this.setState({friends:friendsArr}, ()=>document.getElementById('addFriend').value="")
+			this.setState({input:document.getElementById("friendEmail").value}, ()=>{
+				if (this.emailRegex.test(this.state.input)){
 
-            if (this.emailRegex.test(this.state.input)){
-                axios.post(`http://localhost:3000/users/${this.userId}/friends`,{
-                    'email': this.state.input
-                },
-                {headers: {
-                    'Content-Type': 'application/json'
-                }}).then((response)=>{
-                    this.getMyFriends();
-                    console.log("response",response);
+					axios.post(`http://localhost:3000/users/${this.userId}/friends`,{
+							'email': this.state.input
+					},
+					{headers: {
+							'Content-Type': 'application/json'
+					}}).then((response)=>{
+							this.getMyFriends();
+							console.log("response",response);
+					}).catch((error)=>{
+							console.log("error", error);
+					})
+				}
+			})
 
-                }).catch((error)=>{
-                    console.log("error", error);
-
-                })
-
-            }
     }
 
-    handleInput = (e)=>{
-        this.setState({input:e.target.value})
-    }
     removeFriend = (e)=>{
-        console.log("removing"+e.target);
+				console.log("removing"+e.target.value);
+				axios.delete(`http://localhost:3000/users/${this.userId}/friends/${e.target.value}`, {
+					headers:{
+							'Content-Type': 'application/json'
+					}}).then((response)=>{
+						this.getMyFriends();
+					}).catch((error)=>{
+
+					})
+
 
     }
 
@@ -50,25 +56,22 @@ export default class Friends extends React.Component{
                 'Content-Type': 'application/json'
             }
         }).then((response)=>{
-            console.log(response);
-            this.state.friends = response.data.message;
+            this.setState({friends:response.data.message});
 
         }).catch((error)=>{
             console.log("error", error);
 
-        })
+				})
+				this.render()
     }
 
     render(){
         return (
             <div>
-            {this.getMyFriends()}
-
                 <h1>Friends</h1>
-                {/*console.log("current user id",this.userId)*/}
                 <div align="center">
-                    <label htmlFor="addFriend" >Your Freinds Email</label>
-                    <Input  validations={{matchRegexp:this.emailRegex}} id="addFriend" icon='user' iconPosition='left' placeholder='mail@example.com' value={this.state.input} onChange={this.handleInput} />
+                    <label htmlFor="friendEmail" >Your Freinds Email</label>
+                    <Input  validations={{matchRegexp:this.emailRegex}} id="friendEmail" icon='user' iconPosition='left' placeholder='mail@example.com'  />
                     <Button secondary onClick={this.addFriend}>ADD</Button>
                 </div>
                 <div>
@@ -90,7 +93,7 @@ export default class Friends extends React.Component{
                                             <Card.Header>{friend.name}</Card.Header>
                                         </Card.Content>
                                         <Card.Content extra>
-                                            <Button className="ui button" size='mini' basic color='red'onClick={this.removeFriend}>Remove</Button>
+                                            <Button className="ui button" size='mini' value={friend.id} basic color='red'onClick={this.removeFriend}>Remove</Button>
                                         </Card.Content>
                                     </Card>
                                 )
