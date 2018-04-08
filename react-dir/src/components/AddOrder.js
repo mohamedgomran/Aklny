@@ -18,6 +18,7 @@ export default class AddOrder extends React.Component{
     friends = []
 
     state = {
+        data : '',
         type: '',
         res_name:'',
         user:'',
@@ -67,7 +68,7 @@ export default class AddOrder extends React.Component{
   }
 
   addOrder = ()=>{
-    this.setState({input:document.getElementById("add_order").value}, ()=>{
+    this.setState( ()=>{
 
         axios.post(`http://localhost:3000/users/orders`,{
             'type': this.state.type,
