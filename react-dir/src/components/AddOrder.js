@@ -5,7 +5,7 @@ export default class AddOrder extends React.Component{
 
     friends = [
             {
-                name: 'Omran',
+                name: 'hamdy',
                 id: 1,
                 image:'https://react.semantic-ui.com/assets/images/avatar/large/steve.jpg',
             },
@@ -29,8 +29,13 @@ export default class AddOrder extends React.Component{
     submit = (e)=>{
         e.preventDefault();
         console.log(e.target.elements);
-        
+
     }
+
+
+    
+
+
 
     inviteFriend = (e)=>{
         console.log("befor",this.state.invitedFriends)
@@ -53,9 +58,9 @@ export default class AddOrder extends React.Component{
         })
         this.setState({invitedFriends:newInvitedArr}, ()=>{
             console.log(this.state.invitedFriends);
-        })  
-        
-              
+        })
+
+
     }
 
     render = ()=>{
@@ -69,7 +74,7 @@ export default class AddOrder extends React.Component{
                     <Form.Field>
                         <select name="meal" className="ui search dropdown" placeholder="Select Meal">
                             <option value="1" >Lunch</option>
-                            <option value="2" >Breakfast</option>    
+                            <option value="2" >Breakfast</option>
                         </select>
                     </Form.Field>
 
@@ -86,7 +91,7 @@ export default class AddOrder extends React.Component{
                                         <option key={friend.id} value={friend.id}>{friend.name}</option>
                                     )
                                 })
-                            }    
+                            }
                         </select>
                     </Form.Field>
 
@@ -95,9 +100,9 @@ export default class AddOrder extends React.Component{
                     </Form.Field>
                     <Button basic color="green" size="large" floated="right">Puplish</Button>
                 </Form>
-                       
+
                     </Grid.Column>
-                        
+
 
                    <Grid.Column>
                     <h4>Invited Friends</h4>
