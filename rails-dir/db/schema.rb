@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20180408103538) do
+=======
+ActiveRecord::Schema.define(version: 20180407225520) do
+>>>>>>> def77b308a587a6ff02c6e589f3569363e6fd7ab
 
   create_table "friends", id: false, force: :cascade do |t|
     t.integer "user_id"
@@ -37,7 +41,9 @@ ActiveRecord::Schema.define(version: 20180408103538) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "invited"
+    t.integer "user_id"
     t.index ["order_id"], name: "index_notifications_on_order_id"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "order_details", force: :cascade do |t|
@@ -57,6 +63,7 @@ ActiveRecord::Schema.define(version: 20180408103538) do
     t.string "status", default: "waiting"
     t.string "order_for"
     t.string "res_name"
+    t.string "menu"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
