@@ -28,12 +28,13 @@ Rails.application.routes.draw do
   #delete a member from a group
   delete 'groups/:gid/memebrs/:fid', to: 'groups#del_member'
 
+  get 'users/:id/orders', to: 'users#list_my_orders'
 
   ##Orders routes##
   #create order
   post 'orders', to: 'orders#create'
   #list order
-  get 'orders', to: 'orders#list'
+  # get 'orders/:id', to: 'orders#list'
   #delete order
   delete 'orders/:oid', to: 'orders#delete'
   #edit order
