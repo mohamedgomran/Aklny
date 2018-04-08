@@ -53,7 +53,9 @@ class GroupsController < ApplicationController
             render json: {success: false, message: "already added"}
         elsif @group && @friend
         	@group.users << @friend
-            render json: {success: true, message: "friend added"}
+            render json: {success: true, message: @group.users}
+        else
+            render json: {success: false, message: "Email not found"}
         end
     end
 
@@ -65,7 +67,7 @@ class GroupsController < ApplicationController
         @friend = User.find(params[:fid])
 		if @user.user_groups.include?(@group) && @group.users.include?(@friend)
 			@group.users.delete(@friend)
-            render json: {success: true, message: "friend deleted"}
+            render json: {success: true, message: @group.users}
         else
             render json: {success: false, message: "group or friend not found"}
         end
@@ -73,6 +75,6 @@ class GroupsController < ApplicationController
 
     def list_members
         @group = Group.find(params[:gid])
-        render json: @group.users.select(:email, :name, :id)
+        render json: {success: true, message: @group.users.select(:email, :name, :id)}
     end
 end
