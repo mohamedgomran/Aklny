@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
+ActiveRecord::Schema.define(version: 20180408103538) do
+=======
 ActiveRecord::Schema.define(version: 20180407225520) do
+>>>>>>> def77b308a587a6ff02c6e589f3569363e6fd7ab
 
   create_table "friends", id: false, force: :cascade do |t|
     t.integer "user_id"
@@ -63,10 +67,7 @@ ActiveRecord::Schema.define(version: 20180407225520) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "menu_file_name"
-    t.string "menu_content_type"
-    t.integer "menu_file_size"
-    t.datetime "menu_updated_at"
+    t.string "image"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 

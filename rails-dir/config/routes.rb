@@ -31,6 +31,8 @@ Rails.application.routes.draw do
   ##Orders routes##
   #create order
   post 'orders', to: 'orders#create'
+  #list order
+  get 'orders', to: 'orders#list'
   #delete order
   delete 'orders/:oid', to: 'orders#delete'
   #edit order
