@@ -1,7 +1,10 @@
 class OrdersController < ApplicationController
+    before_action :authenticate_user,  only: [:auth]
+
     def create
         params.require(:order).permit!
-        user_id = 1 #to be get from authentication
+        # user_id = 1 #to be get from authentication
+        user_id = current_user.id
         params[:order][:user_id] = user_id
         @order = Order.new(params[:order])
         if @order.save
@@ -27,10 +30,7 @@ class OrdersController < ApplicationController
     	end
     end
 
-    def list
-        user_id = 1 #to be get from authentication
-        render json: User.find(user_id).orders
-    end
+    
 
     def join
         @notification = Notification.find_by(order_id: params[:oid], user_id: params[:uid], notification_type: "invitation")
