@@ -20,7 +20,7 @@ const AppRouter =()=> (
             <Header />
             <Switch>
                 <Route path="/" component={Home} exact={true}/>
-                <Route path="/friends" component={Friends}/>
+                <Route path="/:id/friends" component={Friends} exact={true} />
                 <Route path="/orders" component={Orders} exact={true}/>
                 <Route path="/AllNotification" component={AllNotification} exact={true}/>
                 <Route path="/orders/:id" component={ViewOrder}/>

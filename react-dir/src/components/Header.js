@@ -38,8 +38,8 @@ console.log("value "+value);
 	        <Menu.Item as={Link} to='/' name='home' active={activeItem === 'home'} onClick={this.handleItemClick}>
 	          <Icon name='home' />
 	        </Menu.Item>
-
-	        <Menu.Item as={Link} to='/friends' name='address book' active={activeItem === 'address book'} onClick={this.handleItemClick}>
+					{/* change this static id to be the id of the logged user */}
+	        <Menu.Item as={Link} to='/1/friends' name='address book' active={activeItem === 'address book'} onClick={this.handleItemClick}>
 	          <Icon name='address book' />
 	        </Menu.Item>
 
