@@ -50,4 +50,12 @@ class UsersController < ApplicationController
         notifications = Notification.where(user_id: user_id)
         render json: {success: true, message: notifications}
     end
+
+    def list_joined_orders
+        @joinedOrders = []
+        Notification.where(user_id: params[:id], notification_type: "join").find_each do |notif|
+            @joinedOrders << Order.find(notif.order_id)
+        end
+        render json: {success: true, message: @joinedOrders}
+    end
 end

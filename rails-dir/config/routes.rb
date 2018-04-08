@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   get 'users/:id/friends', to: 'users#list_friends'
   # list my notifications
   get 'users/:id/notifications', to: 'users#list_notifications'
-
+  #list my joined orders
+  get 'users/:id/joined', to: 'users#list_joined_orders'
   ##Groups routes##
   #create a group
   post 'groups', to: 'groups#create'
@@ -44,7 +45,7 @@ Rails.application.routes.draw do
   #delete item from order (order details)
   delete 'orders/:oid/items/:iid', to: 'order_details#delete'
   #join order
-  post 'orders/:oid/join/:uid', to: 'orders#join'
+  put 'orders/:oid/join/:uid', to: 'orders#join'
   # invited
   get 'orders/:oid/invited', to: 'orders#show_invited'
   # joined
