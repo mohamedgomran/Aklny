@@ -29,29 +29,60 @@ export default class Login extends Component {
   handleSocialLogin = (user) => {
     console.log(user)
     console.log(user.profile)
+    var body={
+      name:user.profile.name,
+      email:user.profile.email,
+      img:user.profile.profilePicURL,
+      // password:'social'
+    }
 
-    // axios.post('http://localhost:3000/user_token', user.profile, {
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    //   }).then(function (response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-    
-    axios.get('http://localhost:3000/auth', {
+    console.log('bbbbbbbbbbb',body);
+
+    axios.post('http://localhost:3000/users',body, {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization':"Bearer "+localStorage.getItem('token')
+        'Content-Type': 'application/json'
       }
       }).then(function (response) {
-        console.log(response);
+        console.log('Social User Added',response);
+        //get user token
+        const b={auth:{"email":body.email,"password":body.password}}
+        axios.post('http://localhost:3000/user_token',b,{
+            headers: {
+              'Content-Type': 'application/json'
+            }
+            
+          }).then(function (response) {
+              console.log(response);
+              console.log(response.data.jwt);
+              localStorage.setItem('token',response.data.jwt)
+              //request to get User data 
+              axios.get('http://localhost:3000/auth', {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization':"Bearer "+localStorage.getItem('token')
+                }
+                }).then(function (response) {
+                  console.log(response);
+                  console.log(response.data.user);
+                  console.log(localStorage.getItem('token'));
+                  // localStorage.setItem('user',response.data.user)
+                  return <Redirect to="/"/>
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+
+
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
       })
       .catch(function (error) {
         console.log(error);
       });
+    
+    
 
 
   }
@@ -98,6 +129,9 @@ export default class Login extends Component {
                   }
                   }).then(function (response) {
                     console.log(response);
+                    console.log(response.data.user);
+                    console.log(localStorage.getItem('token'));
+                    // localStorage.setItem('user',response.data.user)
                     return <Redirect to="/"/>
                   })
                   .catch(function (error) {
