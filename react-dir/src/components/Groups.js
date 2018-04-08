@@ -32,9 +32,9 @@ export default class Groups extends React.Component {
         })
     }
 
-    handleItemClick = (e, { name }) => {
-        console.log("My Active Item is ",name)
-        this.setState({ activeItem: name });
+    handleItemClick = (e, { id }) => {
+        console.log("My Active Item is ",id)
+        this.setState({ activeItem: id });
 
     }
 
@@ -58,26 +58,13 @@ export default class Groups extends React.Component {
     }
 
     removeGroup = (e) => {
-        let newGroups=[]
         let removeId = e.target.value;
-        console.log("My Active Item in remove group is ",removeId)
-        this.state.groups.forEach(group => {
-        console.log("My group id in remove is ",removeId)
-        console.log("My remove id in remove is ",group.id)
-        console.log(removeId != group.id)
-            if (group.id != removeId) {
-                newGroups.push(group);
+        GroupsAPI.deleteGroup(removeId,(res)=>{
+            if (res.success) {
+                console.log(res)
+                this.setState({groups:res.message})
             }
-        });
-        console.log(newGroups);
-        this.setState(() => {
-        return {
-            groups:  newGroups,
-        }
-    })
-
-
-        //loop on the array and remove the removed group
+        })
     }
     render() {
         return (
@@ -116,7 +103,7 @@ export default class Groups extends React.Component {
                                     <List verticalAlign='middle' divided animated vertical="true" relaxed>
                                         {this.state.groups.length>0&&this.state.groups.map(group => {
                                             return (
-                                                <List.Item key={uuid()} as={Link} to={`/groups/${group.id}`} name={group.name} active={this.state.activeItem === group.name} onClick={this.handleItemClick}>
+                                                <List.Item key={uuid()} as={Link} to={`/groups/${group.id}`} name={group.id} active={this.state.activeItem === group.name} onClick={this.handleItemClick}>
                                                     <List.Content>
                                                         <List.Header>{group.name}</List.Header>
                                                     </List.Content>

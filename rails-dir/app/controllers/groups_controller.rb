@@ -20,14 +20,29 @@ class GroupsController < ApplicationController
     end
 
     def list
-        user_id = 1 #to be get from authentication
+        # user_id = 5 #to be get from authentication
+        user_id = current_user.id
         @user = User.find(user_id)
         render json: @user.user_groups.select(:id, :name)
     end
 
+    def delete
+        # user_id = 5 #to be get from authentication
+        user_id = current_user.id
+        @user = User.find(user_id)
+        @group = Group.find(params[:gid])
+        if @user.user_groups.include?(@group)
+            @user.user_groups.delete(@group)
+            render json: {success: true, message: @user.user_groups}
+        else
+            render json: {success: false, message: "error"}
+        end
+    end
+
     def add_member
         # params.require(:group).permit!
-        user_id = 5 #to be get from authentication
+        # user_id = 5 #to be get from authentication
+        user_id = current_user.id
         @user = User.find(user_id)
         @group = Group.find(params[:gid])
         @friend = User.find(params[:friend_id])
@@ -40,7 +55,8 @@ class GroupsController < ApplicationController
     end
 
     def del_member
-        user_id = 5 #to be get from authentication
+        # user_id = 5 #to be get from authentication
+        user_id = current_user.id
         @user = User.find(user_id)
         @group = Group.find(params[:gid])
         @friend = User.find(params[:fid])
@@ -54,6 +70,6 @@ class GroupsController < ApplicationController
 
     def list_members
         @group = Group.find(params[:gid])
-        render json: @group.users.select(:id, :name)
+        render json: @group.users.select(:email, :name, :id)
     end
 end
