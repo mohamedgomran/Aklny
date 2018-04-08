@@ -22,25 +22,27 @@ export default class Friends extends React.Component{
                 friendsArr.push(this.state.input)
             // }
            this.setState({friends:friendsArr}, ()=>document.getElementById('addFriend').value="")*/}
-			this.getMyFriends();   
-			if (this.emailRegex.test(this.state.input)){
+			this.setState({input:document.getElementById("friendEmail").value}, ()=>{
+				if (this.emailRegex.test(this.state.input)){
 				
-				axios.post(`http://localhost:3000/users/${this.userId}/friends`,{
-						'email': this.state.input
-				},
-				{headers: {
-						'Content-Type': 'application/json'
-				}}).then((response)=>{
-						this.getMyFriends();
-						console.log("response",response);	
-				}).catch((error)=>{
-						console.log("error", error);	
-				})
-			}
+					axios.post(`http://localhost:3000/users/${this.userId}/friends`,{
+							'email': this.state.input
+					},
+					{headers: {
+							'Content-Type': 'application/json'
+					}}).then((response)=>{
+							this.getMyFriends();
+							console.log("response",response);	
+					}).catch((error)=>{
+							console.log("error", error);	
+					})
+				}
+			})
+			
     }
 
     handleInput = (e)=>{
-        this.setState({input:e.target.value})
+        // this.setState({input:e.target.value})
     }
     removeFriend = (e)=>{
         console.log("removing"+e.target);
@@ -53,7 +55,7 @@ export default class Friends extends React.Component{
                 'Content-Type': 'application/json'
             }
         }).then((response)=>{
-            console.log(response);
+            // console.log(response);
             this.setState({friends:response.data.message});
             
         }).catch((error)=>{
@@ -68,8 +70,8 @@ export default class Friends extends React.Component{
             <div>
                 <h1>Friends</h1>
                 <div align="center">
-                    <label htmlFor="addFriend" >Your Freind's Email</label>
-                    <Input  validations={{matchRegexp:this.emailRegex}} id="addFriend" icon='user' iconPosition='left' placeholder='mail@example.com' value={this.state.input} onChange={this.handleInput} />  
+                    <label htmlFor="friendEmail" >Your Freind's Email</label>
+                    <Input  validations={{matchRegexp:this.emailRegex}} id="friendEmail" icon='user' iconPosition='left' placeholder='mail@example.com'  />  
                     <Button secondary onClick={this.addFriend}>ADD</Button>
                 </div>
                 <div>
