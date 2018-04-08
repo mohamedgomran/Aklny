@@ -83,6 +83,7 @@ export default class Register extends Component {
                    
                 }else
                 {
+                  
                   <Redirect to="/login"/>
                 }
                
