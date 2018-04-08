@@ -9,22 +9,21 @@ var uuid = require('uuid-v4');
 export default class Groups extends React.Component {
 
     groupRegex = new RegExp('/[:alpha:]+$/')
-  
+
     constructor(props) {
         super(props);
         this.addGroupRef = React.createRef()
         this.state = {
             groupName: "",
-            activeItem: 'inbox',
+            activeItem: '',
             groups: [],
             groupError:"",
         }
     }
 
     componentWillUpdate(newprops){
-        console.log("my new props are ",newprops)
+        // console.log("my new props are ",newprops)
     }
-    groupRegex = new RegExp('/[:alpha:]+$/')
 
     componentDidMount(){
         GroupsAPI.getAllGroups((res)=>{
@@ -32,9 +31,10 @@ export default class Groups extends React.Component {
         })
     }
 
-    handleItemClick = (e, { id }) => {
-        console.log("My Active Item is ",id)
-        this.setState({ activeItem: id });
+    handleItemClick = (e, { name }) => {
+        console.log("My Active Item is ",name)
+
+        this.setState({ activeItem: name });
 
     }
 
@@ -78,7 +78,7 @@ export default class Groups extends React.Component {
                             <Form>
                                 <Form.Group>
                                     <Form.Field>
-                                        <Input onChange={this.handleAddGroupChange} ref={this.addGroupRef}validations={{matchRegexp:this.groupRegex}} id="addGroup" icon='group' iconPosition='left' placeholder='Group Name' />  
+                                        <Input onChange={this.handleAddGroupChange} ref={this.addGroupRef}validations={{matchRegexp:this.groupRegex}} id="addGroup" icon='group' iconPosition='left' placeholder='Group Name' />
                                         {this.state.groupError&&<Label basic color='red' pointing>{this.state.groupError}</Label>}
                                     </Form.Field>
                                     <Form.Button secondary onClick={this.addGroup}>ADD</Form.Button>
@@ -86,7 +86,7 @@ export default class Groups extends React.Component {
                             </Form>
                             </div>
                         </Grid.Column>
-                        
+
                     </Grid.Row>
                     <Grid.Row centered>
                         <Grid.Column width={4}>
@@ -123,13 +123,13 @@ export default class Groups extends React.Component {
                         </Grid.Column>
                         <Grid.Column width={9}>
                         {this.props.match.params.name && <Segment>
-                            <GroupMember groupId={this.state.activeItem} />              
+                            <GroupMember groupId={this.state.activeItem} />
                             </Segment>
-                        }   
+                        }
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-            
+
         )
     }
 }
