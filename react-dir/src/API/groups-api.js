@@ -35,9 +35,9 @@ let GroupsAPI={
         })
 	},
 	listMembers:(id, callback)=>{
-        axios.get(`http://localhost:3000/groups/${id}` ,{ headers: headers })
+        axios.get(`http://localhost:3000/groups/${id}/members` ,{ headers: headers })
           .then((response)=> {
-          	console.log(response)
+          	// console.log(response)
             callback(response.data)
           })
           .catch((error)=> {

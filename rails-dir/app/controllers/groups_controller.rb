@@ -73,6 +73,6 @@ class GroupsController < ApplicationController
 
     def list_members
         @group = Group.find(params[:gid])
-        render json: @group.users.select(:email, :name, :id)
+        render json: {success: true, message: @group.users.select(:email, :name, :id)}
     end
 end

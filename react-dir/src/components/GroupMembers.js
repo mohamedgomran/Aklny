@@ -1,5 +1,6 @@
 import React from 'react';
 import GridRow, { Input, Button, Container, Header, Icon, Card, Image, Grid, Segment, Tab } from 'semantic-ui-react'
+import GroupsAPI from '../API/groups-api';
 var uuid = require('uuid-v4');
 
 export default class GroupMember extends React.Component {
@@ -7,13 +8,20 @@ export default class GroupMember extends React.Component {
         super(props)
         this.state = {
             newFriend:null,
-            groupMembers: ["ali", "ahmed", "alaa","mohamed", "omran", "george"],
+            groupMembers: [],
         }
         console.log("my params are",this.props)
     }
 
-    componentWillReceiveProps(){
-        console.log("hi")
+    componentWillReceiveProps(prop){
+        GroupsAPI.listMembers(prop.groupId, (res)=>{
+            if (res.success) {
+                console.log(res.message)
+                this.setState(prevState=>{
+                    return {groupMembers:res.message}
+                })
+            }
+        })
     }
 
     handleChange = (e) => {
@@ -75,10 +83,10 @@ export default class GroupMember extends React.Component {
                                     <Card>
                                         <Card.Content>
                                             <Image className="ui avatar image" floated='right' size='mini' src='https://react.semantic-ui.com/assets/images/avatar/large/steve.jpg'/>
-                                            <Card.Header>{member}</Card.Header>
+                                            <Card.Header>{member.name}</Card.Header>
                                         </Card.Content>
                                         <Card.Content extra>
-                                            <Button className="ui button" value={member} size='large' basic color='red' onClick={this.removeFriend}>Remove</Button>
+                                            <Button className="ui button" value={member.email} size='large' basic color='red' onClick={this.removeFriend}>Remove</Button>
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>                              

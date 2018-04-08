@@ -15,16 +15,15 @@ export default class Groups extends React.Component {
         this.addGroupRef = React.createRef()
         this.state = {
             groupName: "",
-            activeItem: 'inbox',
+            activeItem: '',
             groups: [],
             groupError:"",
         }
     }
 
     componentWillUpdate(newprops){
-        console.log("my new props are ",newprops)
+        // console.log("my new props are ",newprops)
     }
-    groupRegex = new RegExp('/[:alpha:]+$/')
 
     componentDidMount(){
         GroupsAPI.getAllGroups((res)=>{
@@ -32,9 +31,10 @@ export default class Groups extends React.Component {
         })
     }
 
-    handleItemClick = (e, { id }) => {
-        console.log("My Active Item is ",id)
-        this.setState({ activeItem: id });
+    handleItemClick = (e, { name }) => {
+        console.log("My Active Item is ",name)
+
+        this.setState({ activeItem: name });
 
     }
 
