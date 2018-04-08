@@ -28,13 +28,14 @@ class OrdersController < ApplicationController
     end
 
     def join
-        @order = Notification.find_by(order_id: params[:oid], user_id: params[:uid], notification_type: "invitation")
-        render json: {success: true, message:  @order}
-        # @invited = Notification.where(user_id)
-        # self.class.notify(params[:uid],"join",params[:oid],"false")
+        @notification = Notification.find_by(order_id: params[:oid], user_id: params[:uid], notification_type: "invitation")
+        if @notification
+            self.class.notify([params[:uid]],"join",params[:oid],"false")
+            render json: {success: true, message:  @order}
+        end
     end
 
-    def self.notify (users,type,oid,invited) 
+    def self.notify(users,type,oid,invited) 
         users.each do |user|
             notif = {
                 notification_type: type,
@@ -51,7 +52,8 @@ class OrdersController < ApplicationController
         params.permit(:oid)
         @invited = []
         Notification.where(order_id: params[:oid], notification_type: "invitation").find_each do |notif|
-            @invited << notif.user_id
+            user = User.find(notif.user_id)
+            @invited << user
         end
         render json: {success: true, message: @invited}
     end
@@ -60,7 +62,8 @@ class OrdersController < ApplicationController
         params.permit(:oid)
         @joined = []
         Notification.where(order_id: params[:oid], notification_type: "join").find_each do |notif|
-            @joined << notif.user_id
+            user = User.find(notif.user_id)
+            @joined << user
         end
         render json: {success: true, message: @joined}
     end
