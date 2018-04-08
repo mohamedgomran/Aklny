@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Button, Container, Header, Icon, Card, Image, Grid, Segment, Tab, Label, Menu, List } from 'semantic-ui-react'
+import { Form,Input, Button, Container, Header, Icon, Card, Image, Grid, Segment, Tab, Label, Menu, List } from 'semantic-ui-react'
 import { Link } from "react-router-dom";
 import GroupMember  from './GroupMembers'
 import axios from 'axios';
@@ -16,7 +16,8 @@ export default class Groups extends React.Component {
         this.state = {
             groupName: "",
             activeItem: 'inbox',
-            groups: []
+            groups: [],
+            groupError:"",
         }
     }
 
@@ -40,16 +41,20 @@ export default class Groups extends React.Component {
     addGroup = (e) => {
         let name = this.addGroupRef.current.inputRef.value
         GroupsAPI.addGroup(name, (res)=>{
-            this.setState({groups:res.message})
+            if (res.success) {
+                this.setState({groups:res.message})
+            }else{
+                this.setState({groupError:res.message})
+            }
         })
-        // this.setState((prevState) => {
-        //     let newGRP = prevState.groups.push({name:this.state.groupName, id:prevState.groups.length+1})
-        //     console.log(newGRP)
-        //     return {
-        //         groups: prevState.groups
-        //     };
-        // });
+    }
 
+    handleAddGroupChange = ()=>{
+        this.setState(prevState=>{
+            if (prevState.groupError){
+                return {groupError:""}
+            }
+        })
     }
 
     removeGroup = (e) => {
@@ -83,8 +88,15 @@ export default class Groups extends React.Component {
                         </Grid.Column>
                         <Grid.Column width={5}>
                             <div>
-                                <Input ref={this.addGroupRef}validations={{matchRegexp:this.groupRegex}} id="addGroup" icon='group' iconPosition='left' placeholder='Group Name' />  
-                                <Button secondary onClick={this.addGroup}>ADD</Button>
+                            <Form>
+                                <Form.Group>
+                                    <Form.Field>
+                                        <Input onChange={this.handleAddGroupChange} ref={this.addGroupRef}validations={{matchRegexp:this.groupRegex}} id="addGroup" icon='group' iconPosition='left' placeholder='Group Name' />  
+                                        {this.state.groupError&&<Label basic color='red' pointing>{this.state.groupError}</Label>}
+                                    </Form.Field>
+                                    <Form.Button secondary onClick={this.addGroup}>ADD</Form.Button>
+                                </Form.Group>
+                            </Form>
                             </div>
                         </Grid.Column>
                         

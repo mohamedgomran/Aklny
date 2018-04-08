@@ -7,7 +7,7 @@ class GroupsController < ApplicationController
         user_id = 1
         @user = User.find(user_id)
         if @user.user_groups.find_by(params[:group])
-            render json: {success: false, message: 'dublicate'}
+            render json: {success: false, message: 'Dublicate!'}
         else
         	params[:group][:user_id] = user_id
             @group = Group.new(params[:group]) 
