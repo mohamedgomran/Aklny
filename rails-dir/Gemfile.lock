@@ -47,14 +47,12 @@ GEM
     bcrypt (3.1.11)
     builder (3.2.3)
     byebug (10.0.2)
-
     carrierwave (1.2.2)
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
     case_transform (0.2)
       activesupport
-    climate_control (0.2.0)
     concurrent-ruby (1.0.5)
     crass (1.0.3)
     erubi (1.7.1)

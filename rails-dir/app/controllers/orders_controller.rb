@@ -9,7 +9,7 @@ class OrdersController < ApplicationController
         @order = Order.new(params[:order])
         if @order.save
             invited = params[:invited]
-            self.class.notify(invited,"invitation",@order.id,"true");
+            self.class.notify(invited,"invitation",@order.id,"true",sender);
             render json: {success: true, message: invited}
         else
             render json: {success: false, message: @order.errors}
@@ -40,13 +40,14 @@ class OrdersController < ApplicationController
         end
     end
 
-    def self.notify(users,type,oid,invited) 
+    def self.notify(users,type,oid,invited,sender) 
         users.each do |user|
             notif = {
                 notification_type: type,
                 order_id: oid,
                 invited: invited,
                 user_id: user,
+                sender_id: sender,
             }
             @notification = Notification.create(notif);
             #action cable here

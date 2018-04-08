@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
         if @user.friends.include?(@friend)
             render json: {success: false, message: "already a friend"}
-        elsif @friend != [] && params[:email] != @user.email
+        elsif @friend != [] && params[:email] != @user.email && @friend
         	@user.friends << @friend
             render json: {success: true, message: @user.friends}
         else
@@ -54,12 +54,12 @@ class UsersController < ApplicationController
         @join_notif=[]
         @invite_notif = []
         @myorders = User.find(user_id).orders.find_each do |order|
-            order.notifications.where(notification_type: "join").select(:order_id,:user_id,:created_at).each do |notif|
+            order.notifications.where(notification_type: "join").order(created_at: :desc).each do |notif|
                 user= User.where(id: notif.user_id).select(:id,:name)[0]
                 @join_notif << {order_id: notif.order_id, user: user, created_at: notif.created_at}
             end
         end
-        Notification.where(user_id: user_id).select(:order_id,:user_id,:created_at).each do |notif|
+        Notification.where(user_id: user_id).order(created_at: :desc).each do |notif|
             user = {name: Order.find(notif.order_id).user.name, id: Order.find(notif.order_id).user.id}
             @invite_notif << {order_id: notif.order_id, user: user, created_at: notif.created_at}
         end
