@@ -33,7 +33,7 @@ export default class Login extends Component {
       name:user.profile.name,
       email:user.profile.email,
       img:user.profile.profilePicURL,
-      // password:'social'
+      password:'social'
     }
 
     console.log('bbbbbbbbbbb',body);
@@ -63,9 +63,11 @@ export default class Login extends Component {
                 }
                 }).then(function (response) {
                   console.log(response);
-                  console.log(response.data.user);
+                  console.log('user data in social login',JSON.stringify(response.data.user));
                   console.log(localStorage.getItem('token'));
-                  // localStorage.setItem('user',response.data.user)
+                  localStorage.setItem('user',JSON.stringify(response.data.user))
+                  var u=localStorage.getItem('user')
+                  console.log('User from local storage',JSON.parse(u))
                   return <Redirect to="/"/>
                 })
                 .catch(function (error) {
@@ -120,6 +122,7 @@ export default class Login extends Component {
             }).then(function (response) {
                 console.log(response);
                 console.log(response.data.jwt);
+                if(response.status=='201'){
                 localStorage.setItem('token',response.data.jwt)
                 //request to get User data 
                 axios.get('http://localhost:3000/auth', {
@@ -131,7 +134,9 @@ export default class Login extends Component {
                     console.log(response);
                     console.log(response.data.user);
                     console.log(localStorage.getItem('token'));
-                    // localStorage.setItem('user',response.data.user)
+                    localStorage.setItem('user',JSON.stringify(response.data.user))
+                    var u=localStorage.getItem('user')
+                    console.log('User from local storage',JSON.parse(u))
                     return <Redirect to="/"/>
                   })
                   .catch(function (error) {
@@ -139,7 +144,8 @@ export default class Login extends Component {
                   });
 
 
-              })
+              
+                }})
               .catch(function (error) {
                 console.log(error);
               });
