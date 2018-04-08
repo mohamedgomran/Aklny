@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
+  post 'user_token' => 'user_token#create'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   post 'users', to: 'users#register'
-
+  post 'users/:id/friends', to: 'users#add_friend'
+  delete 'users/:id/friends', to: 'users#del_friend'
 
   ##Groups routes##
   #create a group
@@ -28,7 +30,7 @@ Rails.application.routes.draw do
   post 'orders/:oid/items', to: 'order_details#create'
   #list item for an order (order details)
   get 'orders/:oid/items', to: 'order_details#list'
-  #delete item fromn order (order details)
+  #delete item from order (order details)
   delete 'orders/:oid/items/:iid', to: 'order_details#delete'
 
 end
