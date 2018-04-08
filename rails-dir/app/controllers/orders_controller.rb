@@ -1,11 +1,13 @@
 class OrdersController < ApplicationController
     def create
         params.require(:order).permit!
-        user_id = 5 #to be get from authentication
+        user_id = 1 #to be get from authentication
         params[:order][:user_id] = user_id
         @order = Order.new(params[:order])
         if @order.save
-            render json: {success: true, message: "order created"}
+            invited = params[:invited]
+            self.class.notify(invited,"invitation",@order.id,"true");
+            render json: {success: true, message: invited}
         else
             render json: {success: false, message: @order.errors}
         end
@@ -25,4 +27,46 @@ class OrdersController < ApplicationController
     	end
     end
 
+    def list
+        user_id = 1 #to be get from authentication
+        render json: User.find(user_id).orders
+    end
+
+    def join
+        @order = Notification.find_by(order_id: params[:oid], user_id: params[:uid], notification_type: "invitation")
+        render json: {success: true, message:  @order}
+        # @invited = Notification.where(user_id)
+        # self.class.notify(params[:uid],"join",params[:oid],"false")
+    end
+
+    def self.notify (users,type,oid,invited) 
+        users.each do |user|
+            notif = {
+                notification_type: type,
+                order_id: oid,
+                invited: invited,
+                user_id: user,
+            }
+            @notification = Notification.create(notif);
+            #action cable here
+        end
+    end
+
+    def show_invited
+        params.permit(:oid)
+        @invited = []
+        Notification.where(order_id: params[:oid], notification_type: "invitation").find_each do |notif|
+            @invited << notif.user_id
+        end
+        render json: {success: true, message: @invited}
+    end
+
+    def show_joined
+        params.permit(:oid)
+        @joined = []
+        Notification.where(order_id: params[:oid], notification_type: "join").find_each do |notif|
+            @joined << notif.user_id
+        end
+        render json: {success: true, message: @joined}
+    end
 end
