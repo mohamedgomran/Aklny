@@ -44,6 +44,26 @@ let GroupsAPI={
             callback(error)
         })
 	},
+	deleteMember:(gid, fid, callback)=>{
+        axios.delete(`http://localhost:3000/groups/${gid}/members/${fid}` ,{ headers: headers })
+          .then((response)=> {
+          	// console.log(response)
+            callback(response.data)
+          })
+          .catch((error)=> {
+            callback(error)
+        })
+	},
+	addMember:(gid, callback)=>{
+        axios.post(`http://localhost:3000/groups/${gid}/members/` ,{ headers: headers })
+          .then((response)=> {
+          	console.log(response)
+            // callback(response.data)
+          })
+          .catch((error)=> {
+            callback(error)
+        })
+	},
 
 };
 
