@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Button, Container, Header, Icon, Card, Image, Grid, Segment, Tab, Label, Menu, List } from 'semantic-ui-react'
+import { Form,Input, Button, Container, Header, Icon, Card, Image, Grid, Segment, Tab, Label, Menu, List } from 'semantic-ui-react'
 import { Link } from "react-router-dom";
 import GroupMember  from './GroupMembers'
 import axios from 'axios';
@@ -12,10 +12,12 @@ export default class Groups extends React.Component {
   
     constructor(props) {
         super(props);
+        this.addGroupRef = React.createRef()
         this.state = {
             groupName: "",
             activeItem: 'inbox',
-            groups: []
+            groups: [],
+            groupError:"",
         }
     }
 
@@ -30,46 +32,39 @@ export default class Groups extends React.Component {
         })
     }
 
-    handleItemClick = (e, { name }) => {
-        console.log("My Active Item is ",name)
-        this.setState({ activeItem: name });
+    handleItemClick = (e, { id }) => {
+        console.log("My Active Item is ",id)
+        this.setState({ activeItem: id });
 
     }
 
     addGroup = (e) => {
-        // GroupsAPI.addGroup()
-        console.log(e.target.value)
-        this.setState((prevState) => {
-            let newGRP = prevState.groups.push({name:this.state.groupName, id:prevState.groups.length+1})
-            console.log(newGRP)
-            return {
-                groups: prevState.groups
-            };
-        });
+        let name = this.addGroupRef.current.inputRef.value
+        GroupsAPI.addGroup(name, (res)=>{
+            if (res.success) {
+                this.setState({groups:res.message})
+            }else{
+                this.setState({groupError:res.message})
+            }
+        })
+    }
 
+    handleAddGroupChange = ()=>{
+        this.setState(prevState=>{
+            if (prevState.groupError){
+                return {groupError:""}
+            }
+        })
     }
 
     removeGroup = (e) => {
-        let newGroups=[]
         let removeId = e.target.value;
-        console.log("My Active Item in remove group is ",removeId)
-        this.state.groups.forEach(group => {
-        console.log("My group id in remove is ",removeId)
-        console.log("My remove id in remove is ",group.id)
-        console.log(removeId != group.id)
-            if (group.id != removeId) {
-                newGroups.push(group);
+        GroupsAPI.deleteGroup(removeId,(res)=>{
+            if (res.success) {
+                console.log(res)
+                this.setState({groups:res.message})
             }
-        });
-        console.log(newGroups);
-        this.setState(() => {
-        return {
-            groups:  newGroups,
-        }
-    })
-
-
-        //loop on the array and remove the removed group
+        })
     }
     render() {
         return (
@@ -80,8 +75,15 @@ export default class Groups extends React.Component {
                         </Grid.Column>
                         <Grid.Column width={5}>
                             <div>
-                                <Input validations={{matchRegexp:this.groupRegex}} id="addGroup" icon='group' iconPosition='left' placeholder='Group Name' />  
-                                <Button secondary onClick={this.addGroup}>ADD</Button>
+                            <Form>
+                                <Form.Group>
+                                    <Form.Field>
+                                        <Input onChange={this.handleAddGroupChange} ref={this.addGroupRef}validations={{matchRegexp:this.groupRegex}} id="addGroup" icon='group' iconPosition='left' placeholder='Group Name' />  
+                                        {this.state.groupError&&<Label basic color='red' pointing>{this.state.groupError}</Label>}
+                                    </Form.Field>
+                                    <Form.Button secondary onClick={this.addGroup}>ADD</Form.Button>
+                                </Form.Group>
+                            </Form>
                             </div>
                         </Grid.Column>
                         
@@ -99,9 +101,9 @@ export default class Groups extends React.Component {
                                 </Container>
                                 <Container fluid>
                                     <List verticalAlign='middle' divided animated vertical="true" relaxed>
-                                        {this.state.groups.map(group => {
+                                        {this.state.groups.length>0&&this.state.groups.map(group => {
                                             return (
-                                                <List.Item key={uuid()} as={Link} to={`/groups/${group.id}`} name={group.name} active={this.state.activeItem === group.name} onClick={this.handleItemClick}>
+                                                <List.Item key={uuid()} as={Link} to={`/groups/${group.id}`} name={group.id} active={this.state.activeItem === group.name} onClick={this.handleItemClick}>
                                                     <List.Content>
                                                         <List.Header>{group.name}</List.Header>
                                                     </List.Content>

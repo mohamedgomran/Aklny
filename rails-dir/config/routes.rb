@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   ##Groups routes##
   #create a group
   post 'groups', to: 'groups#create'
+  #create a group
+  delete 'groups/:gid', to: 'groups#delete'
   #get a list of a user's groups
   get 'groups', to: 'groups#list'
   #add a member to a group
