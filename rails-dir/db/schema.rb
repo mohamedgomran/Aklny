@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180407211630) do
+ActiveRecord::Schema.define(version: 20180408103538) do
 
   create_table "friends", id: false, force: :cascade do |t|
     t.integer "user_id"
@@ -37,7 +37,9 @@ ActiveRecord::Schema.define(version: 20180407211630) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "invited"
+    t.integer "user_id"
     t.index ["order_id"], name: "index_notifications_on_order_id"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "order_details", force: :cascade do |t|
@@ -65,6 +67,7 @@ ActiveRecord::Schema.define(version: 20180407211630) do
     t.string "menu_content_type"
     t.integer "menu_file_size"
     t.datetime "menu_updated_at"
+    t.string "image"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
