@@ -31,7 +31,8 @@ class OrdersController < ApplicationController
     end
 
     def list
-        user_id = 1 #to be get from authentication
+        # user_id = 1 #to be get from authentication
+        user_id = current_user.id
         render json: User.find(user_id).orders
     end
 
