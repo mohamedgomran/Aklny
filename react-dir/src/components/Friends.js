@@ -1,9 +1,11 @@
 import React from 'react'
 import { Input, Button, Container, Header, Icon, Card, Image } from 'semantic-ui-react'
+import axios from 'axios';
 var uuid = require('uuid-v4');
 
 export default class Friends extends React.Component{
-    // emailRegex = new RegExp('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/')
+    emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    userId = this.props.match.params.id;
     state = {
         friends:[],
         input: ""
@@ -15,6 +17,23 @@ export default class Friends extends React.Component{
                 friendsArr.push(this.state.input)
             // }
             this.setState({friends:friendsArr}, ()=>document.getElementById('addFriend').value="")
+            
+            if (this.emailRegex.test(this.state.input)){
+                axios.post(`http://localhost:3000/users/${this.userId}/friends`,{
+                    'email': this.state.input
+                },
+                {headers: {
+                    'Content-Type': 'application/json'
+                }}).then((response)=>{
+                    this.getMyFriends();
+                    console.log("response",response);
+                    
+                }).catch((error)=>{
+                    console.log("error", error);
+                    
+                })
+                
+            }
     }
 
     handleInput = (e)=>{
@@ -25,10 +44,28 @@ export default class Friends extends React.Component{
         
     }
 
+    getMyFriends = ()=>{
+        axios.get(`http://localhost:3000/users/${this.userId}/friends`, {
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }).then((response)=>{
+            console.log(response);
+            this.state.friends = response.data.message;
+            
+        }).catch((error)=>{
+            console.log("error", error);
+            
+        })
+    }
+
     render(){
         return (
             <div>
+            {this.getMyFriends()}
+            
                 <h1>Friends</h1>
+                {/*console.log("current user id",this.userId)*/}
                 <div align="center">
                     <label htmlFor="addFriend" >Your Freind's Email</label>
                     <Input  validations={{matchRegexp:this.emailRegex}} id="addFriend" icon='user' iconPosition='left' placeholder='mail@example.com' value={this.state.input} onChange={this.handleInput} />  
@@ -50,7 +87,7 @@ export default class Friends extends React.Component{
                                     <Card  key={uuid()}>
                                         <Card.Content>
                                             <Image className="ui avatar image" floated='right' size='mini' src='https://react.semantic-ui.com/assets/images/avatar/large/steve.jpg'/>
-                                            <Card.Header>{friend}</Card.Header>
+                                            <Card.Header>{friend.name}</Card.Header>
                                         </Card.Content>
                                         <Card.Content extra>
                                             <Button className="ui button" size='mini' basic color='red'onClick={this.removeFriend}>Remove</Button>

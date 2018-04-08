@@ -1,10 +1,14 @@
 class UsersController < ApplicationController
+    before_action :authenticate_user,  only: [:auth]
+
     def register
         # password_digest
         uparams = params.permit(:name, :email, :password)
         # puts uparams
         @user = User.create(uparams)
-        if @user.save
+        if User.find_by(email:uparams[:email])
+            render json: { success: false, message:  User.find_by(email:uparams[:email])}
+        elsif @user.save
             render json: { success: true, message: 'user added' }
         else
             render json: { success: false, message: @user.errors }
