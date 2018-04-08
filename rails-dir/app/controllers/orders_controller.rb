@@ -30,16 +30,13 @@ class OrdersController < ApplicationController
     	end
     end
 
-<<<<<<< HEAD
     def list
         # user_id = 1 #to be get from authentication
         user_id = current_user.id
         render json: User.find(user_id).orders
     end
-=======
-    
->>>>>>> f815d504d1950ab922578fdfa0f40d2080f5c882
 
+    
     def join
         @notification = Notification.find_by(order_id: params[:oid], user_id: params[:uid], notification_type: "invitation")
         if @notification

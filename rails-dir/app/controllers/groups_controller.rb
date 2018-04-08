@@ -2,9 +2,11 @@ class GroupsController < ApplicationController
     before_action :authenticate_user,  only: [:auth]
 
 
+
     def create
         params.require(:group).permit!
-        user_id = 1
+        # user_id = 1
+        user_id = current_user.id
         @user = User.find(user_id)
         if @user.user_groups.find_by(params[:group])
             render json: {success: false, message: 'Dublicate!'}
@@ -20,8 +22,9 @@ class GroupsController < ApplicationController
     end
 
     def list
-        # user_id = 5 #to be get from authentication
+        #  user_id = 44 #to be get from authentication
         user_id = current_user.id
+        puts user_id
         @user = User.find(user_id)
         render json: @user.user_groups.select(:id, :name)
     end
