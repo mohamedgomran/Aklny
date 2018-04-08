@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, Message, Icon, Grid, Header, Segment } from 'semantic-ui-react';
-import { Link } from "react-router-dom";
+import { Link,Redirect } from "react-router-dom";
 import SocialButton from './SocialButton';
 import axios from 'axios';
 
@@ -98,12 +98,13 @@ export default class Login extends Component {
                   }
                   }).then(function (response) {
                     console.log(response);
+                    return <Redirect to="/"/>
                   })
                   .catch(function (error) {
                     console.log(error);
                   });
 
-                  
+
               })
               .catch(function (error) {
                 console.log(error);

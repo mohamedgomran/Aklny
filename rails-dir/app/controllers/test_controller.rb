@@ -4,7 +4,11 @@ class TestController < ApplicationController
 
   # Public method
   def index
-    render json: { service: 'auth-api', status: 200 }
+    render json: { service: 'auth-api', status: 200,user:{
+      id:current_user.id,
+      name:current_user.name,
+      email:current_user.email
+    } }
   end
   
   # Authorized only method
