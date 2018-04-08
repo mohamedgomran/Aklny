@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
     def register
-        uparams = params.permit(:name, :email, :password_digest)
+        # password_digest
+        uparams = params.permit(:name, :email, :password)
+        # puts uparams
         @user = User.create(uparams)
         if @user.save
             render json: { success: true, message: 'user added' }
