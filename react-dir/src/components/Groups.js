@@ -12,6 +12,7 @@ export default class Groups extends React.Component {
   
     constructor(props) {
         super(props);
+        this.addGroupRef = React.createRef()
         this.state = {
             groupName: "",
             activeItem: 'inbox',
@@ -37,15 +38,17 @@ export default class Groups extends React.Component {
     }
 
     addGroup = (e) => {
-        // GroupsAPI.addGroup()
-        console.log(e.target.value)
-        this.setState((prevState) => {
-            let newGRP = prevState.groups.push({name:this.state.groupName, id:prevState.groups.length+1})
-            console.log(newGRP)
-            return {
-                groups: prevState.groups
-            };
-        });
+        let name = this.addGroupRef.current.inputRef.value
+        GroupsAPI.addGroup(name, (res)=>{
+            this.setState({groups:res.message})
+        })
+        // this.setState((prevState) => {
+        //     let newGRP = prevState.groups.push({name:this.state.groupName, id:prevState.groups.length+1})
+        //     console.log(newGRP)
+        //     return {
+        //         groups: prevState.groups
+        //     };
+        // });
 
     }
 
@@ -80,7 +83,7 @@ export default class Groups extends React.Component {
                         </Grid.Column>
                         <Grid.Column width={5}>
                             <div>
-                                <Input validations={{matchRegexp:this.groupRegex}} id="addGroup" icon='group' iconPosition='left' placeholder='Group Name' />  
+                                <Input ref={this.addGroupRef}validations={{matchRegexp:this.groupRegex}} id="addGroup" icon='group' iconPosition='left' placeholder='Group Name' />  
                                 <Button secondary onClick={this.addGroup}>ADD</Button>
                             </div>
                         </Grid.Column>
@@ -99,7 +102,7 @@ export default class Groups extends React.Component {
                                 </Container>
                                 <Container fluid>
                                     <List verticalAlign='middle' divided animated vertical="true" relaxed>
-                                        {this.state.groups.map(group => {
+                                        {this.state.groups.length>0&&this.state.groups.map(group => {
                                             return (
                                                 <List.Item key={uuid()} as={Link} to={`/groups/${group.id}`} name={group.name} active={this.state.activeItem === group.name} onClick={this.handleItemClick}>
                                                     <List.Content>

@@ -4,9 +4,9 @@ class GroupsController < ApplicationController
 
     def create
         params.require(:group).permit!
-        user_id = current_user.id
+        user_id = 1
         @user = User.find(user_id)
-        if @users.user_groups.find_by(params[:group])
+        if @user.user_groups.find_by(params[:group])
             render json: {success: false, message: 'dublicate'}
         else
         	params[:group][:user_id] = user_id
@@ -20,7 +20,7 @@ class GroupsController < ApplicationController
     end
 
     def list
-        user_id = 5 #to be get from authentication
+        user_id = 1 #to be get from authentication
         @user = User.find(user_id)
         render json: @user.user_groups.select(:id, :name)
     end
