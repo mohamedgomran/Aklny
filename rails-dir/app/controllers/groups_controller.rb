@@ -1,5 +1,7 @@
 class GroupsController < ApplicationController
-    # before_action :authenticate_user
+    #    before_action :authenticate_user
+    #    before_action :authenticate_user,  only: [:auth]
+ 
     def create
         params.require(:group).permit!
         user_id = 5 #to be get from authentication

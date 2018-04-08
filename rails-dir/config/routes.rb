@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   post 'user_token' => 'user_token#create'
+  get    'auth'   => 'test#auth'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   post 'users', to: 'users#register'
@@ -22,6 +23,8 @@ Rails.application.routes.draw do
   ##Orders routes##
   #create order
   post 'orders', to: 'orders#create'
+  #list order
+  get 'orders', to: 'orders#list'
   #delete order
   delete 'orders/:oid', to: 'orders#delete'
   #edit order
