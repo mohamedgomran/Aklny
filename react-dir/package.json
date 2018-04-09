@@ -9,6 +9,7 @@
     "react": "^16.3.0",
     "react-actioncable-provider": "^1.0.3",
     "react-dom": "^16.3.0",
+    "react-file-base64": "^1.0.3",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.1",
     "react-social-login": "^3.4.2",
