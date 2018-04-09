@@ -1,7 +1,10 @@
 import React from 'react';
 import { Form, Grid, Dropdown, Button, Icon, Label } from "semantic-ui-react";
 import axios from 'axios';
-
+let headers = {
+	'Content-Type': 'application/json',
+	 'Authorization': 'Bearer ' + localStorage.getItem('token')
+	}
 var uuid = require('uuid-v4');
 
 
@@ -15,15 +18,16 @@ export default class AddOrder extends React.Component{
 
   userId = this.props.match.params.id;
 
-    friends = []
+
 
     state = {
-        data : '',
+
         type: '',
         res_name:'',
         user:'',
         image:'',
-        invitedFriends: []
+        invitedFriends: [],
+            friends = []
     }
 
     submit = (e)=>{
@@ -51,11 +55,11 @@ export default class AddOrder extends React.Component{
       console.log('image',event.target.files[0]);
     }
 
+
+
     getallFriends = ()=>{
          axios.get(`http://localhost:3000/users/friends`, {
-             headers:{
-                       'Content-Type': 'application/json'
-             }
+             headers: headers
          }).then((response)=>{
              console.log(response);
              this.state.friends = response.data.message;
@@ -92,7 +96,7 @@ export default class AddOrder extends React.Component{
     inviteFriend = (e)=>{
         console.log("befor",this.state.invitedFriends)
             let invitedFriendsArr = this.state.invitedFriends.slice();
-            this.friends.forEach(friend=>{
+            this.state.friends.forEach(friend=>{
                 if(e.target.value == friend.id){
                 let invitedFriend = friend;
                 invitedFriendsArr.push(invitedFriend);
@@ -140,7 +144,7 @@ export default class AddOrder extends React.Component{
                         <select name="invitedFriends" className="ui fluid dropdown" onChange={this.inviteFriend} value={this.state.res_name}>
                             <option value="">Invite Friend</option>
                             {
-                                this.friends.map(friend =>{
+                                this.state.friends.map(friend =>{
                                     return(
                                         <option key={friend.id} value={friend.id}>{friend.name}</option>
                                     )
