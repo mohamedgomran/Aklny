@@ -12,6 +12,7 @@ import AddOreder from '../components/AddOrder';
 import GroupMembers from '../components/GroupMembers'
 import Forgetpassword from '../components/Forgetpassword';
 import ViewOrder from '../components/ViewOrder';
+import NotFound from '../components/NotFound';
 
 
 const AppRouter =()=> (
@@ -32,6 +33,8 @@ const AppRouter =()=> (
                 <Route path="/login" component={Login}/>
                 <Route path="/register" component={Register}/>
                 <Route path="/forgetpassword" component={Forgetpassword}/>
+                <Route  component={NotFound}/>
+                
             </Switch>
         </div>
     </BrowserRouter>
