@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :authenticate_user,  only: [:auth]
+     before_action :authenticate_user,  only: [:auth]
 
     def register
         # password_digest
@@ -48,8 +48,9 @@ class UsersController < ApplicationController
   
     ################################user id to be get from authentication ##################################    
     def list_friends
-        user_id = current_user.id   
-        @friends = User.find(user_id).friends
+        # user_id = ####
+        user_id = current_user.id        
+        @friends = User.find(user_id).friends.select(:email, :name, :id)
         render json: {success: true, message: @friends}
     end
 

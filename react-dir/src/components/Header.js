@@ -16,6 +16,7 @@ export default class Header extends Component {
  constructor(props) {
     super(props);
     this.handleChange=this.handleChange.bind(this);
+		this.handellogout=this.handellogout.bind(this);
 	}
 	
 	componentDidMount() {
@@ -28,7 +29,13 @@ export default class Header extends Component {
 		})
 	}
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
+	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+
+	handellogout(){
+		{localStorage.getItem('token') !== null ?localStorage.removeItem('token'):''}
+	};
+
   handleChange(event, index, value) {this.setState({value});
 console.log("event "+event);
 console.log("index "+index);
@@ -113,10 +120,14 @@ onReceived(notif) {
 		          onClick={this.handleItemClick}
 		        >
 			      <Image src={logo} avatar />
-			      <span>Username</span>
+			      <span>
+							{ localStorage.getItem('user')!==null?
+							 JSON.parse(localStorage.getItem('user')).name
+							:'Username'}
+							</span>
 		        </Menu.Item>
-
-		        <Menu.Item name='log-out' active={activeItem === 'log-out'} onClick={this.handleItemClick}>
+						
+		        <Menu.Item name='log-out' active={activeItem === 'log-out'} onClick={this.handellogout}>
 		          <Icon name='log out' />
 		        </Menu.Item>
 	        	<Menu.Item />

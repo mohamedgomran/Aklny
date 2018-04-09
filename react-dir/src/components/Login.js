@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, Message, Icon, Grid, Header, Segment } from 'semantic-ui-react';
-import { Link } from "react-router-dom";
+import { Link,Redirect } from "react-router-dom";
 import SocialButton from './SocialButton';
 import axios from 'axios';
 
@@ -12,8 +12,11 @@ export default class Login extends Component {
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangePass = this.handleChangePass.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
   }
+
+  // handleLoginerr(){
+  //   this.setState({errmsg:"invalid user mail or passwprd"});
+  // }
 
   handleChangeEmail(event) {
     this.setState({Email: event.target.value});
@@ -29,30 +32,64 @@ export default class Login extends Component {
   handleSocialLogin = (user) => {
     console.log(user)
     console.log(user.profile)
+    var body={
+      name:user.profile.name,
+      email:user.profile.email,
+      img:user.profile.profilePicURL,
+      password:'social'
+    }
 
-    // axios.post('http://localhost:3000/user_token', user.profile, {
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    //   }).then(function (response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-    
-    axios.get('http://localhost:3000/auth', {
+    console.log('bbbbbbbbbbb',body);
+
+    axios.post('http://localhost:3000/users',body, {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization':"Bearer "+localStorage.getItem('token')
+        'Content-Type': 'application/json'
       }
       }).then(function (response) {
-        console.log(response);
-        window.location.reload();
+        console.log('Social User Added',response);
+        //get user token
+        const b={auth:{"email":body.email,"password":body.password}}
+        axios.post('http://localhost:3000/user_token',b,{
+            headers: {
+              'Content-Type': 'application/json'
+            }
+            
+          }).then(function (response) {
+              console.log(response);
+              console.log(response.data.jwt);
+              localStorage.setItem('token',response.data.jwt)
+              //request to get User data 
+              axios.get('http://localhost:3000/auth', {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization':"Bearer "+localStorage.getItem('token')
+                }
+                }).then(function (response) {
+                  console.log(response);
+                  console.log('user data in social login',JSON.stringify(response.data.user));
+                  console.log(localStorage.getItem('token'));
+                  localStorage.setItem('user',JSON.stringify(response.data.user))
+                  var u=localStorage.getItem('user')
+                  console.log('User from local storage',JSON.parse(u))
+                  return <Redirect to="/"/>
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+
+
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
       })
       .catch(function (error) {
         console.log(error);
+        console.log('Social Login error ',error);
+        this.setState({errmsg:"invalid Social Login"})
       });
+    
+    
 
 
   }
@@ -67,7 +104,7 @@ export default class Login extends Component {
   handleSubmit(event) {
     console.log('UserName and Pass are  submitted: ' + this.state.Email+this.state.password);
        //if data incorrect show in errmsg
-    if(this.state.Email ==''||this.state.password=='')
+    if(this.state.Email === ''||this.state.password === '')
     {
       this.setState({errmsg: 'Email and password are required'});
     }else
@@ -88,8 +125,9 @@ export default class Login extends Component {
               }
               
             }).then(function (response) {
-                console.log(response);
+                console.log('Login res status',response.status);
                 console.log(response.data.jwt);
+                if(response.status === '201'){
                 localStorage.setItem('token',response.data.jwt)
                 //request to get User data 
                 axios.get('http://localhost:3000/auth', {
@@ -99,16 +137,25 @@ export default class Login extends Component {
                   }
                   }).then(function (response) {
                     console.log(response);
-                    window.location.reload();
+                    console.log(response.data.user);
+                    console.log(localStorage.getItem('token'));
+                    localStorage.setItem('user',JSON.stringify(response.data.user))
+                    var u=localStorage.getItem('user')
+                    console.log('User from local storage',JSON.parse(u))
+                    return <Redirect to="/"/>
                   })
                   .catch(function (error) {
                     console.log(error);
+                    
                   });
 
-                  
-              })
+
+              
+                }})
               .catch(function (error) {
-                console.log(error);
+                console.log('Login error ',error);
+                // this.setState({errmsg:"invalid user mail or passwprd"});
+                
               });
 
     }
@@ -161,7 +208,7 @@ export default class Login extends Component {
         </Form>
 
         <label>
-        { this.state.errmsg !=''?
+        { this.state.errmsg !==''?
         <Message
          error
          header=''

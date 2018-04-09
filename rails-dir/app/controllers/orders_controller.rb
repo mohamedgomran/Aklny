@@ -35,6 +35,7 @@ class OrdersController < ApplicationController
         render json: User.find(user_id).orders
     end
 
+    
     def join
         user_id = current_user.id
         p user_id

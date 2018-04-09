@@ -24,14 +24,16 @@ Rails.application.routes.draw do
   ##Groups routes##
   #create a group
   post 'groups', to: 'groups#create'
+  #create a group
+  delete 'groups/:gid', to: 'groups#delete'
   #get a list of a user's groups
   get 'groups', to: 'groups#list'
   #add a member to a group
-  post 'groups/:gid/memebrs', to: 'groups#add_member'
+  post 'groups/:gid/members', to: 'groups#add_member'
   #get a list of a group's memebrs
-  get 'groups/:gid/memebrs', to: 'groups#list_members'
+  get 'groups/:gid/members', to: 'groups#list_members'
   #delete a member from a group
-  delete 'groups/:gid/memebrs/:fid', to: 'groups#del_member'
+  delete 'groups/:gid/members/:fid', to: 'groups#del_member'
 
 
   ##Orders routes##

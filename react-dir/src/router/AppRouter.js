@@ -14,6 +14,7 @@ import Forgetpassword from '../components/Forgetpassword';
 import ViewOrder from '../components/ViewOrder';
 import { ActionCableProvider } from 'react-actioncable-provider'
 import ActionCable from 'action-cable-react-jwt';
+import NotFound from '../components/NotFound';
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
         <Route {...rest} render={props => (
@@ -44,6 +45,8 @@ const AppRouter =()=> (
                 <Route path="/login" component={Login}/>
                 <Route path="/register" component={Register}/>
                 <Route path="/forgetpassword" component={Forgetpassword}/>
+                <Route  component={NotFound}/>
+                
             </Switch>
         </div>
     </BrowserRouter>

@@ -15,11 +15,11 @@ export default class Friends extends React.Component{
 			super(props);
 			this.getMyFriends()
 		}
-		
+
     addFriend = ()=>{
 			this.setState({input:document.getElementById("friendEmail").value}, ()=>{
 				if (this.emailRegex.test(this.state.input)){
-				
+
 					axios.post(`http://localhost:3000/users/${this.userId}/friends`,{
 							'email': this.state.input
 					},
@@ -27,13 +27,13 @@ export default class Friends extends React.Component{
 							'Content-Type': 'application/json'
 					}}).then((response)=>{
 							this.getMyFriends();
-							console.log("response",response);	
+							console.log("response",response);
 					}).catch((error)=>{
-							console.log("error", error);	
+							console.log("error", error);
 					})
 				}
 			})
-			
+
     }
 
     removeFriend = (e)=>{
@@ -46,8 +46,8 @@ export default class Friends extends React.Component{
 					}).catch((error)=>{
 
 					})
-				
-        
+
+
     }
 
     getMyFriends = ()=>{
@@ -57,10 +57,10 @@ export default class Friends extends React.Component{
             }
         }).then((response)=>{
             this.setState({friends:response.data.message});
-            
+
         }).catch((error)=>{
             console.log("error", error);
-            
+
 				})
 				this.render()
     }
@@ -70,8 +70,8 @@ export default class Friends extends React.Component{
             <div>
                 <h1>Friends</h1>
                 <div align="center">
-                    <label htmlFor="friendEmail" >Your Freind's Email</label>
-                    <Input  validations={{matchRegexp:this.emailRegex}} id="friendEmail" icon='user' iconPosition='left' placeholder='mail@example.com'  />  
+                    <label htmlFor="friendEmail" >Your Freinds Email</label>
+                    <Input  validations={{matchRegexp:this.emailRegex}} id="friendEmail" icon='user' iconPosition='left' placeholder='mail@example.com'  />
                     <Button secondary onClick={this.addFriend}>ADD</Button>
                 </div>
                 <div>
@@ -99,7 +99,7 @@ export default class Friends extends React.Component{
                                 )
                             })
                         }
-                        </Card.Group>  
+                        </Card.Group>
                     </Container>
                 </div>
             </div>
