@@ -59,19 +59,10 @@ ActiveRecord::Schema.define(version: 20180409173307) do
     t.string "status", default: "waiting"
     t.string "order_for"
     t.string "res_name"
-    t.string "menu"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-<<<<<<< HEAD
-    t.string "menu_file_name"
-    t.string "menu_content_type"
-    t.integer "menu_file_size"
-    t.datetime "menu_updated_at"
-    t.string "image"
-=======
     t.text "menu"
->>>>>>> 401c12bc66534822c3a673b82202e0bf9f3e211b
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 

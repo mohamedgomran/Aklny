@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Form, Message,  Grid, Header, Segment} from 'semantic-ui-react'
-// { Button, Form, Message, Icon, Label, Input, Grid, Header, Image, Segment}
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
-// import Form from 'react-validation/build/form';
-// import Input from 'react-validation/build/input';
+
 
 export default class Register extends Component {
 
@@ -41,11 +39,11 @@ export default class Register extends Component {
   }
 
   handleChangecimage(event) {
-    console.log('image',event.target.files[0]);
+    // console.log('image',event.target.files[0]);
   }
 
   handleSubmit(event) {
-    console.log('register data: ' + this.state.username+this.state.password+' '+this.state.confirmpass+' '+this.state.Email);
+    
      if(this.state.password !== this.state.confirmpass )
      {
 
@@ -63,30 +61,17 @@ export default class Register extends Component {
             //send data to backend
             let form=document.getElementById('registerform');
             let data = new FormData(form);
-            console.log(data);
-            console.log(data.get('userimage'));
-            console.log('pppp',data.get('password'));
-            // Display the values
-            for (var value of data.values()) {
-              console.log(value); 
-            }
-            
+      
             axios.post('http://localhost:3000/users', data, {
               headers: {
                 'Content-Type': 'multipart/form-data'
               }
               }).then( (response)=> {
-                console.log('register response ',response.data.success);
-                  console.log('registeration done ')
                   this.setState({ redirect: true });
                   // redirect to login   
-                  // <Redirect to="/login"/>
                 
-               
               })
               .catch( (error)=> {
-                console.log(error);
-                console.log('err in registeration');
                 this.setState({errmsg:'invalid user data'});
               });
             

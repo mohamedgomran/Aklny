@@ -16,9 +16,6 @@ export default class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // handleLoginerr(){
-  //   this.setState({errmsg:"invalid user mail or passwprd"});
-  // }
 
   handleChangeEmail(event) {
     this.setState({Email: event.target.value});
@@ -34,8 +31,7 @@ export default class Login extends Component {
 
 
   handleSocialLogin = (user) => {
-    console.log(user)
-    console.log(user.profile)
+
     var body={
       name:user.profile.name,
       email:user.profile.email,
@@ -43,14 +39,13 @@ export default class Login extends Component {
       password:'social'
     }
 
-    console.log('bbbbbbbbbbb',body);
 
     axios.post('http://localhost:3000/users',body, {
       headers: {
         'Content-Type': 'application/json'
       }
       }).then( (response)=> {
-        console.log('Social User Added',response);
+      
         //get user token
         const b={auth:{"email":body.email,"password":body.password}}
         axios.post('http://localhost:3000/user_token',b,{
@@ -59,51 +54,18 @@ export default class Login extends Component {
             }
 
           }).then( (response)=> {
-              console.log(response);
-              console.log(response.data.jwt);
+
               localStorage.setItem('token',response.data.jwt)
               //request to get User data
               this.setState({logged:true});
-              //request to get User data
-              /*
->>>>>>> 401c12bc66534822c3a673b82202e0bf9f3e211b
-              axios.get('http://localhost:3000/auth', {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization':"Bearer "+localStorage.getItem('token')
-                }
-                }).then( (response)=> {
-                  console.log(response);
-                  console.log('user data in social login',JSON.stringify(response.data.user));
-                  console.log(localStorage.getItem('token'));
-                  localStorage.setItem('user',JSON.stringify(response.data.user))
-                  var u=localStorage.getItem('user')
-                  console.log('User from local storage',JSON.parse(u))
-                  // return <Redirect to="/"/>
-<<<<<<< HEAD
-                  //redirect to home page
-=======
-                  //redirect to home page
-                  // window.location.reload();
->>>>>>> 401c12bc66534822c3a673b82202e0bf9f3e211b
-                  this.setState({logged:true});
-                })
-                .catch( (error)=> {
-                  console.log(error);
-                  this.setState({errmsg:"invalid Social Login"})
-                });
-                */
-
-
             })
             .catch( (error)=> {
-              console.log(error);
+             
               this.setState({errmsg:"invalid Social Login"})
             });
       })
       .catch( (error)=> {
-        console.log(error);
-        console.log('Social Login error ',error);
+      
         this.setState({errmsg:"invalid Social Login"})
       });
 
@@ -120,7 +82,6 @@ export default class Login extends Component {
 
 
   handleSubmit(event) {
-    console.log('UserName and Pass are  submitted: ' + this.state.Email+this.state.password);
        //if data incorrect show in errmsg
     if(this.state.Email === ''||this.state.password === '')
     {
@@ -130,11 +91,6 @@ export default class Login extends Component {
           //send data to backend
           let form=document.getElementById('loginform');
           let data = new FormData(form);
-          console.log(data.get('email'));
-          // Display the values
-          for (var value of data.values()) {
-            console.log(value);
-          }
 
           const body={auth:{"email":data.get('email'),"password":data.get('password')}}
           axios.post('http://localhost:3000/user_token',body,{
@@ -143,42 +99,14 @@ export default class Login extends Component {
               }
 
             }).then((response)=> {
-                console.log('Login res status',response.status);
-                console.log(response.data.jwt);
+               
                 if(response.status === 201){
-                  console.log("inside 1st axios",response.data.jwt)
                 localStorage.setItem('token',response.data.jwt)
                 this.setState({logged:true});
-                //request to get User data
-                /*
-                axios.get('http://localhost:3000/auth', {
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization':"Bearer "+localStorage.getItem('token')
-                  }
-                  }).then( (response)=> {
-                    console.log(response);
-                    console.log(response.data.user);
-                    console.log(localStorage.getItem('token'));
-                    localStorage.setItem('user',JSON.stringify(response.data.user))
-                    var u=localStorage.getItem('user')
-                    console.log('User from local storage',JSON.parse(u))
-                    // return <Redirect to="/"/>
-                    //redirect to hom page
-                    // window.location.reload();
-                    this.setState({logged:true});
-                  })
-                  .catch((error)=> {
-                    console.log(error);
-                    this.setState({errmsg:"invalid user mail or passwprd"});
-
-                  });
-                 */
-
 
                 }})
               .catch( (error)=> {
-                console.log('Login error ',error);
+                
                 this.setState({errmsg:"invalid user mail or passwprd"});
 
               });
@@ -275,10 +203,8 @@ export default class Login extends Component {
             <br/>
 
             <Button color='google plus' fluid >
-            {/* 372012466129-l3ap3uobl7qffkq1d135o1eiopqctmpb.apps.googleusercontent.com */}
-            {/* w29azHba8hc1zqKHfqJC_tnd */}
-                   <SocialButton
-
+                   <SocialButton  
+                   
                     provider='google'
                     appId='372012466129-8uv0cpjq7v3cforvq0evfq2vl9v0f9sd.apps.googleusercontent.com'
                     onLoginSuccess={this.handleSocialLogin}
