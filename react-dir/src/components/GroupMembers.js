@@ -6,16 +6,19 @@ var uuid = require('uuid-v4');
 export default class GroupMember extends React.Component {
     constructor(props) {
         super(props)
-        this.addFriendRef = React.createRef()
+        this.addMemberRef = React.createRef()
         this.state = {
             newFriend:null,
             groupMembers: [],
-            friendError:""
+            friendError:"",
+            groupId:""
         }
         console.log("my params are",this.props)
     }
 
     componentWillReceiveProps(prop){
+        this.setState({groupId:prop.groupId})
+        console.log(prop.groupId)
         GroupsAPI.listMembers(prop.groupId, (res)=>{
             if (res.success) {
                 console.log(res.message)
@@ -34,16 +37,20 @@ export default class GroupMember extends React.Component {
         })
     }
 
-    addFriend = (e) => {
-        let email = this.addFriendRef.current.inputRef.value
-        console.log(email)
-        // GroupsAPI.addFriend(email, (res)=>{
-        //     if (res.success) {
-        //         this.setState({groups:res.message})
-        //     }else{
-        //         this.setState({groupError:res.message})
-        //     }
-        // })
+    addMember = (e) => {
+        let email = this.addMemberRef.current.inputRef.value
+        console.log(this.state.groupId, "sacasc")
+        GroupsAPI.addMember(this.props.groupId, email, (res)=>{
+            if (res.success) {
+                console.log(res.message)
+                this.setState(prevState=>{
+                    return {groupMembers:res.message}
+                })
+            }else{
+                console.log(res)
+                this.setState({groupError:res.message})
+            }
+        })
     }
 
     removeFriend = (e)=>{
@@ -66,15 +73,15 @@ export default class GroupMember extends React.Component {
         return(
             <Grid>
                 <Grid.Row centered>
-                    <Form>
+                    { this.state.groupId && <Form>
                         <Form.Group>
                             <Form.Field>
-                                <Input onChange={this.handleAddFriendChange} ref={this.addFriendRef} validations={{matchRegexp:this.groupRegex}} icon='group' iconPosition='left' placeholder='Friend email' />  
+                                <Input onChange={this.handleAddFriendChange} ref={this.addMemberRef} validations={{matchRegexp:this.groupRegex}} icon='group' iconPosition='left' placeholder='Friend email' />  
                                 {this.state.friendError&&<Label basic color='red' pointing>{this.state.friendError}</Label>}
                             </Form.Field>
-                            <Form.Button secondary onClick={this.addFriend}>ADD</Form.Button>
+                            <Form.Button secondary onClick={this.addMember}>ADD</Form.Button>
                         </Form.Group>
-                    </Form>
+                    </Form> }
                 </Grid.Row>
 
                 <Grid.Row centered>

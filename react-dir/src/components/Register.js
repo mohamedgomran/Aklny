@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Button, Form, Message, Icon, Label, Input, Grid, Header, Image, Segment} from 'semantic-ui-react'
+import { Button, Form, Message,  Grid, Header, Segment} from 'semantic-ui-react'
+// { Button, Form, Message, Icon, Label, Input, Grid, Header, Image, Segment}
 import axios from 'axios';
-import { Link,Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 // import Form from 'react-validation/build/form';
 // import Input from 'react-validation/build/input';
 
@@ -83,25 +84,17 @@ export default class Register extends Component {
                    
                 }else
                 {
+                  
                   <Redirect to="/login"/>
                 }
                
               })
               .catch(function (error) {
                 console.log(error);
+                console.log('err in registeration');
+                //set errmsg='invalid user data'
               });
-            /**
-             * axios.post('/user', {
-                firstName: 'Fred',
-                lastName: 'Flintstone'
-              })
-              .then(function (response) {
-                console.log(response);
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
-             */
+            
 
      }
     event.preventDefault();
@@ -188,28 +181,6 @@ export default class Register extends Component {
       </Grid.Column>
     </Grid>
       
-      {/* <form success onSubmit={this.handleSubmit}>
-      
-           <Input label='Name'  type='text' placeholder='User Name' value={this.state.username} onChange={this.handleChangeName} required />
-            <br/>
-            <br/>
-           <Input label='Email'  type='email' placeholder='joe@schmoe.com' value={this.state.Email} onChange={this.handleChangeEmail} required />
-            <br/>
-            <br/>
-            <Input label='Password ' type="password" value={this.state.password} onChange={this.handleChangePass} required/>
-            <br/>
-            <br/>
-            <Input label='Confirm Password ' type="password" value={this.state.confirmpass} onChange={this.handleChangeconfirm} required/>
-            <br/>
-            <br/>
-            <Button color='blue'>Register</Button>
-            <br/>
-            <br/>
-            <label basic color='red' pointing>{this.state.errmsg}</label>
-      </form>
-       */}
-      
-
     </div>
   
     );
