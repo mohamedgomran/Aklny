@@ -4,7 +4,7 @@ let headers = {
 	 'Authorization': 'Bearer ' + localStorage.getItem('token') 
 	}
 
-let GroupsAPI={
+let GroupsAPI = {
 	getAllGroups:(callback) =>{
         axios.get('http://localhost:3000/groups', { headers: headers })
           .then((response)=> {
