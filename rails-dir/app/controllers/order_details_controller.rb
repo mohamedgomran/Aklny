@@ -19,7 +19,17 @@ class OrderDetailsController < ApplicationController
     end
 
     def list
-    	render json: Order.find(params[:oid]).order_details
+        # @user = (Order.find(params[:oid]).user_id)
+        @order_details = Order.find(params[:oid]).order_details
+        @order_details = @order_details.map{ |order|
+            user_name = User.find(order.user_id)
+            order = order.as_json
+            order[:user_name] = user_name
+            order
+        }
+        render json: {success: true, message:@order_details}
+        # render json: @user
+        
     end
 
     def delete
