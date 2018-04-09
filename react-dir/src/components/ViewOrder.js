@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import { Link } from "react-router-dom";
-import { Button, Grid, List, Label, Segment, Menu, Icon, Table, Form, Input ,Dimmer,Header,Image} from 'semantic-ui-react'
+import { Button, Grid, Label, Segment, Menu, Icon, Table, Form ,Dimmer} from 'semantic-ui-react'
 import img from '../12.jpg';
-import logo from '../logo.svg';
 let uuid = require('uuid-v4');
 
 
@@ -53,7 +51,7 @@ export default class ViewOrder extends Component {
 									return(
 										<Grid.Column key={uuid()}>
 										<Label as='a' image size='medium'>
-												<img src={invite.img} />
+												<img src={invite.img} alt="alt"/>
 												{invite.user}
 											</Label>
 											</Grid.Column>
@@ -66,7 +64,7 @@ export default class ViewOrder extends Component {
 									return(
 										<Grid.Column key={uuid()}>
 										<Label as='a' image size='medium'>
-												<img src={join.img} />
+												<img src={join.img} alt="img" />
 												{join.user}
 											</Label>
 											</Grid.Column>
