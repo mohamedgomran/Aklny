@@ -11,7 +11,8 @@ export default class Header extends Component {
           { value: "ahmed has joined you to orders  ",Status: 'orders' },
           { value: "ahmed invited you to his breakfast  ",Status: 'joined' },
           { value: "omran Joined to your order  ",Status: 'orders' },
-          ]
+					],
+					Username:''
  }
 
  constructor(props) {
@@ -24,6 +25,7 @@ export default class Header extends Component {
 
 	handellogout(){
 		{localStorage.getItem('token') !== null ?localStorage.removeItem('token'):''}
+		{localStorage.getItem('user') !== null ?localStorage.removeItem('user'):''}
 	};
 
   handleChange(event, index, value) {this.setState({value});

@@ -7,7 +7,7 @@ import axios from 'axios';
 export default class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {Email: '',password:'',errmsg:''};
+    this.state = {Email: '',password:'',errmsg:'',logged:false};
 
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangePass = this.handleChangePass.bind(this);
@@ -45,7 +45,7 @@ export default class Login extends Component {
       headers: {
         'Content-Type': 'application/json'
       }
-      }).then(function (response) {
+      }).then( (response)=> {
         console.log('Social User Added',response);
         //get user token
         const b={auth:{"email":body.email,"password":body.password}}
@@ -54,7 +54,7 @@ export default class Login extends Component {
               'Content-Type': 'application/json'
             }
             
-          }).then(function (response) {
+          }).then( (response)=> {
               console.log(response);
               console.log(response.data.jwt);
               localStorage.setItem('token',response.data.jwt)
@@ -64,26 +64,30 @@ export default class Login extends Component {
                   'Content-Type': 'application/json',
                   'Authorization':"Bearer "+localStorage.getItem('token')
                 }
-                }).then(function (response) {
+                }).then( (response)=> {
                   console.log(response);
                   console.log('user data in social login',JSON.stringify(response.data.user));
                   console.log(localStorage.getItem('token'));
                   localStorage.setItem('user',JSON.stringify(response.data.user))
                   var u=localStorage.getItem('user')
                   console.log('User from local storage',JSON.parse(u))
-                  return <Redirect to="/"/>
+                  // return <Redirect to="/"/>
+                  //redirect to home page 
+                  this.setState({logged:true});
                 })
-                .catch(function (error) {
+                .catch( (error)=> {
                   console.log(error);
+                  this.setState({errmsg:"invalid Social Login"})
                 });
 
 
             })
-            .catch(function (error) {
+            .catch( (error)=> {
               console.log(error);
+              this.setState({errmsg:"invalid Social Login"})
             });
       })
-      .catch(function (error) {
+      .catch( (error)=> {
         console.log(error);
         console.log('Social Login error ',error);
         this.setState({errmsg:"invalid Social Login"})
@@ -124,10 +128,10 @@ export default class Login extends Component {
                 'Content-Type': 'application/json'
               }
               
-            }).then(function (response) {
+            }).then((response)=> {
                 console.log('Login res status',response.status);
                 console.log(response.data.jwt);
-                if(response.status === '201'){
+                if(response.status == '201'){
                 localStorage.setItem('token',response.data.jwt)
                 //request to get User data 
                 axios.get('http://localhost:3000/auth', {
@@ -135,26 +139,29 @@ export default class Login extends Component {
                     'Content-Type': 'application/json',
                     'Authorization':"Bearer "+localStorage.getItem('token')
                   }
-                  }).then(function (response) {
+                  }).then( (response)=> {
                     console.log(response);
                     console.log(response.data.user);
                     console.log(localStorage.getItem('token'));
                     localStorage.setItem('user',JSON.stringify(response.data.user))
                     var u=localStorage.getItem('user')
                     console.log('User from local storage',JSON.parse(u))
-                    return <Redirect to="/"/>
+                    // return <Redirect to="/"/>
+                    //redirect to hom page
+                    this.setState({logged:true});
                   })
-                  .catch(function (error) {
+                  .catch((error)=> {
                     console.log(error);
+                    this.setState({errmsg:"invalid user mail or passwprd"});
                     
                   });
 
 
               
                 }})
-              .catch(function (error) {
+              .catch( (error)=> {
                 console.log('Login error ',error);
-                // this.setState({errmsg:"invalid user mail or passwprd"});
+                this.setState({errmsg:"invalid user mail or passwprd"});
                 
               });
 
@@ -165,6 +172,13 @@ export default class Login extends Component {
   }
 
   render() {
+
+
+    const { logged } = this.state;
+     if (logged) {
+       return <Redirect to='/'/>;
+      }
+
     return (
 
         
