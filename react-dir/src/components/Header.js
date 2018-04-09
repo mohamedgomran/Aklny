@@ -5,6 +5,7 @@ import logo from '../logo.svg';
 import UsersAPI from '../API/users-api';
 import {ActionCable} from 'react-actioncable-provider'
 import axios from 'axios';
+import OrdersAPI from '../API/orders-api';
 
 
 let uuid = require('uuid-v4');
@@ -108,10 +109,20 @@ onReceived(notif) {
 }
 
 join = (e) => {
-	// console.log(e.target.value)
+	console.log(e.target.value)
 	let oid = e.target.value;
-	
+	OrdersAPI.joinOrder(oid, (response) => {
+			console.log(response);
+		})
 }
+// deleteOrder = (oid)=>{
+//   console.log(oid)
+//   OrdersAPI.deleteOrder(oid, (res)=>{
+//     if (res.success) {
+//       this.setState({orders:res.message})
+//     }
+//   })
+//  }
 
   render() {
 

@@ -35,7 +35,7 @@ let OrdersAPI = {
         })
     },
     
-    getMyOrders:(callback) =>{
+  getMyOrders:(callback) =>{
         axios.get('http://localhost:3000/users/orders', { headers: headersFactory() })
         .then((response)=> {
             callback(response.data)
@@ -43,7 +43,18 @@ let OrdersAPI = {
           .catch((error)=> {
             callback(error)
         })
-	},
+  },
+  
+  joinOrder: (oid, callback) => {
+    axios.put(`http://localhost:3000/orders/${oid}/join`,{} , {headers: headersFactory() })
+    .then ((response) => {
+      callback(response)
+    })
+    .catch((error) => {
+      callback(error)
+    })
+  }
+
 }
 
 
