@@ -23,37 +23,10 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
         )} />
 )
 
-const jwt = localStorage.getItem('token') ;
-const cable = ActionCable.createConsumer("ws://localhost:3000/cable", jwt)
-const AppRouter =()=> (
-    <ActionCableProvider cable={cable}>
-    <BrowserRouter>
-        <div>
-            <Header />
-            <Switch>
-                <PrivateRoute path="/" component={Home} exact={true}/>
-                <PrivateRoute path="/friends" component={Friends} exact={true} />
-                <PrivateRoute path="/orders" component={Orders} exact={true}/>
-                <PrivateRoute path="/AllNotification" component={AllNotification} exact={true}/>
-                <PrivateRoute path="/orders/:id" component={ViewOrder}/>
-                <PrivateRoute path="/groups" component={Groups} exact={true} />
-                <PrivateRoute path="/groups/:name" component={Groups}/>
-                <PrivateRoute path="/add-order" component={AddOreder} />
 
-                {/* <Route path="/groups/:id" component={Groups}/>   check what to do either a new component or same one */}
-                <Route path="/login" component={Login}/>
-                <Route path="/register" component={Register}/>
-                <Route path="/forgetpassword" component={Forgetpassword}/>
-                <Route  component={NotFound}/>
-
-            </Switch>
-        </div>
-    </BrowserRouter>
-    </ActionCableProvider>
-)
 
 export default class AppRouter extends Component {
-
+    
     state = {
         jwt: localStorage.getItem('token'),
         cable: this.cable,
@@ -83,7 +56,7 @@ export default class AppRouter extends Component {
                         </Switch>
                     </div>
                 </BrowserRouter>
-            </ActionCableProvider>
+            </ActionCableProvider>    
         )
     }
 }

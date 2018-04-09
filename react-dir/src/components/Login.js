@@ -62,9 +62,7 @@ export default class Login extends Component {
               console.log(response);
               console.log(response.data.jwt);
               localStorage.setItem('token',response.data.jwt)
-<<<<<<< HEAD
               //request to get User data
-=======
               this.setState({logged:true});
               //request to get User data
               /*
