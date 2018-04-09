@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from "react-router-dom";
 import { Confirm ,Table,Grid,Icon,Pagination } from 'semantic-ui-react'
 import OrdersAPI from '../API/orders-api';
-
+let uuid = require('uuid-v4');
 
 class Orders extends React.Component {
 
@@ -23,11 +23,26 @@ class Orders extends React.Component {
  show = () => this.setState({open: true })
  handleConfirm = () => this.setState({ result: 'confirmed', open: false })
  handleCancel = () => this.setState({ result: 'cancelled', open: false })
- deleteOrder = ()=>{}
  componentDidMount(){
   OrdersAPI.getAllOrders((res)=>{
     if (res.success) {
-      this.setState({orders:res})
+      console.log(res.message)
+      this.setState({orders:res.message})
+    }
+  })
+ }
+ finishOrder = (oid)=>{
+  OrdersAPI.finishOrder(oid, (res)=>{
+    if (res.success) {
+      this.setState({orders:res.message})
+    }
+  })
+ }
+ deleteOrder = (oid)=>{
+  console.log(oid)
+  OrdersAPI.deleteOrder(oid, (res)=>{
+    if (res.success) {
+      this.setState({orders:res.message})
     }
   })
  }
@@ -68,7 +83,6 @@ class Orders extends React.Component {
       <Table size='small' textAlign='center' celled selectable>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell >Order Owner</Table.HeaderCell>
             <Table.HeaderCell >Resturnats</Table.HeaderCell>
             <Table.HeaderCell >Invited</Table.HeaderCell>
             <Table.HeaderCell >Joined</Table.HeaderCell>
@@ -79,18 +93,17 @@ class Orders extends React.Component {
 
         <Table.Body>
           {
-            this.state.orders.map((order) => {
+            this.state.orders.length>0&&this.state.orders.map((order) => {
                 return (
-                  <Table.Row>
-                    <Table.Cell>John</Table.Cell>
-                    <Table.Cell>mac</Table.Cell>
-                    <Table.Cell>5</Table.Cell>
-                    <Table.Cell>6</Table.Cell>
-                    <Table.Cell>waiting</Table.Cell>
+                  <Table.Row key={uuid()}>
+                    <Table.Cell>{order.res_name}</Table.Cell>
+                    <Table.Cell>{order.invited}</Table.Cell>
+                    <Table.Cell>{order.joined}</Table.Cell>
+                    <Table.Cell>{order.status}</Table.Cell>
                     <Table.Cell>
-                      <Icon link name='folder open' size='big' color='teal'/>
-                      <Icon link name='checkmark'  size='big' color='green'/>
-                      <Icon link name='delete' size='big' color='red'onClick={this.deleteOrder}/>
+                      <Link to={`/orders/${order.id}`}> <Icon link name='folder open' size='big' color='teal'/></Link>
+                      {order.status!=='finished'&&<Icon link name='checkmark'  size='big' color='green' onClick={this.finishOrder.bind(this, order.id)}/>}
+                      {order.status!=='finished'&&<Icon link name='delete' size='big' color='red'onClick={this.deleteOrder.bind(this, order.id)}/>}
                     </Table.Cell>
                   </Table.Row>
                 )
