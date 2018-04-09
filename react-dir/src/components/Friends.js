@@ -8,7 +8,7 @@ export default class Friends extends React.Component{
     userId = this.props.match.params.id;
     state = {
         friends:[],
-        input: ""
+        input: "",
 		}
 
 		constructor(props){
@@ -20,14 +20,24 @@ export default class Friends extends React.Component{
 			this.setState({input:document.getElementById("friendEmail").value}, ()=>{
 				if (this.emailRegex.test(this.state.input)){
 
-					axios.post(`http://localhost:3000/users/${this.userId}/friends`,{
+					axios.post(`http://localhost:3000/users/friends/add`,{
 							'email': this.state.input
 					},
 					{headers: {
-							'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Authorization':"Bearer "+localStorage.getItem('token')
 					}}).then((response)=>{
-							this.getMyFriends();
-							console.log("response",response);
+                        if(response.data.success){
+                            this.getMyFriends();
+                            console.log("friend added");
+                        }else{
+                            if(response.data.message === "already a friend"){
+                                alert("already a friend")
+                            }else if(response.data.message === "Friend Not found"){
+                                alert("not found")
+                            }
+                        }
+							// console.log("response",response);
 					}).catch((error)=>{
 							console.log("error", error);
 					})
@@ -37,23 +47,23 @@ export default class Friends extends React.Component{
     }
 
     removeFriend = (e)=>{
-				console.log("removing"+e.target.value);
-				axios.delete(`http://localhost:3000/users/${this.userId}/friends/${e.target.value}`, {
+				// console.log("removing"+e.target.value);
+				axios.delete(`http://localhost:3000/users/friends/${e.target.value}`, {
 					headers:{
-							'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Authorization':"Bearer "+localStorage.getItem('token')
 					}}).then((response)=>{
 						this.getMyFriends();
 					}).catch((error)=>{
 
 					})
-
-
     }
 
     getMyFriends = ()=>{
-        axios.get(`http://localhost:3000/users/${this.userId}/friends`, {
+        axios.get(`http://localhost:3000/users/friends`, {
             headers:{
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization':"Bearer "+localStorage.getItem('token')
             }
         }).then((response)=>{
             this.setState({friends:response.data.message});
@@ -106,7 +116,3 @@ export default class Friends extends React.Component{
         );
     }
 }
-// const AddFriendToGroup = () => (
-// )
-
-// export default Friends

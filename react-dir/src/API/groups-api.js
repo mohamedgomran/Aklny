@@ -1,12 +1,14 @@
 import axios from 'axios';
-let headers = { 
+let headersFactory = ()=>{
+  return { 
 	'Content-Type': 'application/json',
 	 'Authorization': 'Bearer ' + localStorage.getItem('token') 
 	}
+}
 
-let GroupsAPI={
+let GroupsAPI = {
 	getAllGroups:(callback) =>{
-        axios.get('http://localhost:3000/groups', { headers: headers })
+        axios.get('http://localhost:3000/groups', { headers: headersFactory() })
           .then((response)=> {
             callback(response.data)
           })
@@ -16,7 +18,7 @@ let GroupsAPI={
 	},
 	addGroup: (name, callback)=>{
 		let payLoad = {'name':name}
-        axios.post('http://localhost:3000/groups', payLoad ,{ headers: headers })
+        axios.post('http://localhost:3000/groups', payLoad ,{ headers: headersFactory() })
           .then((response)=> {
             callback(response.data)
           })
@@ -25,7 +27,7 @@ let GroupsAPI={
         })
 	},
 	deleteGroup:(id, callback)=>{
-        axios.delete(`http://localhost:3000/groups/${id}` ,{ headers: headers })
+        axios.delete(`http://localhost:3000/groups/${id}` ,{ headers: headersFactory() })
           .then((response)=> {
           	console.log(response)
             callback(response.data)
@@ -35,7 +37,7 @@ let GroupsAPI={
         })
 	},
 	listMembers:(id, callback)=>{
-        axios.get(`http://localhost:3000/groups/${id}/members` ,{ headers: headers })
+        axios.get(`http://localhost:3000/groups/${id}/members` ,{ headers: headersFactory() })
           .then((response)=> {
           	// console.log(response)
             callback(response.data)
@@ -45,7 +47,7 @@ let GroupsAPI={
         })
 	},
 	deleteMember:(gid, fid, callback)=>{
-        axios.delete(`http://localhost:3000/groups/${gid}/members/${fid}` ,{ headers: headers })
+        axios.delete(`http://localhost:3000/groups/${gid}/members/${fid}` ,{ headers: headersFactory() })
           .then((response)=> {
           	// console.log(response)
             callback(response.data)
@@ -56,7 +58,7 @@ let GroupsAPI={
 	},
 	addMember:(gid, email,callback)=>{
 		let payLoad = {'email':email}
-        axios.post(`http://localhost:3000/groups/${gid}/members/`, payLoad ,{ headers: headers })
+        axios.post(`http://localhost:3000/groups/${gid}/members/`, payLoad ,{ headers: headersFactory() })
           .then((response)=> {
             callback(response.data)
           })

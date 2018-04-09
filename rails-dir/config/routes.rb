@@ -40,11 +40,11 @@ Rails.application.routes.draw do
   #create order
   post 'orders', to: 'orders#create'
   #list order
-  # get 'orders/:id', to: 'orders#list'
+  get 'orders/', to: 'orders#list'
   #delete order
   delete 'orders/:oid', to: 'orders#delete'
   #edit order
-  put 'orders/:oid', to: 'orders#edit'
+  put 'orders/:oid', to: 'orders#finish'
   #add item to an order (order details)
   post 'orders/:oid/items', to: 'order_details#create'
   #list item for an order (order details)

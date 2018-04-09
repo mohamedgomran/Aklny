@@ -10,7 +10,7 @@ export default class Register extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {username: '',password:'',Email:'',confirmpass:'',errmsg:'',image:''};
+    this.state = {username: '',password:'',Email:'',confirmpass:'',errmsg:'',image:'', redirect: false};
 
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
@@ -75,24 +75,19 @@ export default class Register extends Component {
               headers: {
                 'Content-Type': 'multipart/form-data'
               }
-              }).then(function (response) {
+              }).then( (response)=> {
                 console.log('register response ',response.data.success);
-                if(response.data.success == false)
-                {
-                  console.log('error in registeration')
-                  this.setState({errmsg:'invalid User data'});
-                   
-                }else
-                {
-                  
-                  <Redirect to="/login"/>
-                }
+                  console.log('registeration done ')
+                  this.setState({ redirect: true });
+                  // redirect to login   
+                  // <Redirect to="/login"/>
+                
                
               })
-              .catch(function (error) {
+              .catch( (error)=> {
                 console.log(error);
                 console.log('err in registeration');
-                //set errmsg='invalid user data'
+                this.setState({errmsg:'invalid user data'});
               });
             
 
@@ -102,6 +97,13 @@ export default class Register extends Component {
 
 
   render() {
+
+    const { redirect } = this.state;
+
+     if (redirect) {
+       return <Redirect to='/login'/>;
+      }
+
     return (
         
       <div  className='login-form'>
@@ -158,7 +160,7 @@ export default class Register extends Component {
 
             <Form.Input
               fluid
-              icon='upload icon'
+              icon='upload'
               iconPosition='left'
               placeholder='Upload Image'
               type='file'
