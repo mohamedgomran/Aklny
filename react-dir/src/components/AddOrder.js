@@ -202,13 +202,11 @@ export default class AddOrder extends React.Component{
                             this.state.invitedFriends.map(invitedFriend =>{
                                 return(
                                      <Label key={invitedFriend.id} size="huge" image>
-                                        <img src={invitedFriend.image}/>
+                                        {/*<img src={invitedFriend.image} alt={invitedFriend.name}/>*/}
                                         {invitedFriend.name}
-                                        <Button size="mini" value={invitedFriend.id} name="delete" onClick={this.notInvite} circular/>
-                                        {/*<Button size="mini" value={invitedFriend.id} name="delete" onClick={this.notInvite} circular>
+                                        {<Button size="mini" value={invitedFriend.id} name="delete" onClick={this.notInvite} circular>
                                             <i className="icon close"></i>
-                                </Button>*/}
-
+                                        </Button>}
                                      </Label>
                                 )
                             })
