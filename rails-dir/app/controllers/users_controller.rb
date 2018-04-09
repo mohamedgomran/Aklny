@@ -38,7 +38,7 @@ class UsersController < ApplicationController
         @user = User.find(user_id);
         @friend = User.find(params[:friend_id].to_i);
 
-        if User.find(params[:id].to_i).friends.include?(@friend)
+        if User.find(user_id).friends.include?(@friend)
 			@user.friends.delete(@friend)
             render json: {success: true, message: "friend deleted"}
         else
@@ -60,20 +60,21 @@ class UsersController < ApplicationController
         @join_notif=[]
         @invite_notif = []
         @myorders = User.find(user_id).orders.find_each do |order|
-            order.notifications.where(notification_type: "join").order(created_at: :desc).each do |notif|
+            order.notifications.where(notification_type: "join").limit(5).order(created_at: :desc).each do |notif|
                 user= User.where(id: notif.user_id).select(:id,:name)[0]
                 @join_notif << {order_id: notif.order_id, order_for: order.order_for, invited: user, created_at: notif.created_at}
             end
         end
-        Notification.where(user_id: user_id,notification_type: "invitation").order(created_at: :desc).each do |notif|
+        Notification.where(user_id: user_id,notification_type: "invitation").limit(5).order(created_at: :desc).each do |notif|
             user = {name: Order.find(notif.order_id).user.name, id: Order.find(notif.order_id).user.id}
-            @invite_notif << {order_id: notif.order_id, order_for: Order.find(notif.order_id).order_for, host: user, created_at: notif.created_at}
+            @invite_notif << {order_id: notif.order_id, order_for: Order.find(notif.order_id).order_for,res_name: Order.find(notif.order_id).res_name , host: user, created_at: notif.created_at}
         end
         render json: {success: true, message: {join_notif: @join_notif, invite_notif: @invite_notif }}
     end
 
     ################################user id to be get from authentication ##################################            
     def list_my_orders
+        p "current user is ",current_user.id
         user_id= current_user.id
         render json: User.find(user_id).orders
     end

@@ -1,5 +1,5 @@
 import React from 'react';
-import GridRow, { Form, Label, Input, Button, Container, Header, Icon, Card, Image, Grid, Segment, Tab } from 'semantic-ui-react'
+import { Form, Label, Input, Button, Card, Image, Grid } from 'semantic-ui-react'
 import GroupsAPI from '../API/groups-api';
 var uuid = require('uuid-v4');
 
@@ -39,7 +39,6 @@ export default class GroupMember extends React.Component {
 
     addMember = (e) => {
         let email = this.addMemberRef.current.inputRef.value
-        console.log(this.state.groupId, "sacasc")
         GroupsAPI.addMember(this.props.groupId, email, (res)=>{
             if (res.success) {
                 console.log(res.message)
@@ -48,7 +47,7 @@ export default class GroupMember extends React.Component {
                 })
             }else{
                 console.log(res)
-                this.setState({groupError:res.message})
+                this.setState({friendError:res.message})
             }
         })
     }
@@ -62,6 +61,8 @@ export default class GroupMember extends React.Component {
                 this.setState(prevState=>{
                     return {groupMembers:res.message}
                 })
+            }else {
+                this.setState({friendError:res.message})
             }
         })
 

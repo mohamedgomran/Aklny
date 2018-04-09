@@ -160,7 +160,7 @@ export default class Register extends Component {
 
             <Form.Input
               fluid
-              icon='upload icon'
+              icon='upload'
               iconPosition='left'
               placeholder='Upload Image'
               type='file'

@@ -5,6 +5,7 @@
   "dependencies": {
     "action-cable-react-jwt": "0.0.5",
     "axios": "^0.18.0",
+    "dateformat": "^3.0.3",
     "react": "^16.3.0",
     "react-actioncable-provider": "^1.0.3",
     "react-dom": "^16.3.0",

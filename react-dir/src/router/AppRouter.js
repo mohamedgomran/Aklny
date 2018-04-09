@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Friends from '../components/Friends';
 import Orders from '../components/Orders';
@@ -9,7 +9,6 @@ import Register from '../components/Register';
 import Header from '../components/Header';
 import Groups from '../components/Groups';
 import AddOreder from '../components/AddOrder';
-import GroupMembers from '../components/GroupMembers'
 import Forgetpassword from '../components/Forgetpassword';
 import ViewOrder from '../components/ViewOrder';
 import { ActionCableProvider } from 'react-actioncable-provider'
@@ -24,33 +23,52 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
         )} />
 )
 
-const jwt = localStorage.getItem('token') ;
-const cable = ActionCable.createConsumer("ws://localhost:3000/cable", jwt)
-const AppRouter =()=> (
-    <ActionCableProvider cable={cable}>
-    <BrowserRouter>
-        <div>
-            <Header />
-            <Switch>
-                <PrivateRoute path="/" component={Home} exact={true}/>
-                <PrivateRoute path="/friends" component={Friends} exact={true} />
-                <PrivateRoute path="/orders" component={Orders} exact={true}/>
-                <PrivateRoute path="/AllNotification" component={AllNotification} exact={true}/>
-                <PrivateRoute path="/orders/:id" component={ViewOrder}/>
-                <PrivateRoute path="/groups" component={Groups} exact={true} />
-                <PrivateRoute path="/groups/:name" component={Groups}/>
-                <PrivateRoute path="/add-order" component={AddOreder} />
 
-                {/* <Route path="/groups/:id" component={Groups}/>   check what to do either a new component or same one */}
-                <Route path="/login" component={Login}/>
-                <Route path="/register" component={Register}/>
-                <Route path="/forgetpassword" component={Forgetpassword}/>
-                <Route  component={NotFound}/>
-                
-            </Switch>
-        </div>
-    </BrowserRouter>
-    </ActionCableProvider>    
-)
 
-export default AppRouter;
+export default class AppRouter extends Component {
+    
+    state = {
+        jwt: localStorage.getItem('token'),
+        cable: this.cable,
+    }
+    
+    constructor(props) {
+        super(props)
+    }
+    
+    cable = ActionCable.createConsumer("ws://localhost:3000/cable", this.state.jwt)
+
+    setJWT = () => {
+        console.log("in set state",localStorage.getItem('token'))
+        this.setState({
+            jwt: localStorage.getItem('token'),
+        })
+    }
+
+    render() {
+        console.log("my jwt",this.state.jwt)
+        return (
+            <ActionCableProvider cable={this.cable}>
+                <BrowserRouter>
+                    <div>
+                        <Header />
+                        <Switch>
+                            <PrivateRoute path="/" component={Home} exact={true} onMount={this.setJWT}/>
+                            <PrivateRoute path="/:id/friends" component={Friends} exact={true} />
+                            <PrivateRoute path="/orders" component={Orders} exact={true}/>
+                            <PrivateRoute path="/AllNotification" component={AllNotification} exact={true}/>
+                            <PrivateRoute path="/orders/:id" component={ViewOrder}/>
+                            <PrivateRoute path="/groups" component={Groups} exact={true} />
+                            <PrivateRoute path="/groups/:name" component={Groups}/>
+                            <PrivateRoute path="/add-order" component={AddOreder} />
+                            <Route path="/login" component={Login} />
+                            <Route path="/register" component={Register}/>
+                            <Route path="/forgetpassword" component={Forgetpassword}/>
+                            <Route  component={NotFound}/>
+                        </Switch>
+                    </div>
+                </BrowserRouter>
+            </ActionCableProvider>    
+        )
+    }
+}
