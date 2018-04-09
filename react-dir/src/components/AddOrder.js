@@ -3,6 +3,7 @@ import { Form, Grid, Dropdown, Button, Icon, Label,Segment } from "semantic-ui-r
 import axios from 'axios';
 import GroupsAPI from '../API/groups-api';
 import GroupMember  from './GroupMembers';
+import FileBase64 from 'react-file-base64';
 
 let headers = {
 	'Content-Type': 'application/json',
@@ -111,6 +112,7 @@ export default class AddOrder extends React.Component{
 						order_for:this.state.order_for,
             res_name: this.state.res_name,
 						invited : this.state.invited,
+                        menu: this.state.menu
         },
         {headers: headers }).then((response)=>{
             console.log("response",response);
@@ -163,6 +165,11 @@ export default class AddOrder extends React.Component{
 
     }
 
+  getFiles = (file)=>{
+    console.log(file.base64)
+    this.setState({ menu: file.base64 })
+  }
+
     render = ()=>{
         return (
             <Grid divided='vertically'>
@@ -202,7 +209,7 @@ export default class AddOrder extends React.Component{
 										</select>
                     </Form.Field>
                     <Form.Field>
-                        <input type="file" name="menuImage" placeholder="Menu Image" value={this.state.image} onChange={this.handleChangeimage}/>
+                        <FileBase64 multiple={ false } onDone={ this.getFiles }/>
                     </Form.Field>
                     <Button basic color="green" size="large" floated="right">Puplish</Button>
                 </Form>
