@@ -51,8 +51,7 @@ class OrdersController < ApplicationController
         @notification = Notification.find_by(order_id: params[:oid], user_id: user_id, notification_type: "invitation")
         if @notification
             self.class.notify([user_id],"join",params[:oid],"false")
-            ActionCable.server.broadcast "notifications_#{orderOwner_id}",ApplicationController.list_notifications(orderOwner_id)
-            render json: {success: true, message:  @order}
+            render json: {success: true, message:  orderOwner_id}
         end
     end
 
@@ -67,6 +66,8 @@ class OrdersController < ApplicationController
             @notification = Notification.create(notif);
             ActionCable.server.broadcast "notifications_#{user}",ApplicationController.list_notifications(user)
         end
+        orderOwner_id = Order.find(oid).user.id
+        ActionCable.server.broadcast "notifications_#{orderOwner_id}",ApplicationController.list_notifications(orderOwner_id)                    
     end
 
     def show_invited
