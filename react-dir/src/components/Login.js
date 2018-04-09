@@ -100,18 +100,12 @@ export default class Login extends Component {
         console.log('Social Login error ',error);
         this.setState({errmsg:"invalid Social Login"})
       });
-    
-    
-
 
   }
   
  handleSocialLoginFailure = (err) => {
     console.error(err)
   }
-
-
-
 
   handleSubmit(event) {
     console.log('UserName and Pass are  submitted: ' + this.state.Email+this.state.password);

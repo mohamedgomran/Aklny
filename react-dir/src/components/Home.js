@@ -18,10 +18,7 @@ export default class Home extends Component {
 		'latestOrders' : [],
 		join_notif : [],
 		invite_notif : [],
-		'friendActivities' : [
-			{'friendName':"Ahmed", 'orderId':"1", 'type': "BF", 'from':"Mac"},
-			{'friendName':"Omran", 'orderId':"2", 'type': "LN", 'from':"Mac"},
-		],
+		'friendActivities' : [],
 	}
 
 	componentDidMount() {

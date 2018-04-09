@@ -3,6 +3,8 @@ import { Redirect } from "react-router-dom";
 import { Button, Grid, Label, Segment, Menu, Icon, Table, Form ,Dimmer} from 'semantic-ui-react'
 import axios from 'axios';
 import img from '../12.jpg';
+import {ActionCable} from 'react-actioncable-provider'
+
 let uuid = require('uuid-v4');
 
 
@@ -49,6 +51,7 @@ export default class ViewOrder extends Component {
 					badRequest: true,
 				})
 			} else {
+				console.log(response.data.message)
 				this.setState({orders: response.data.message})
 			}
 		}).catch((error)=>{
@@ -100,6 +103,11 @@ export default class ViewOrder extends Component {
 			})
 	}
 
+	onReceived(orderDetails){
+		console.log(orderDetails)
+		this.setState({orders: orderDetails})
+	}
+
     render() {
 	const { active , flag} = this.state
 
@@ -108,14 +116,13 @@ export default class ViewOrder extends Component {
 	}
     return (
 			<Grid>
+			<ActionCable ref='MyNotifications' channel={{channel: 'OrderDetailsChannel', oid: this.orderId}} onReceived={this.onReceived.bind(this)} />						
 			 <Dimmer.Dimmable as={Segment} blurring dimmed={active}>
 				 <Dimmer active={active} onClickOutside={this.handleHide}>
 
 				 <Grid centered >
 				 	<Grid.Column centered='true' computer={9}>
 						<Grid centered columns={5}>
-
-
 							{
 								this.state.flag === 'invited' && this.state.invited.map((invite)=>{
 									return(

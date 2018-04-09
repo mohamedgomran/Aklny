@@ -107,6 +107,11 @@ onReceived(notif) {
 	})
 }
 
+join = (e) => {
+	// console.log(e.target.value)
+	let oid = e.target.value;
+	
+}
 
   render() {
 
@@ -172,7 +177,7 @@ onReceived(notif) {
 													</List.Content>
 
 													<List.Content floated='right'>
-													<Button as={Link} to={`/orders/${item.order_id}`} size='mini' color='teal'>Join</Button>
+													<Button value={item.order_id} onClick={this.join} size='mini' color='teal'>Join</Button>
 													</List.Content>
 											</List.Item>
 									</List>
