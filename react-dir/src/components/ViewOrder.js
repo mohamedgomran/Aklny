@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from "react-router-dom";
 import { Button, Grid, Label, Segment, Menu, Icon, Table, Form ,Dimmer} from 'semantic-ui-react'
 import axios from 'axios';
 import img from '../12.jpg';
@@ -12,7 +13,6 @@ export default class ViewOrder extends Component {
 	state = {
 		orders : [],
 		joined : [],
-
 		invited : [],
 	}
 
@@ -43,7 +43,14 @@ export default class ViewOrder extends Component {
 			}
 		}).then((response)=>{
 			console.log("ll",response.data.message);
-			this.setState({orders: response.data.message})
+			if (response.data.success === false) {
+				console.log(response.data.success)
+				this.setState({
+					badRequest: true,
+				})
+			} else {
+				this.setState({orders: response.data.message})
+			}
 		}).catch((error)=>{
 			console.log(error)
 		})
@@ -94,7 +101,11 @@ export default class ViewOrder extends Component {
 	}
 
     render() {
-			 const { active , flag} = this.state
+	const { active , flag} = this.state
+
+	if (this.state.badRequest) {
+		return <Redirect to='/NotFound' />
+	}
     return (
 			<Grid>
 			 <Dimmer.Dimmable as={Segment} blurring dimmed={active}>

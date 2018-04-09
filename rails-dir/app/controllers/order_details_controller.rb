@@ -19,17 +19,21 @@ class OrderDetailsController < ApplicationController
     end
 
     def list
-        # @user = (Order.find(params[:oid]).user_id)
-        @order_details = Order.find(params[:oid]).order_details
-        @order_details = @order_details.map{ |order|
-            user_name = User.find(order.user_id)
-            order = order.as_json
-            order[:user_name] = user_name
-            order
-        }
-        render json: {success: true, message:@order_details}
+        user_id = current_user.id
+        if User.find(user_id).orders.include?(Order.find(params[:oid])) || Notification.where(order_id: params[:oid], user_id: user_id).count > 0
+            # @user = (Order.find(params[:oid]).user_id)
+            @order_details = Order.find(params[:oid]).order_details
+            @order_details = @order_details.map{ |order|
+                user_name = User.find(order.user_id)
+                order = order.as_json
+                order[:user_name] = user_name
+                order
+            }
+            render json: {success: true, message:@order_details}
+        else
+            render json: {success: false, message: 'Order Not Found'}            
         # render json: @user
-        
+        end
     end
 
     def delete

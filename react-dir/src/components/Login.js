@@ -9,7 +9,7 @@ export default class Login extends Component {
     super(props);
     if(localStorage.getItem('token')) {
       window.location.replace('http://localhost:3001/')
-    } 
+    }
     this.state = {Email: '',password:'',errmsg:''};
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangePass = this.handleChangePass.bind(this);
@@ -19,17 +19,17 @@ export default class Login extends Component {
 
   handleChangeEmail(event) {
     this.setState({Email: event.target.value});
-   
+
   }
 
   componentWillMount() {
-    
+
   }
   handleChangePass(event) {
     this.setState({password: event.target.value});
   }
 
-  
+
   handleSocialLogin = (user) => {
 
     var body={
@@ -52,12 +52,12 @@ export default class Login extends Component {
             headers: {
               'Content-Type': 'application/json'
             }
-            
+
           }).then( (response)=> {
 
               localStorage.setItem('token',response.data.jwt)
+              //request to get User data
               this.setState({logged:true});
-            
             })
             .catch( (error)=> {
              
@@ -68,12 +68,12 @@ export default class Login extends Component {
       
         this.setState({errmsg:"invalid Social Login"})
       });
-    
-    
+
+
 
 
   }
-  
+
  handleSocialLoginFailure = (err) => {
     console.error(err)
   }
@@ -91,29 +91,29 @@ export default class Login extends Component {
           //send data to backend
           let form=document.getElementById('loginform');
           let data = new FormData(form);
-          
+
           const body={auth:{"email":data.get('email'),"password":data.get('password')}}
           axios.post('http://localhost:3000/user_token',body,{
               headers: {
                 'Content-Type': 'application/json'
               }
-              
+
             }).then((response)=> {
                
                 if(response.status === 201){
                 localStorage.setItem('token',response.data.jwt)
                 this.setState({logged:true});
-                
+
                 }})
               .catch( (error)=> {
                 
                 this.setState({errmsg:"invalid user mail or passwprd"});
-                
+
               });
 
     }
 
-     
+
     event.preventDefault();
   }
 
@@ -127,9 +127,9 @@ export default class Login extends Component {
 
     return (
 
-        
+
       <div  className='login-form'>
-      
+
       <Grid
       textAlign='center'
       style={{ height: '100%' }}
@@ -151,7 +151,7 @@ export default class Login extends Component {
               placeholder='E-mail address'
               type='email'
               name='email'
-              value={this.state.Email} onChange={this.handleChangeEmail} required 
+              value={this.state.Email} onChange={this.handleChangeEmail} required
             />
             <Form.Input
               fluid
@@ -182,26 +182,26 @@ export default class Login extends Component {
           <br/>
           forget your password?<Link to="/forgetpassword">here</Link>
         </Message>
-        
+
         <Grid.Row>
-        <Message> 
+        <Message>
         <Grid.Column  computer={2}>
-            
+
             <Button color='facebook' fluid >
-                    
-                    <SocialButton  
-                    color='facebook' fluid 
+
+                    <SocialButton
+                    color='facebook' fluid
                     provider='facebook'
                     appId='156850814994978'
                     onLoginSuccess={this.handleSocialLogin}
                     onLoginFailure={this.handleSocialLoginFailure}
                     >
-                    <Icon name='facebook' /> 
+                    <Icon name='facebook' />
                     Login with Facebook
                   </SocialButton>
             </Button>
             <br/>
-          
+
             <Button color='google plus' fluid >
                    <SocialButton  
                    
@@ -210,21 +210,21 @@ export default class Login extends Component {
                     onLoginSuccess={this.handleSocialLogin}
                     onLoginFailure={this.handleSocialLoginFailure}
                     >
-                    <Icon name='google plus' /> 
-                    Login with Google 
+                    <Icon name='google plus' />
+                    Login with Google
                     </SocialButton>
             </Button>
-          
+
         </Grid.Column>
         </Message>
         </Grid.Row>
       </Grid.Column>
-    </Grid>      
+    </Grid>
       <br/>
-    
+
 
     </div>
-  
+
     );
   }
 }

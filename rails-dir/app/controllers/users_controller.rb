@@ -21,22 +21,13 @@ class UsersController < ApplicationController
               uparams = params.permit(:email) 
             @user=User.find_by(email:uparams[:email])
             if User.find_by(email:uparams[:email])
-                ApplicationMailer.send_email(@user).deliver_now
+                @user.update_attributes(password: 'yallanotlob38')
+                 ApplicationMailer.send_mail(@user.email,'yallanotlob38','Yallanotlob Reset Password').deliver_now
                 render json: { success: true, message:  User.find_by(email:uparams[:email])}
             else
                 render json: { success: false, message:'invalid user mail in db' }
             end 
-            # uparams = params.permit(:email)
-            # @user=User.find_by(email:uparams[:email])
-            # if User.find_by(email:uparams[:email])
-            # {
-            #    ApplicationMailer.send_email(@user).deliver_now
-            #     render json: { success: true, message:  User.find_by(email:uparams[:email])}
-            # }
-            # else{
-            # render json: { success: false, message: 'Invalid user mail' }
-            # }    
-            # end
+          
         end
 
 
