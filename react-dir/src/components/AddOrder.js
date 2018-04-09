@@ -52,7 +52,7 @@ export default class AddOrder extends React.Component{
     }
 
     getallFriends = ()=>{
-         axios.get(`http://localhost:3000/users/${this.userId}/friends`, {
+         axios.get(`http://localhost:3000/users/friends`, {
              headers:{
                                'Content-Type': 'application/json'
              }
