@@ -127,7 +127,7 @@ export default class Login extends Component {
             }).then(function (response) {
                 console.log('Login res status',response.status);
                 console.log(response.data.jwt);
-                if(response.status === '201'){
+                if(response.status == '201'){
                 localStorage.setItem('token',response.data.jwt)
                 //request to get User data 
                 axios.get('http://localhost:3000/auth', {
