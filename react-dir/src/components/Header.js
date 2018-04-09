@@ -4,6 +4,8 @@ import { Icon, Menu, Image, Dropdown ,Button,List} from 'semantic-ui-react'
 import logo from '../logo.svg';
 import UsersAPI from '../API/users-api';
 import {ActionCable} from 'react-actioncable-provider'
+import axios from 'axios';
+
 
 let uuid = require('uuid-v4');
 
@@ -14,7 +16,7 @@ export default class Header extends Component {
           { value: "ahmed invited you to his breakfast  ",Status: 'joined' },
           { value: "omran Joined to your order  ",Status: 'orders' },
 					],
-					logout:false,
+					logout:false,user:'',logged:false,
             join_notif : [],
 						invite_notif : []
  					}
@@ -23,8 +25,40 @@ export default class Header extends Component {
     super(props);
     this.handleChange=this.handleChange.bind(this);
 		this.handellogout=this.handellogout.bind(this);
+		this.getuserdata-this.getuserdata.bind(this);
+		// this.getuserdata();
+		
 	}
 	
+  getuserdata(){
+
+	 //************************************get user data *****************************
+	 if(localStorage.getItem('token') !== null)
+	 {
+			//request to get User data 
+			axios.get('http://localhost:3000/auth', {
+			 headers: {
+				 'Content-Type': 'application/json',
+				 'Authorization':"Bearer "+localStorage.getItem('token')
+			 }
+			 }).then( (response)=> {
+				 console.log(response);
+				 console.log(response.data.user);
+				 this.setState({logged:true});
+				 this.setState({user:response.data.user.name})
+				 console.log('user from header ',this.state.user)
+				 //redirect to hom page
+				 
+			 })
+			 .catch((error)=> {
+				 console.log(error);
+			 });
+
+
+	 }
+	}
+
+
 	componentDidMount() {
 		UsersAPI.getMyNotifications((res) => {
 			console.log(res);
@@ -33,23 +67,27 @@ export default class Header extends Component {
 				invite_notif: res.message.invite_notif,
 			})
 		})
+
+	   
 	}
 
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
 	handellogout(){
+		this.setState({user:''})
 		{localStorage.getItem('token') !== null ?localStorage.removeItem('token'):''}
-		{localStorage.getItem('user') !== null ?localStorage.removeItem('user'):''}
-		this.setState({logout:true})
+		this.setState({logged:false})
+		// this.getuserdata()
 	};
 
-  handleChange(event, index, value) {this.setState({value});
-console.log("event "+event);
-console.log("index "+index);
-console.log("value "+value);
 
-}
+  handleChange(event, index, value) {this.setState({value});
+  console.log("event "+event);
+  console.log("index "+index);
+  console.log("value "+value);
+
+  }
 
 onReceived(notif) {
 	console.log(notif)
@@ -58,39 +96,46 @@ onReceived(notif) {
 		invite_notif: notif.message.invite_notif,
 	})
 }
+
+
   render() {
-		const { activeItem } = this.state
-		
-	 const { logout } = this.state;
-		if (logout) {
-			return <Redirect to='/login'/>;
-		 } 
-		
+
+	 const { activeItem } = this.state	
+		 this.getuserdata();
+
     return (
-
+				 
+			   
 	      <Menu icon size='massive'>
-
-	        <Menu.Item />
+	       
+				  <Menu.Item />
 					<ActionCable ref='MyNotifications' channel={{channel: 'MyNotificationsChannel'}} onReceived={this.onReceived.bind(this)} />
-	        <Menu.Item as={Link} to='/' name='home' active={activeItem === 'home'} onClick={this.handleItemClick}>
+	        
+					{this.state.logged&&<Menu.Item as={Link} to='/' name='home' active={activeItem === 'home'} onClick={this.handleItemClick}>
 	          <Icon name='home' />
-	        </Menu.Item>
+	        </Menu.Item>}
 					{/* change this static id to be the id of the logged user */}
+					{this.state.logged&&
 	        <Menu.Item as={Link} to='/friends' name='address book' active={activeItem === 'address book'} onClick={this.handleItemClick}>
 	          <Icon name='address book' />
-	        </Menu.Item>
-
+	        </Menu.Item>}
+           
+					{this.state.logged&&
 	        <Menu.Item as={Link} to='/groups' name='group' active={activeItem === 'group'} onClick={this.handleItemClick}>
 	          <Icon name='group' />
-	        </Menu.Item>
+	        </Menu.Item>}
 
+           {this.state.logged&&
 	        <Menu.Item as={Link} to='/orders' name='orders' active={activeItem === 'orders'} onClick={this.handleItemClick}>
 	          <Icon name='list' />
-	        </Menu.Item>
+	        </Menu.Item>}
 
-			<Menu.Menu position='right' size='massive' >
-			  	<Dropdown item simple direction='left' icon = 'bell outline' value={this.state.value} onClick={this.handleChange}>
-				  <Dropdown.Menu>
+
+			 <Menu.Menu position='right' size='massive' >
+			 {this.state.logged&&
+					<Dropdown item simple direction='left' icon = 'bell outline' value={this.state.value} onClick={this.handleChange}>
+				  
+					<Dropdown.Menu>
 						<Dropdown.Header>My Orders</Dropdown.Header>
                 {this.state.join_notif && this.state.join_notif.length > 0 && this.state.join_notif.map(item =>
 								<Dropdown.Item key={uuid()}>
@@ -126,7 +171,9 @@ onReceived(notif) {
               <Dropdown.Item key={uuid()} content={<a href='/AllNotification'>View All Notification</a>} />
 				  </Dropdown.Menu>
 				</Dropdown>
+			 }  
 
+			 {this.state.logged&&
 		        <Menu.Item
 		          name='profile'
 		          active={activeItem === 'profile'}
@@ -134,19 +181,40 @@ onReceived(notif) {
 		        >
 			      <Image src={logo} avatar />
 			      <span>
-							{ localStorage.getItem('user')!==null?
-							 JSON.parse(localStorage.getItem('user')).name
+							{this.state.user !== ''?
+							 this.state.user
 							:'Username'}
 							</span>
+					
 		        </Menu.Item>
-						
-		        <Menu.Item name='log-out' active={activeItem === 'log-out'} onClick={this.handellogout}>
+			 }
+			     {this.state.logged&&
+		        <Menu.Item as={Link} to='/login' name='log-out' active={activeItem === 'log-out'} onClick={this.handellogout}>
 		          <Icon name='log out' />
 		        </Menu.Item>
+					 }
+  
+	       {!this.state.logged&&
+          <Menu.Item as={Link} to='/login' name='log-in'>
+				      	Login
+							<Icon name='sign in' />
+							
+		        </Menu.Item>
+	          }
+	        
+					{!this.state.logged&&
+					<Menu.Item as={Link} to='/register' name='log-out'>
+				 	SignUp
+							<Icon name='add user' />
+							
+		        </Menu.Item>
+					}
 	        	<Menu.Item />
 
 			</Menu.Menu>
-	      </Menu>
+	      
+
+				</Menu>
     )
   }
 }

@@ -33,6 +33,16 @@ let OrdersAPI = {
           .catch((error)=> {
             callback(error)
         })
+    },
+    
+    getMyOrders:(callback) =>{
+        axios.get('http://localhost:3000/users/orders', { headers: headersFactory() })
+        .then((response)=> {
+            callback(response.data)
+          })
+          .catch((error)=> {
+            callback(error)
+        })
 	},
 }
 

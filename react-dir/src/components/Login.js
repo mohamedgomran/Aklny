@@ -7,8 +7,10 @@ import axios from 'axios';
 export default class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {Email: '',password:'',errmsg:'',logged:false};
-
+    if(localStorage.getItem('token')) {
+      window.location.replace('http://localhost:3001/')
+    } 
+    this.state = {Email: '',password:'',errmsg:''};
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangePass = this.handleChangePass.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,7 +25,9 @@ export default class Login extends Component {
    
   }
 
-
+  componentWillMount() {
+    
+  }
   handleChangePass(event) {
     this.setState({password: event.target.value});
   }
@@ -58,7 +62,9 @@ export default class Login extends Component {
               console.log(response);
               console.log(response.data.jwt);
               localStorage.setItem('token',response.data.jwt)
+              this.setState({logged:true});
               //request to get User data 
+              /*
               axios.get('http://localhost:3000/auth', {
                 headers: {
                   'Content-Type': 'application/json',
@@ -73,12 +79,14 @@ export default class Login extends Component {
                   console.log('User from local storage',JSON.parse(u))
                   // return <Redirect to="/"/>
                   //redirect to home page 
+                  // window.location.reload();                  
                   this.setState({logged:true});
                 })
                 .catch( (error)=> {
                   console.log(error);
                   this.setState({errmsg:"invalid Social Login"})
                 });
+                */
 
 
             })
@@ -131,9 +139,12 @@ export default class Login extends Component {
             }).then((response)=> {
                 console.log('Login res status',response.status);
                 console.log(response.data.jwt);
-                if(response.status == '201'){
+                if(response.status === 201){
+                  console.log("inside 1st axios",response.data.jwt)
                 localStorage.setItem('token',response.data.jwt)
+                this.setState({logged:true});
                 //request to get User data 
+                /*
                 axios.get('http://localhost:3000/auth', {
                   headers: {
                     'Content-Type': 'application/json',
@@ -148,6 +159,7 @@ export default class Login extends Component {
                     console.log('User from local storage',JSON.parse(u))
                     // return <Redirect to="/"/>
                     //redirect to hom page
+                    // window.location.reload();                  
                     this.setState({logged:true});
                   })
                   .catch((error)=> {
@@ -155,7 +167,7 @@ export default class Login extends Component {
                     this.setState({errmsg:"invalid user mail or passwprd"});
                     
                   });
-
+                 */
 
               
                 }})
