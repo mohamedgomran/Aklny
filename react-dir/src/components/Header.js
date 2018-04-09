@@ -63,7 +63,7 @@ onReceived(notif) {
 	          <Icon name='home' />
 	        </Menu.Item>
 					{/* change this static id to be the id of the logged user */}
-	        <Menu.Item as={Link} to='/1/friends' name='address book' active={activeItem === 'address book'} onClick={this.handleItemClick}>
+	        <Menu.Item as={Link} to='/friends' name='address book' active={activeItem === 'address book'} onClick={this.handleItemClick}>
 	          <Icon name='address book' />
 	        </Menu.Item>
 

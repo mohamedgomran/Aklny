@@ -33,7 +33,7 @@ const AppRouter =()=> (
             <Header />
             <Switch>
                 <PrivateRoute path="/" component={Home} exact={true}/>
-                <PrivateRoute path="/:id/friends" component={Friends} exact={true} />
+                <PrivateRoute path="/friends" component={Friends} exact={true} />
                 <PrivateRoute path="/orders" component={Orders} exact={true}/>
                 <PrivateRoute path="/AllNotification" component={AllNotification} exact={true}/>
                 <PrivateRoute path="/orders/:id" component={ViewOrder}/>

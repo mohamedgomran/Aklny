@@ -20,11 +20,12 @@ export default class Friends extends React.Component{
 			this.setState({input:document.getElementById("friendEmail").value}, ()=>{
 				if (this.emailRegex.test(this.state.input)){
 
-					axios.post(`http://localhost:3000/users/${this.userId}/friends`,{
+					axios.post(`http://localhost:3000/users/friends/add`,{
 							'email': this.state.input
 					},
 					{headers: {
-							'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Authorization':"Bearer "+localStorage.getItem('token')
 					}}).then((response)=>{
 							this.getMyFriends();
 							console.log("response",response);
@@ -38,9 +39,10 @@ export default class Friends extends React.Component{
 
     removeFriend = (e)=>{
 				console.log("removing"+e.target.value);
-				axios.delete(`http://localhost:3000/users/${this.userId}/friends/${e.target.value}`, {
+				axios.delete(`http://localhost:3000/users/friends/${e.target.value}`, {
 					headers:{
-							'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Authorization':"Bearer "+localStorage.getItem('token')
 					}}).then((response)=>{
 						this.getMyFriends();
 					}).catch((error)=>{
@@ -51,9 +53,10 @@ export default class Friends extends React.Component{
     }
 
     getMyFriends = ()=>{
-        axios.get(`http://localhost:3000/users/${this.userId}/friends`, {
+        axios.get(`http://localhost:3000/users/friends`, {
             headers:{
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization':"Bearer "+localStorage.getItem('token')
             }
         }).then((response)=>{
             this.setState({friends:response.data.message});

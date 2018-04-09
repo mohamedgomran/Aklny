@@ -52,6 +52,10 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+<<<<<<< HEAD
   # config.force_ssl = true
+=======
+  #config.force_ssl = true
+>>>>>>> 1ba8b971e8bbc2c583ccb1780f9ebd12d0467d84
 
 end
