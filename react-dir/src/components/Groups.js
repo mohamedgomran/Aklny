@@ -1,8 +1,7 @@
 import React from 'react';
-import { Form,Input, Button, Container, Header, Icon, Card, Image, Grid, Segment, Tab, Label, Menu, List } from 'semantic-ui-react'
+import { Form,Input, Button, Container, Header, Icon, Grid, Segment, Label, List } from 'semantic-ui-react'
 import { Link } from "react-router-dom";
 import GroupMember  from './GroupMembers'
-import axios from 'axios';
 import GroupsAPI from '../API/groups-api';
 var uuid = require('uuid-v4');
 

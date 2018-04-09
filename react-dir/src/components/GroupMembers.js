@@ -1,5 +1,5 @@
 import React from 'react';
-import GridRow, { Form, Label, Input, Button, Container, Header, Icon, Card, Image, Grid, Segment, Tab } from 'semantic-ui-react'
+import { Form, Label, Input, Button, Card, Image, Grid } from 'semantic-ui-react'
 import GroupsAPI from '../API/groups-api';
 var uuid = require('uuid-v4');
 

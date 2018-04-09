@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from "react-router-dom";
+import { Link,Redirect  } from "react-router-dom";
 import { Icon, Menu, Image, Dropdown ,Button,List} from 'semantic-ui-react'
 import logo from '../logo.svg';
 import UsersAPI from '../API/users-api';
@@ -9,6 +9,12 @@ let uuid = require('uuid-v4');
 
 export default class Header extends Component {
   state = { activeItem: 'home' ,
+            items : [
+          { value: "ahmed has joined you to orders  ",Status: 'orders' },
+          { value: "ahmed invited you to his breakfast  ",Status: 'joined' },
+          { value: "omran Joined to your order  ",Status: 'orders' },
+					],
+					logout:false,
             join_notif : [],
 						invite_notif : []
  					}
@@ -34,6 +40,8 @@ export default class Header extends Component {
 
 	handellogout(){
 		{localStorage.getItem('token') !== null ?localStorage.removeItem('token'):''}
+		{localStorage.getItem('user') !== null ?localStorage.removeItem('user'):''}
+		this.setState({logout:true})
 	};
 
   handleChange(event, index, value) {this.setState({value});
@@ -51,8 +59,13 @@ onReceived(notif) {
 	})
 }
   render() {
-    const { activeItem } = this.state
-
+		const { activeItem } = this.state
+		
+	 const { logout } = this.state;
+		if (logout) {
+			return <Redirect to='/login'/>;
+		 } 
+		
     return (
 
 	      <Menu icon size='massive'>
