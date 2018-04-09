@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link,Redirect  } from "react-router-dom";
+import { Link  } from "react-router-dom";
 import { Icon, Menu, Image, Dropdown ,Button,List} from 'semantic-ui-react'
 import logo from '../logo.svg';
 import UsersAPI from '../API/users-api';
@@ -16,7 +16,7 @@ export default class Header extends Component {
           { value: "ahmed invited you to his breakfast  ",Status: 'joined' },
           { value: "omran Joined to your order  ",Status: 'orders' },
 					],
-					logout:false,user:'',logged:false,
+					logout:false,user:'',userId:'',logged:false,
             join_notif : [],
 						invite_notif : []
  					}
@@ -26,7 +26,7 @@ export default class Header extends Component {
     this.handleChange=this.handleChange.bind(this);
 		this.handellogout=this.handellogout.bind(this);
 		this.getuserdata-this.getuserdata.bind(this);
-		// this.getuserdata();
+		this.getuserdata();
 		
 	}
 	
@@ -44,8 +44,8 @@ export default class Header extends Component {
 			 }).then( (response)=> {
 				 console.log(response);
 				 console.log(response.data.user);
-				 this.setState({logged:true});
-				 this.setState({user:response.data.user.name})
+				 this.setState({logged:true,user:response.data.user.name,userId:response.data.user.id});
+				//  this.setState({user:response.data.user.name})
 				 console.log('user from header ',this.state.user)
 				 //redirect to hom page
 				 
@@ -72,13 +72,23 @@ export default class Header extends Component {
 	}
 
 
+	componentDidUpdate(prevProps, prevState)
+	{
+			if(!this.state.logged)
+			 {   
+       this.getuserdata()
+			 }
+	}
+
+
+
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
 	handellogout(){
-		this.setState({user:''})
-		{localStorage.getItem('token') !== null ?localStorage.removeItem('token'):''}
-		this.setState({logged:false})
-		// this.getuserdata()
+		this.setState({user:''});
+		localStorage.getItem('token') !== null ?localStorage.removeItem('token'):'';
+		this.setState({logout:true,logged:false});
+		
 	};
 
 
@@ -101,7 +111,7 @@ onReceived(notif) {
   render() {
 
 	 const { activeItem } = this.state	
-		 this.getuserdata();
+	
 
     return (
 				 
@@ -194,7 +204,7 @@ onReceived(notif) {
 		        </Menu.Item>
 					 }
   
-	       {!this.state.logged&&
+	       {this.state.logged === false&&
           <Menu.Item as={Link} to='/login' name='log-in'>
 				      	Login
 							<Icon name='sign in' />
@@ -202,7 +212,7 @@ onReceived(notif) {
 		        </Menu.Item>
 	          }
 	        
-					{!this.state.logged&&
+					{this.state.logged === false&&
 					<Menu.Item as={Link} to='/register' name='log-out'>
 				 	SignUp
 							<Icon name='add user' />

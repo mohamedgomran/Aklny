@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, Message, Grid, Header, Segment } from 'semantic-ui-react'
-import { Link } from "react-router-dom";
+
 
 
 export default class Forgetpassword extends Component {
@@ -23,7 +23,7 @@ export default class Forgetpassword extends Component {
   handleSubmit(event) {
     console.log('UserName and Pass are  submitted: ' + this.state.Email);
        //if data incorrect show in errmsg
-    if(this.state.Email =='')
+    if(this.state.Email === '')
     {
       this.setState({errmsg: 'Please enter Your Email'});
     }else
@@ -45,10 +45,8 @@ export default class Forgetpassword extends Component {
 
   render() {
     return (
-
         
-      <div  className='login-form'>
-      
+      <div  className='login-form'>      
       <Grid
       textAlign='center'
       style={{ height: '100%' }}
@@ -79,7 +77,7 @@ export default class Forgetpassword extends Component {
         </Form>
 
         <label>
-        { this.state.errmsg !=''?
+        { this.state.errmsg !== ''?
         <Message
          error
          header=''

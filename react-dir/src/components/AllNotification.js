@@ -3,6 +3,7 @@ import { Confirm ,Table,Grid,Icon,Pagination,List,Image,Button } from 'semantic-
 import OrdersAPI from '../API/orders-api';
 import UsersAPI from '../API/users-api';
 import {ActionCable} from 'react-actioncable-provider'
+
 let uuid = require('uuid-v4');
 class AllNotification extends React.Component {
 
