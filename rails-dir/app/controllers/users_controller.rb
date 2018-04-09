@@ -14,6 +14,31 @@ class UsersController < ApplicationController
             render json: { success: false, message: @user.errors }
         end 
     end
+    ###########################################forgetPassword###############33
+
+        def forgetPassword()
+                    
+              uparams = params.permit(:email) 
+            @user=User.find_by(email:uparams[:email])
+            if User.find_by(email:uparams[:email])
+                ApplicationMailer.send_email(@user).deliver_now
+                render json: { success: true, message:  User.find_by(email:uparams[:email])}
+            else
+                render json: { success: false, message:'invalid user mail in db' }
+            end 
+            # uparams = params.permit(:email)
+            # @user=User.find_by(email:uparams[:email])
+            # if User.find_by(email:uparams[:email])
+            # {
+            #    ApplicationMailer.send_email(@user).deliver_now
+            #     render json: { success: true, message:  User.find_by(email:uparams[:email])}
+            # }
+            # else{
+            # render json: { success: false, message: 'Invalid user mail' }
+            # }    
+            # end
+        end
+
 
     ################################user id to be get from authentication ##################################
     def add_friend

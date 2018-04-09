@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import { Button, Form, Message, Grid, Header, Segment } from 'semantic-ui-react'
-
+import axios from 'axios';
 
 
 export default class Forgetpassword extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {Email: '',errmsg:''};
 
-    this.handleChangeEmail = this.handleChangeEmail.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  constructor(props) {
+      super(props);
+      this.state = {Email: '',errmsg:''};
+
+      this.handleChangeEmail = this.handleChangeEmail.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
 
   }
 
+
   handleChangeEmail(event) {
-    this.setState({Email: event.target.value});
-   
+    this.setState({Email: event.target.value}); 
   }
 
 
@@ -37,13 +38,37 @@ export default class Forgetpassword extends Component {
             console.log(value); 
           }
 
+          //***********************send mail to this user 
+          axios.post('http://localhost:3000/users/forget', data, {
+            headers: {
+              'Content-Type':  'application/json'
+            }
+            }).then( (response)=> {
+              console.log('forget response ',response);
+              if(response.data.success === true)
+                 this.setState({errmsg:'check your mail'});
+              else
+                 this.setState({errmsg:'invalid user  mail'});
+             
+            })
+            .catch( (error)=> {
+              console.log(error);
+              console.log('err in send mail');
+              this.setState({errmsg:'invalid user Mail'});
+            });
+          
+            
     }
 
      
     event.preventDefault();
   }
 
+
+
   render() {
+  
+  
     return (
         
       <div  className='login-form'>      
@@ -67,7 +92,7 @@ export default class Forgetpassword extends Component {
               iconPosition='left'
               placeholder='E-mail address'
               type='email'
-              name='usermail'
+              name='email'
               value={this.state.Email} onChange={this.handleChangeEmail} required 
             />
         
@@ -87,14 +112,14 @@ export default class Forgetpassword extends Component {
         </label>
 
       </Grid.Column>
-    </Grid>
-   
-      
-      <br/>
+      </Grid>
+    
+        
+        <br/>
 
 
-    </div>
-  
-    );
+      </div>
+    
+      );
   }
 }
