@@ -8,7 +8,7 @@ export default class Friends extends React.Component{
     userId = this.props.match.params.id;
     state = {
         friends:[],
-        input: ""
+        input: "",
 		}
 
 		constructor(props){
@@ -27,8 +27,17 @@ export default class Friends extends React.Component{
                             'Content-Type': 'application/json',
                             'Authorization':"Bearer "+localStorage.getItem('token')
 					}}).then((response)=>{
-							this.getMyFriends();
-							console.log("response",response);
+                        if(response.data.success){
+                            this.getMyFriends();
+                            console.log("friend added");
+                        }else{
+                            if(response.data.message === "already a friend"){
+                                alert("already a friend")
+                            }else if(response.data.message === "Friend Not found"){
+                                alert("not found")
+                            }
+                        }
+							// console.log("response",response);
 					}).catch((error)=>{
 							console.log("error", error);
 					})
@@ -38,7 +47,7 @@ export default class Friends extends React.Component{
     }
 
     removeFriend = (e)=>{
-				console.log("removing"+e.target.value);
+				// console.log("removing"+e.target.value);
 				axios.delete(`http://localhost:3000/users/friends/${e.target.value}`, {
 					headers:{
                             'Content-Type': 'application/json',
@@ -48,8 +57,6 @@ export default class Friends extends React.Component{
 					}).catch((error)=>{
 
 					})
-
-
     }
 
     getMyFriends = ()=>{
@@ -109,7 +116,3 @@ export default class Friends extends React.Component{
         );
     }
 }
-// const AddFriendToGroup = () => (
-// )
-
-// export default Friends

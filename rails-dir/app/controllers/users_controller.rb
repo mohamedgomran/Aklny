@@ -38,7 +38,7 @@ class UsersController < ApplicationController
         @user = User.find(user_id);
         @friend = User.find(params[:friend_id].to_i);
 
-        if User.find(params[:id].to_i).friends.include?(@friend)
+        if User.find(user_id).friends.include?(@friend)
 			@user.friends.delete(@friend)
             render json: {success: true, message: "friend deleted"}
         else
