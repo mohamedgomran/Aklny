@@ -7,8 +7,10 @@ import axios from 'axios';
 export default class Login extends Component {
   constructor(props) {
     super(props);
+    if(localStorage.getItem('token')) {
+      window.location.replace('http://localhost:3001/')
+    } 
     this.state = {Email: '',password:'',errmsg:''};
-
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangePass = this.handleChangePass.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,7 +25,9 @@ export default class Login extends Component {
    
   }
 
-
+  componentWillMount() {
+    
+  }
   handleChangePass(event) {
     this.setState({password: event.target.value});
   }
@@ -71,7 +75,8 @@ export default class Login extends Component {
                   localStorage.setItem('user',JSON.stringify(response.data.user))
                   var u=localStorage.getItem('user')
                   console.log('User from local storage',JSON.parse(u))
-                  return <Redirect to="/"/>
+                  window.location.reload();                  
+                  // return <Redirect to="/"/>
                 })
                 .catch(function (error) {
                   console.log(error);
@@ -127,7 +132,8 @@ export default class Login extends Component {
             }).then(function (response) {
                 console.log('Login res status',response.status);
                 console.log(response.data.jwt);
-                if(response.status === '201'){
+                if(response.status === 201){
+                  console.log("inside 1st axios",response.data.jwt)
                 localStorage.setItem('token',response.data.jwt)
                 //request to get User data 
                 axios.get('http://localhost:3000/auth', {
@@ -136,13 +142,14 @@ export default class Login extends Component {
                     'Authorization':"Bearer "+localStorage.getItem('token')
                   }
                   }).then(function (response) {
-                    console.log(response);
+                    console.log("inside 2nd axios",response);
                     console.log(response.data.user);
                     console.log(localStorage.getItem('token'));
                     localStorage.setItem('user',JSON.stringify(response.data.user))
                     var u=localStorage.getItem('user')
                     console.log('User from local storage',JSON.parse(u))
-                    return <Redirect to="/"/>
+                    window.location.reload();                  
+                    // return <Redirect to="/"/>
                   })
                   .catch(function (error) {
                     console.log(error);
