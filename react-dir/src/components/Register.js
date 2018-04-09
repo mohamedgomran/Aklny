@@ -46,16 +46,16 @@ export default class Register extends Component {
 
   handleSubmit(event) {
     console.log('register data: ' + this.state.username+this.state.password+' '+this.state.confirmpass+' '+this.state.Email);
-     if(this.state.password != this.state.confirmpass )
+     if(this.state.password !== this.state.confirmpass )
      {
 
       this.setState({errmsg:'invalid Password'});
 
-     }else if(this.state.name=='')
+     }else if(this.state.name === '')
      {
       this.setState({errmsg:'User Name is Required'});
      }
-     else if(this.state.Email=='')
+     else if(this.state.Email === '')
      {
       this.setState({errmsg:'Email is'});
      }
@@ -99,7 +99,6 @@ export default class Register extends Component {
   render() {
 
     const { redirect } = this.state;
-
      if (redirect) {
        return <Redirect to='/login'/>;
       }
@@ -160,7 +159,7 @@ export default class Register extends Component {
 
             <Form.Input
               fluid
-              icon='upload'
+              icon='upload icon'
               iconPosition='left'
               placeholder='Upload Image'
               type='file'
@@ -172,7 +171,7 @@ export default class Register extends Component {
           </Segment>
         </Form>
         <label>
-        { this.state.errmsg !=''?
+        { this.state.errmsg !== ''?
         <Message
          error
          header=''

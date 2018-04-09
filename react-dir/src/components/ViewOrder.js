@@ -18,8 +18,7 @@ export default class ViewOrder extends Component {
 	constructor(props){
 		super(props);
 		this.getOrderItems();
-		this.getInvited();
-		
+		this.getInvited();		
 	}
 
 	getInvited = ()=>{
@@ -33,7 +32,6 @@ export default class ViewOrder extends Component {
 		}).catch((error)=>{
 			console.log(error)
 		})
-
 	}
 
 	getOrderItems = ()=>{
@@ -43,9 +41,8 @@ export default class ViewOrder extends Component {
 				'Authorization':"Bearer "+localStorage.getItem('token')
 			}
 		}).then((response)=>{
-			console.log("ll",response.data);
-			
-			this.setState({orders: response.data})
+			console.log("ll",response.data.message);
+			this.setState({orders: response.data.message})
 		}).catch((error)=>{
 			console.log(error)
 		})
@@ -188,7 +185,7 @@ export default class ViewOrder extends Component {
 								    		return(
 
 										      <Table.Row key={uuid()}>
-										        <Table.Cell>{order.user_id}</Table.Cell>
+										        <Table.Cell>{order.user_name.name}</Table.Cell>
 										        <Table.Cell>{order.item}</Table.Cell>
 										        <Table.Cell>{order.amount}</Table.Cell>
 										        <Table.Cell>{order.price}</Table.Cell>

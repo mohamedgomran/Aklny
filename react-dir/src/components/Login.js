@@ -62,7 +62,9 @@ export default class Login extends Component {
               console.log(response);
               console.log(response.data.jwt);
               localStorage.setItem('token',response.data.jwt)
+              this.setState({logged:true});
               //request to get User data 
+              /*
               axios.get('http://localhost:3000/auth', {
                 headers: {
                   'Content-Type': 'application/json',
@@ -84,6 +86,7 @@ export default class Login extends Component {
                   console.log(error);
                   this.setState({errmsg:"invalid Social Login"})
                 });
+                */
 
 
             })
@@ -139,7 +142,9 @@ export default class Login extends Component {
                 if(response.status === 201){
                   console.log("inside 1st axios",response.data.jwt)
                 localStorage.setItem('token',response.data.jwt)
+                this.setState({logged:true});
                 //request to get User data 
+                /*
                 axios.get('http://localhost:3000/auth', {
                   headers: {
                     'Content-Type': 'application/json',
@@ -162,7 +167,7 @@ export default class Login extends Component {
                     this.setState({errmsg:"invalid user mail or passwprd"});
                     
                   });
-
+                 */
 
               
                 }})

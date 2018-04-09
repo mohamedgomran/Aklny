@@ -7,7 +7,6 @@ import {ActionCable} from 'react-actioncable-provider'
 
 let uuid = require('uuid-v4');
 
-
 class AllNotification extends React.Component {
 
   state = {
