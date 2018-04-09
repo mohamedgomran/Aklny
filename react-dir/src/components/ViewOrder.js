@@ -45,8 +45,24 @@ export default class ViewOrder extends Component {
   handleHide = () => this.setState({ active: false })
 
 	handleSubmit = (e) => {
-		let formData = new FormData(document.getElementById('itemForm'))
-		console.log(formData.get('item'))
+		let form = document.getElementById('itemForm')
+		let formData = new FormData(form)
+		console.log(formData);
+		
+		axios.post(`http://localhost:3000/orders/${this.orderId}/items`, {
+			"item": formData.get("item"),
+			"price": formData.get("price"),
+			"amount": formData.get("amount"),
+			"comment": formData.get("comment")
+		},{
+			headers:{
+				'Content-Type': 'application/json',
+				'Authorization':"Bearer "+localStorage.getItem('token')
+			}}).then((response)=>{
+				console.log(response)
+			}).catch(error=>{
+				console.log(error)
+			})
 	}
 
     render() {
