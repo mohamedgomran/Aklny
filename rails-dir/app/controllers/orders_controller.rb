@@ -30,10 +30,16 @@ class OrdersController < ApplicationController
     end
 
     def list
-        # user_id = 1 #to be get from authentication
         user_id = current_user.id
         @orders = User.find(user_id).orders
-        render json: User.find(user_id).orders
+        @orders = @orders.map { |order| 
+            invited = order.notifications.where(notification_type:"invitation").count
+            joined = order.notifications.where(notification_type:"join").count
+            order = order.as_json
+            order[:invited], order[:joined] = invited, joined
+            order
+        }
+        render json: @orders
     end
 
     
