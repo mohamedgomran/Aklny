@@ -48,6 +48,7 @@ export default class Login extends Component {
       }
       }).then(function (response) {
         console.log(response);
+        window.location.reload();
       })
       .catch(function (error) {
         console.log(error);
@@ -98,6 +99,7 @@ export default class Login extends Component {
                   }
                   }).then(function (response) {
                     console.log(response);
+                    window.location.reload();
                   })
                   .catch(function (error) {
                     console.log(error);

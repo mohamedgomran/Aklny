@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Icon, Menu, Image, Dropdown ,Button,List} from 'semantic-ui-react'
 import logo from '../logo.svg';
 import UsersAPI from '../API/users-api';
+import {ActionCable} from 'react-actioncable-provider'
+
 let uuid = require('uuid-v4');
 
 export default class Header extends Component {
@@ -33,6 +35,14 @@ console.log("index "+index);
 console.log("value "+value);
 
 }
+
+onReceived(notif) {
+	console.log(notif)
+	this.setState({
+		join_notif: notif.message.join_notif,
+		invite_notif: notif.message.invite_notif,
+	})
+}
   render() {
     const { activeItem } = this.state
 
@@ -41,7 +51,7 @@ console.log("value "+value);
 	      <Menu icon size='massive'>
 
 	        <Menu.Item />
-
+					<ActionCable ref='MyNotifications' channel={{channel: 'MyNotificationsChannel'}} onReceived={this.onReceived.bind(this)} />
 	        <Menu.Item as={Link} to='/' name='home' active={activeItem === 'home'} onClick={this.handleItemClick}>
 	          <Icon name='home' />
 	        </Menu.Item>
@@ -67,7 +77,7 @@ console.log("value "+value);
 										<List>
 												<List.Item key={uuid()}>
 													<List.Content floated='left'>
-														{item.invited.name} has joined your <Link to={`/orders/${item.order_id}`}><b>order</b></Link>
+														{item.invited.name} has joined your <Link to={`/orders/${item.order_id}`}><b>{item.order_for}</b></Link>
 													</List.Content>
 													{/* <List.Content floated='right'>
 													<Button size='mini' color='teal'>View</Button>
@@ -83,7 +93,7 @@ console.log("value "+value);
 										<List>
 												<List.Item key={uuid()}>
 													<List.Content floated='left'>
-													{item.host.name} has invited you to his <Link to={`/orders/${item.order_id}`}><b>order</b></Link>
+													{item.host.name} has invited you to his <Link to={`/orders/${item.order_id}`}><b>{item.order_for}</b></Link>
 													</List.Content>
 
 													<List.Content floated='right'>

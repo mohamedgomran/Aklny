@@ -3,7 +3,6 @@ class OrdersController < ApplicationController
 
     def create
         params.require(:order).permit!
-        # user_id = 1 #to be get from authentication
         user_id = current_user.id
         params[:order][:user_id] = user_id
         @order = Order.new(params[:order])
@@ -39,9 +38,11 @@ class OrdersController < ApplicationController
     def join
         user_id = current_user.id
         p user_id
+        orderOwner_id = Order.find(params[:oid]).user.id
         @notification = Notification.find_by(order_id: params[:oid], user_id: user_id, notification_type: "invitation")
         if @notification
             self.class.notify([user_id],"join",params[:oid],"false")
+            ActionCable.server.broadcast "notifications_#{orderOwner_id}",ApplicationController.list_notifications(orderOwner_id)
             render json: {success: true, message:  @order}
         end
     end
@@ -55,7 +56,7 @@ class OrdersController < ApplicationController
                 user_id: user,
             }
             @notification = Notification.create(notif);
-            #action cable here
+            ActionCable.server.broadcast "notifications_#{user}",ApplicationController.list_notifications(user)
         end
     end
 
