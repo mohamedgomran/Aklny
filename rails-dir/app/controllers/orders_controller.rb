@@ -3,13 +3,12 @@ class OrdersController < ApplicationController
 
     def create
         params.require(:order).permit!
-        # user_id = 1 #to be get from authentication
         user_id = current_user.id
         params[:order][:user_id] = user_id
         @order = Order.new(params[:order])
         if @order.save
             invited = params[:invited]
-            self.class.notify(invited,"invitation",@order.id,"true",sender);
+            self.class.notify(invited,"invitation",@order.id,"true");
             render json: {success: true, message: invited}
         else
             render json: {success: false, message: @order.errors}
@@ -38,24 +37,27 @@ class OrdersController < ApplicationController
 
     
     def join
-        @notification = Notification.find_by(order_id: params[:oid], user_id: params[:uid], notification_type: "invitation")
+        user_id = current_user.id
+        p user_id
+        orderOwner_id = Order.find(params[:oid]).user.id
+        @notification = Notification.find_by(order_id: params[:oid], user_id: user_id, notification_type: "invitation")
         if @notification
-            self.class.notify([params[:uid]],"join",params[:oid],"false")
+            self.class.notify([user_id],"join",params[:oid],"false")
+            ActionCable.server.broadcast "notifications_#{orderOwner_id}",ApplicationController.list_notifications(orderOwner_id)
             render json: {success: true, message:  @order}
         end
     end
 
-    def self.notify(users,type,oid,invited,sender) 
+    def self.notify(users,type,oid,invited) 
         users.each do |user|
             notif = {
                 notification_type: type,
                 order_id: oid,
                 invited: invited,
                 user_id: user,
-                sender_id: sender,
             }
             @notification = Notification.create(notif);
-            #action cable here
+            ActionCable.server.broadcast "notifications_#{user}",ApplicationController.list_notifications(user)
         end
     end
 
