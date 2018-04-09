@@ -12,7 +12,6 @@ export default class ViewOrder extends Component {
 	state = {
 		orders : [],
 		joined : [],
-
 		invited : [],
 	}
 

@@ -31,19 +31,7 @@ export default class AppRouter extends Component {
         jwt: localStorage.getItem('token'),
         cable: this.cable,
     }
-    
-    constructor(props) {
-        super(props)
-    }
-    
     cable = ActionCable.createConsumer("ws://localhost:3000/cable", this.state.jwt)
-
-    setJWT = () => {
-        console.log("in set state",localStorage.getItem('token'))
-        this.setState({
-            jwt: localStorage.getItem('token'),
-        })
-    }
 
     render() {
         console.log("my jwt",this.state.jwt)
@@ -53,7 +41,7 @@ export default class AppRouter extends Component {
                     <div>
                         <Header />
                         <Switch>
-                            <PrivateRoute path="/" component={Home} exact={true} onMount={this.setJWT}/>
+                            <PrivateRoute path="/" component={Home} exact={true} />
                             <PrivateRoute path="/:id/friends" component={Friends} exact={true} />
                             <PrivateRoute path="/orders" component={Orders} exact={true}/>
                             <PrivateRoute path="/AllNotification" component={AllNotification} exact={true}/>
