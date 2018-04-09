@@ -7,7 +7,7 @@ class UsersController < ApplicationController
         # puts uparams
         @user = User.create(uparams)
         if User.find_by(email:uparams[:email])
-            render json: { success: false, message:  User.find_by(email:uparams[:email])}
+            render json: { success: false, message:  User.find_by(email:uparams[:email]).select(:email, :name, :id, :pic)}
         elsif @user.save
             render json: { success: true, message: 'user added' }
         else
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
             if User.find_by(email:uparams[:email])
                 @user.update_attributes(password: 'yallanotlob38')
                  ApplicationMailer.send_mail(@user.email,'yallanotlob38','Yallanotlob Reset Password').deliver_now
-                render json: { success: true, message:  User.find_by(email:uparams[:email])}
+                render json: { success: true, message:  User.find_by(email:uparams[:email]).select(:email, :name, :id, :pic)}
             else
                 render json: { success: false, message:'invalid user mail in db' }
             end 
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
         # user_id = 5 #to be get from authentication
         user_id = current_user.id
         @user = User.find(user_id);
-        @friend = User.find_by(email: params[:email]);
+        @friend = User.find_by(email: params[:email]).select(:email, :name, :id, :pic);
 
         if @user.friends.include?(@friend)
             render json: {success: false, message: "already a friend"}
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     def del_friend
         user_id = current_user.id
         @user = User.find(user_id);
-        @friend = User.find(params[:friend_id].to_i);
+        @friend = User.find(params[:friend_id].to_i).select(:email, :name, :id, :pic);
 
         if User.find(user_id).friends.include?(@friend)
 			@user.friends.delete(@friend)
@@ -66,7 +66,7 @@ class UsersController < ApplicationController
     def list_friends
         # user_id = ####
         user_id = current_user.id        
-        @friends = User.find(user_id).friends.select(:email, :name, :id)
+        @friends = User.find(user_id).friends.select(:email, :name, :id, :pic)
         render json: {success: true, message: @friends}
     end
 
@@ -77,7 +77,7 @@ class UsersController < ApplicationController
         @invite_notif = []
         @myorders = User.find(user_id).orders.find_each do |order|
             order.notifications.where(notification_type: "join").limit(5).order(created_at: :desc).each do |notif|
-                user= User.where(id: notif.user_id).select(:id,:name)[0]
+                user= User.where(id: notif.user_id).select(:id,:name, :pic)[0]
                 @join_notif << {order_id: notif.order_id, order_for: order.order_for, invited: user, created_at: notif.created_at}
             end
         end
