@@ -16,6 +16,24 @@ let OrdersAPI = {
             callback(error)
         })
 	},
+	finishOrder:(oid, callback)=>{
+        axios.put(`http://localhost:3000/orders/${oid}`,{} , { headers: headersFactory() })
+          .then((response)=> {
+            callback(response.data)
+          })
+          .catch((error)=> {
+            callback(error)
+        })
+	},
+	deleteOrder:(oid, callback)=>{
+        axios.delete(`http://localhost:3000/orders/${oid}`, { headers: headersFactory() })
+          .then((response)=> {
+            callback(response.data)
+          })
+          .catch((error)=> {
+            callback(error)
+        })
+	},
 }
 
 
