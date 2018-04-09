@@ -111,12 +111,12 @@ class Orders extends React.Component {
 
   </Grid.Row>
   <Grid.Row>
-  <Pagination
+{ /* <Pagination
          offset={this.state.offset}
          limit={10}
          total={100}
          onClick={(e, props, offset) => this.handleClick(offset)}
-       />
+       /> */}
   </Grid.Row>
 </Grid>
 
