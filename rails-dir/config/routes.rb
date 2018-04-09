@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
+  
   post 'user_token' => 'user_token#create'
   get    'auth'   => 'test#auth'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-
+  mount ActionCable.server => '/cable'
+  
   ##Users routes##
   # register a user
   post 'users', to: 'users#register'
@@ -50,7 +52,7 @@ Rails.application.routes.draw do
   #delete item from order (order details)
   delete 'orders/:oid/items/:iid', to: 'order_details#delete'
   #join order
-  put 'orders/:oid/join/:uid', to: 'orders#join'
+  put 'orders/:oid/join', to: 'orders#join'
   # invited
   get 'orders/:oid/invited', to: 'orders#show_invited'
   # joined
