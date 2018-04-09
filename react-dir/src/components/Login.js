@@ -20,7 +20,7 @@ export default class Login extends Component {
 
   handleChangeEmail(event) {
     this.setState({Email: event.target.value});
-   
+
   }
 
 
@@ -28,7 +28,7 @@ export default class Login extends Component {
     this.setState({password: event.target.value});
   }
 
-  
+
   handleSocialLogin = (user) => {
     console.log(user)
     console.log(user.profile)
@@ -53,12 +53,12 @@ export default class Login extends Component {
             headers: {
               'Content-Type': 'application/json'
             }
-            
+
           }).then( (response)=> {
               console.log(response);
               console.log(response.data.jwt);
               localStorage.setItem('token',response.data.jwt)
-              //request to get User data 
+              //request to get User data
               axios.get('http://localhost:3000/auth', {
                 headers: {
                   'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export default class Login extends Component {
                   var u=localStorage.getItem('user')
                   console.log('User from local storage',JSON.parse(u))
                   // return <Redirect to="/"/>
-                  //redirect to home page 
+                  //redirect to home page
                   this.setState({logged:true});
                 })
                 .catch( (error)=> {
@@ -92,12 +92,12 @@ export default class Login extends Component {
         console.log('Social Login error ',error);
         this.setState({errmsg:"invalid Social Login"})
       });
-    
-    
+
+
 
 
   }
-  
+
  handleSocialLoginFailure = (err) => {
     console.error(err)
   }
@@ -119,21 +119,21 @@ export default class Login extends Component {
           console.log(data.get('email'));
           // Display the values
           for (var value of data.values()) {
-            console.log(value); 
+            console.log(value);
           }
-          
+
           const body={auth:{"email":data.get('email'),"password":data.get('password')}}
           axios.post('http://localhost:3000/user_token',body,{
               headers: {
                 'Content-Type': 'application/json'
               }
-              
+
             }).then((response)=> {
                 console.log('Login res status',response.status);
                 console.log(response.data.jwt);
-                if(response.status == '201'){
+                if(response.status == 201){
                 localStorage.setItem('token',response.data.jwt)
-                //request to get User data 
+                //request to get User data
                 axios.get('http://localhost:3000/auth', {
                   headers: {
                     'Content-Type': 'application/json',
@@ -153,21 +153,21 @@ export default class Login extends Component {
                   .catch((error)=> {
                     console.log(error);
                     this.setState({errmsg:"invalid user mail or passwprd"});
-                    
+
                   });
 
 
-              
+
                 }})
               .catch( (error)=> {
                 console.log('Login error ',error);
                 this.setState({errmsg:"invalid user mail or passwprd"});
-                
+
               });
 
     }
 
-     
+
     event.preventDefault();
   }
 
@@ -181,9 +181,9 @@ export default class Login extends Component {
 
     return (
 
-        
+
       <div  className='login-form'>
-      
+
       <Grid
       textAlign='center'
       style={{ height: '100%' }}
@@ -205,7 +205,7 @@ export default class Login extends Component {
               placeholder='E-mail address'
               type='email'
               name='email'
-              value={this.state.Email} onChange={this.handleChangeEmail} required 
+              value={this.state.Email} onChange={this.handleChangeEmail} required
             />
             <Form.Input
               fluid
@@ -236,51 +236,51 @@ export default class Login extends Component {
           <br/>
           forget your password?<Link to="/forgetpassword">here</Link>
         </Message>
-        
+
         <Grid.Row>
-        <Message> 
+        <Message>
         <Grid.Column  computer={2}>
-            
+
             <Button color='facebook' fluid >
-                    
-                    <SocialButton  
-                    color='facebook' fluid 
+
+                    <SocialButton
+                    color='facebook' fluid
                     provider='facebook'
                     appId='156850814994978'
                     onLoginSuccess={this.handleSocialLogin}
                     onLoginFailure={this.handleSocialLoginFailure}
                     >
-                    <Icon name='facebook' /> 
+                    <Icon name='facebook' />
                     Login with Facebook
                   </SocialButton>
             </Button>
             <br/>
-          
+
             <Button color='google plus' fluid >
             {/* 372012466129-l3ap3uobl7qffkq1d135o1eiopqctmpb.apps.googleusercontent.com */}
             {/* w29azHba8hc1zqKHfqJC_tnd */}
-                   <SocialButton  
-                   
+                   <SocialButton
+
                     provider='google'
                     appId='372012466129-8uv0cpjq7v3cforvq0evfq2vl9v0f9sd.apps.googleusercontent.com'
                     onLoginSuccess={this.handleSocialLogin}
                     onLoginFailure={this.handleSocialLoginFailure}
                     >
-                    <Icon name='google plus' /> 
-                    Login with Google 
+                    <Icon name='google plus' />
+                    Login with Google
                     </SocialButton>
             </Button>
-          
+
         </Grid.Column>
         </Message>
         </Grid.Row>
       </Grid.Column>
-    </Grid>      
+    </Grid>
       <br/>
-    
+
 
     </div>
-  
+
     );
   }
 }
