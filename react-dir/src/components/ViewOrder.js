@@ -1,32 +1,47 @@
 import React, { Component } from 'react'
 import { Button, Grid, Label, Segment, Menu, Icon, Table, Form ,Dimmer} from 'semantic-ui-react'
+import axios from 'axios';
 import img from '../12.jpg';
 let uuid = require('uuid-v4');
 
 
 export default class ViewOrder extends Component {
 
+
+	orderId = this.props.match.params.id;
 	state = {
 		'orders' : [
 			{'user': "Ahmed", 'item':"Pizza", 'amount':"1", 'price':"70", 'comment':"Mix"},
 			{'user': "Omran", 'item':"Fool", 'amount':"2", 'price':"4", 'comment':"Tehena"},
 		],
-		'joined' : [
-		],
+		'joined' : [],
 
-		'invited' : [
-			{'user': "omran", 'img':"12.jpg"},
-			{'user': "omran", 'img':"12.jpg"},
-			{'user': "hassan", 'img':"12.jpg"},
-			{'user': "hassan", 'img':"12.jpg"},
-			{'user': "hassan", 'img':"12.jpg"},
-		],
+		'invited' : [],
+	}
+
+	constructor(props){
+		super(props);
+		this.getInvited();
+	}
+
+	getInvited = ()=>{
+		axios.get(`http://localhost:3000/orders/${this.orderId}/invited`, {
+			headers:{
+				'Content-Type': 'application/json',
+				'Authorization':"Bearer "+localStorage.getItem('token')
+			}
+		}).then((response)=>{
+			this.setState({invited: response.data.message})
+		}).catch((error)=>{
+			console.log(error)
+		})
 
 	}
 
-
   handleShowInvited = () => this.setState({ active: true ,flag : 'invited'})
+
 	handleShowJoin = () => this.setState({ active: true ,flag : 'joined'})
+
   handleHide = () => this.setState({ active: false })
 
 	handleSubmit = (e) => {
@@ -52,7 +67,7 @@ export default class ViewOrder extends Component {
 										<Grid.Column key={uuid()}>
 										<Label as='a' image size='medium'>
 												<img src={invite.img} alt="alt"/>
-												{invite.user}
+												{invite.name}
 											</Label>
 											</Grid.Column>
 									)
