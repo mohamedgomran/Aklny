@@ -97,7 +97,7 @@ export default class ViewOrder extends Component {
 				'Content-Type': 'application/json',
 				'Authorization':"Bearer "+localStorage.getItem('token')
 			}}).then((response)=>{
-				this.getOrderItems();
+				// this.getOrderItems();
 			}).catch(error=>{
 				console.log(error)
 			})
@@ -209,8 +209,8 @@ export default class ViewOrder extends Component {
 										        <Table.Cell>{order.amount}</Table.Cell>
 										        <Table.Cell>{order.price}</Table.Cell>
 										        <Table.Cell>{order.comment}</Table.Cell>
-														<Table.Cell>
-														<Button value={order.id} size="medium" basic color="red" onClick={this.removeOrder}>Remove</Button>
+												<Table.Cell>
+														{(JSON.parse(localStorage.getItem('user'))).id === order.user_id && <Button value={order.id} size="medium" basic color="red" onClick={this.removeOrder}>Remove</Button> }
 										        </Table.Cell>
 										      </Table.Row>
 

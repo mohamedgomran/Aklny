@@ -62,6 +62,7 @@ export default class Login extends Component {
               console.log(response);
               console.log(response.data.jwt);
               localStorage.setItem('token',response.data.jwt)
+              localStorage.setItem('user',JSON.stringify(response.data.user))
               this.setState({logged:true});
               //request to get User data 
               /*

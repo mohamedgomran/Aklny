@@ -43,10 +43,14 @@ class OrderDetailsController < ApplicationController
     end
 
     def delete
-        OrderDetail.delete(params[:iid])
-        Notification.where(order_id: params[:oid], notification_type: "join").find_each do |notif|
-            ActionCable.server.broadcast "order_details_#{params[:oid]}_#{notif.user_id}", self.listRefresh(params[:oid])
+        user_id = current_user.id
+        if OrderDetail.find_by(user_id: user_id, id: params[:iid] )
+            OrderDetail.delete(params[:iid])
+            Notification.where(order_id: params[:oid], notification_type: "join").find_each do |notif|
+                ActionCable.server.broadcast "order_details_#{params[:oid]}_#{notif.user_id}", self.listRefresh(params[:oid])
+            end
+            render json: {success: true, message: "item deleted"}
         end
-        render json: {success: true, message: "item deleted"}
+        render json: {success: false, message: "item Not Found"}
     end
 end

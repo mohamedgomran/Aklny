@@ -88,6 +88,7 @@ export default class Header extends Component {
 	handellogout(){
 		this.setState({user:''});
 		localStorage.getItem('token') !== null ?localStorage.removeItem('token'):'';
+		localStorage.getItem('user') !== null ?localStorage.removeItem('user'):'';
 		this.setState({logout:true,logged:false});
 		
 	};
