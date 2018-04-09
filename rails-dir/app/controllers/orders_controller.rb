@@ -17,20 +17,21 @@ class OrdersController < ApplicationController
 
     def delete
     	Order.delete(params[:oid])
-        render json: {success: true, message: "order deleted"}
+        list(current_user.id)
     end
 
-    def edit
-        params.require(:order).permit!
+    def finish
+        # params.require(:order).permit!
     	@order = Order.find(params[:oid])
     	if @order
-    		@order.update(params[:order])
-        	render json: {success: true, message: "order updated"}
+    		@order.update(status:"finished")
+        	# return the updated orders, call list method
+            list(current_user.id)
     	end
     end
 
-    def list
-        user_id = current_user.id
+    def list(uid=current_user.id)
+        user_id = uid
         @orders = User.find(user_id).orders
         @orders = @orders.map { |order| 
             invited = order.notifications.where(notification_type:"invitation").count
@@ -39,7 +40,7 @@ class OrdersController < ApplicationController
             order[:invited], order[:joined] = invited, joined
             order
         }
-        render json: @orders
+        render json: {success: true, message: @orders}
     end
 
     
@@ -50,8 +51,7 @@ class OrdersController < ApplicationController
         @notification = Notification.find_by(order_id: params[:oid], user_id: user_id, notification_type: "invitation")
         if @notification
             self.class.notify([user_id],"join",params[:oid],"false")
-            ActionCable.server.broadcast "notifications_#{orderOwner_id}",ApplicationController.list_notifications(orderOwner_id)
-            render json: {success: true, message:  @order}
+            render json: {success: true, message:  orderOwner_id}
         end
     end
 
@@ -66,6 +66,8 @@ class OrdersController < ApplicationController
             @notification = Notification.create(notif);
             ActionCable.server.broadcast "notifications_#{user}",ApplicationController.list_notifications(user)
         end
+        orderOwner_id = Order.find(oid).user.id
+        ActionCable.server.broadcast "notifications_#{orderOwner_id}",ApplicationController.list_notifications(orderOwner_id)                    
     end
 
     def show_invited

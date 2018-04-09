@@ -1,41 +1,111 @@
 import React, { Component } from 'react'
+import { Redirect } from "react-router-dom";
 import { Button, Grid, Label, Segment, Menu, Icon, Table, Form ,Dimmer} from 'semantic-ui-react'
+import axios from 'axios';
 import img from '../12.jpg';
 let uuid = require('uuid-v4');
 
 
 export default class ViewOrder extends Component {
 
-	state = {
-		'orders' : [
-			{'user': "Ahmed", 'item':"Pizza", 'amount':"1", 'price':"70", 'comment':"Mix"},
-			{'user': "Omran", 'item':"Fool", 'amount':"2", 'price':"4", 'comment':"Tehena"},
-		],
-		'joined' : [
-		],
 
-		'invited' : [
-			{'user': "omran", 'img':"12.jpg"},
-			{'user': "omran", 'img':"12.jpg"},
-			{'user': "hassan", 'img':"12.jpg"},
-			{'user': "hassan", 'img':"12.jpg"},
-			{'user': "hassan", 'img':"12.jpg"},
-		],
+	orderId = this.props.match.params.id;
+	state = {
+		orders : [],
+		joined : [],
+		invited : [],
+	}
+
+	constructor(props){
+		super(props);
+		this.getOrderItems();
+		this.getInvited();		
+	}
+
+	getInvited = ()=>{
+		axios.get(`http://localhost:3000/orders/${this.orderId}/invited`, {
+			headers:{
+				'Content-Type': 'application/json',
+				'Authorization':"Bearer "+localStorage.getItem('token')
+			}
+		}).then((response)=>{
+			this.setState({invited: response.data.message})
+		}).catch((error)=>{
+			console.log(error)
+		})
+	}
+
+	getOrderItems = ()=>{
+		axios.get(`http://localhost:3000/orders/${this.orderId}/items`, {
+			headers:{
+				'Content-Type': 'application/json',
+				'Authorization':"Bearer "+localStorage.getItem('token')
+			}
+		}).then((response)=>{
+			console.log("ll",response.data.message);
+			if (response.data.success === false) {
+				console.log(response.data.success)
+				this.setState({
+					badRequest: true,
+				})
+			} else {
+				this.setState({orders: response.data.message})
+			}
+		}).catch((error)=>{
+			console.log(error)
+		})
 
 	}
 
+	removeOrder = (e)=>{
+		console.log(e.target.value);
+		let itemToDeleteId = e.target.value;
+		axios.delete(`http://localhost:3000/orders/${this.orderId}/items/${itemToDeleteId}`,{
+			headers:{
+				'Content-Type': 'application/json',
+				'Authorization':"Bearer "+localStorage.getItem('token')
+			}
+		}).then(response=>{
+			this.getOrderItems();
+		}).catch(error=>{
+			console.log(error);
+		})
+		
+	}
 
   handleShowInvited = () => this.setState({ active: true ,flag : 'invited'})
+
 	handleShowJoin = () => this.setState({ active: true ,flag : 'joined'})
+
   handleHide = () => this.setState({ active: false })
 
 	handleSubmit = (e) => {
-		let formData = new FormData(document.getElementById('itemForm'))
-		console.log(formData.get('item'))
+		let form = document.getElementById('itemForm')
+		let formData = new FormData(form)
+		console.log(formData);
+		
+		axios.post(`http://localhost:3000/orders/${this.orderId}/items`, {
+			"item": formData.get("item"),
+			"price": formData.get("price"),
+			"amount": formData.get("amount"),
+			"comment": formData.get("comment")
+		},{
+			headers:{
+				'Content-Type': 'application/json',
+				'Authorization':"Bearer "+localStorage.getItem('token')
+			}}).then((response)=>{
+				this.getOrderItems();
+			}).catch(error=>{
+				console.log(error)
+			})
 	}
 
     render() {
-			 const { active , flag} = this.state
+	const { active , flag} = this.state
+
+	if (this.state.badRequest) {
+		return <Redirect to='/NotFound' />
+	}
     return (
 			<Grid>
 			 <Dimmer.Dimmable as={Segment} blurring dimmed={active}>
@@ -52,7 +122,7 @@ export default class ViewOrder extends Component {
 										<Grid.Column key={uuid()}>
 										<Label as='a' image size='medium'>
 												<img src={invite.img} alt="alt"/>
-												{invite.user}
+												{invite.name}
 											</Label>
 											</Grid.Column>
 									)
@@ -127,13 +197,13 @@ export default class ViewOrder extends Component {
 								    		return(
 
 										      <Table.Row key={uuid()}>
-										        <Table.Cell>{order.user}</Table.Cell>
+										        <Table.Cell>{order.user_name.name}</Table.Cell>
 										        <Table.Cell>{order.item}</Table.Cell>
 										        <Table.Cell>{order.amount}</Table.Cell>
 										        <Table.Cell>{order.price}</Table.Cell>
 										        <Table.Cell>{order.comment}</Table.Cell>
-										        <Table.Cell>
-										        <Icon link name='delete' size='big' color='red'onClick={this.show}/>
+														<Table.Cell>
+														<Button value={order.id} size="medium" basic color="red" onClick={this.removeOrder}>Remove</Button>
 										        </Table.Cell>
 										      </Table.Row>
 

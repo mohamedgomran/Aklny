@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Friends from '../components/Friends';
 import Orders from '../components/Orders';
@@ -38,7 +38,7 @@ const AppRouter =()=> (
                 <PrivateRoute path="/orders/:id" component={ViewOrder}/>
                 <PrivateRoute path="/groups" component={Groups} exact={true} />
                 <PrivateRoute path="/groups/:name" component={Groups}/>
-                <Route path="/add-order" component={AddOreder} />
+                <PrivateRoute path="/add-order" component={AddOreder} />
 
                 {/* <Route path="/groups/:id" component={Groups}/>   check what to do either a new component or same one */}
                 <Route path="/login" component={Login}/>
@@ -52,4 +52,38 @@ const AppRouter =()=> (
     </ActionCableProvider>
 )
 
-export default AppRouter;
+export default class AppRouter extends Component {
+
+    state = {
+        jwt: localStorage.getItem('token'),
+        cable: this.cable,
+    }
+    cable = ActionCable.createConsumer("ws://localhost:3000/cable", this.state.jwt)
+
+    render() {
+        console.log("my jwt",this.state.jwt)
+        return (
+            <ActionCableProvider cable={this.cable}>
+                <BrowserRouter>
+                    <div>
+                        <Header />
+                        <Switch>
+                            <PrivateRoute path="/" component={Home} exact={true} />
+                            <PrivateRoute path="/:id/friends" component={Friends} exact={true} />
+                            <PrivateRoute path="/orders" component={Orders} exact={true}/>
+                            <PrivateRoute path="/AllNotification" component={AllNotification} exact={true}/>
+                            <PrivateRoute path="/orders/:id" component={ViewOrder}/>
+                            <PrivateRoute path="/groups" component={Groups} exact={true} />
+                            <PrivateRoute path="/groups/:name" component={Groups}/>
+                            <PrivateRoute path="/add-order" component={AddOreder} />
+                            <Route path="/login" component={Login} />
+                            <Route path="/register" component={Register}/>
+                            <Route path="/forgetpassword" component={Forgetpassword}/>
+                            <Route  component={NotFound}/>
+                        </Switch>
+                    </div>
+                </BrowserRouter>
+            </ActionCableProvider>
+        )
+    }
+}
