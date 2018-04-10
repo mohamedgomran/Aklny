@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Redirect } from "react-router-dom";
 import { Button, Grid, Label, Segment, Menu, Icon, Table, Form ,Dimmer} from 'semantic-ui-react'
 import axios from 'axios';
-import img from '../12.jpg';
 import {ActionCable} from 'react-actioncable-provider'
 
 let uuid = require('uuid-v4');
