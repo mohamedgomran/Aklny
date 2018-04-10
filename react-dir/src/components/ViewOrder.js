@@ -233,7 +233,7 @@ export default class ViewOrder extends Component {
 										        <Table.Cell>{order.price}</Table.Cell>
 										        <Table.Cell>{order.comment}</Table.Cell>
 												<Table.Cell>
-														{this.state.user.id === order.user_id && <Button value={order.id} size="medium" basic color="red" onClick={this.removeOrder}>Remove</Button> }
+														{this.state.user.id === order.user_id && this.state.order.status !== 'finished' && <Button value={order.id} size="medium" basic color="red" onClick={this.removeOrder}>Remove</Button> }
 										        </Table.Cell>
 										      </Table.Row>
 								    		)
@@ -249,10 +249,10 @@ export default class ViewOrder extends Component {
 						<Grid.Column width={8}>
 						    <Form onSubmit={this.handleSubmit} id='itemForm'>
 						        <Form.Group>
-						          <Form.Input required name='item' type='text' placeholder='Item'/>
-						          <Form.Field required name='amount' control='input' type='number' min={1} max={5} width={3}/>
-						          <Form.Field required name='price' control='input' type='number' min={1} width={3}/>
-						          <Form.Input required name='comment' type='text' placeholder='Comment' />
+						          <Form.Input required name='item' type='text' placeholder='Item' disabled={this.state.order.status ==='finished'}/>
+						          <Form.Field required name='amount' control='input' type='number' min={1} max={5} width={3} disabled={this.state.order.status ==='finished'}/>
+						          <Form.Field required name='price' control='input' type='number' min={1} width={3} disabled={this.state.order.status ==='finished'} />
+						          <Form.Input required name='comment' type='text' placeholder='Comment' disabled={this.state.order.status ==='finished'}/>
 						          <Button type='submit' icon='plus' size='small' color = 'teal' disabled={this.state.order.status ==='finished'}/>
 						        </Form.Group>
 					    	</Form>
