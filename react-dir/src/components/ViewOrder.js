@@ -87,7 +87,7 @@ export default class ViewOrder extends Component {
 		}).catch(error=>{
 			console.log(error);
 		})
-		
+
 	}
 
 	getUserId = () => {
@@ -110,7 +110,7 @@ export default class ViewOrder extends Component {
 		let form = document.getElementById('itemForm')
 		let formData = new FormData(form)
 		console.log(formData);
-		
+
 		axios.post(`http://localhost:3000/orders/${this.orderId}/items`, {
 			"item": formData.get("item"),
 			"price": formData.get("price"),
@@ -141,6 +141,8 @@ export default class ViewOrder extends Component {
 				}
 			}).then((response)=>{
 				this.setState({joined: response.data.message})
+				console.log(response.data.message);
+				
 			}).catch((error)=>{
 				console.log(error)
 			})
@@ -154,7 +156,7 @@ export default class ViewOrder extends Component {
 	}
     return (
 			<Grid>
-			<ActionCable ref='MyNotifications' channel={{channel: 'OrderDetailsChannel', oid: this.orderId}} onReceived={this.onReceived.bind(this)} />						
+			<ActionCable ref='MyNotifications' channel={{channel: 'OrderDetailsChannel', oid: this.orderId}} onReceived={this.onReceived.bind(this)} />
 			 <Dimmer.Dimmable  blurring dimmed={active}>
 				 <Dimmer active={active} onClickOutside={this.handleHide}>
 
@@ -260,14 +262,6 @@ export default class ViewOrder extends Component {
 						</Grid.Column>
 					</Grid.Row>
 					<Grid.Row>
-						<Grid.Column width={16} >
-							<div align="center">
-								<h5>Menu</h5>
-								<Image src={this.state.order.menu} size="large" />
-							</div>
-						</Grid.Column>
-					</Grid.Row>
-					<Grid.Row>
 						<Grid.Column width={8}>
 						    <Form onSubmit={this.handleSubmit} id='itemForm'>
 						        <Form.Group>
@@ -278,6 +272,15 @@ export default class ViewOrder extends Component {
 						          <Button type='submit' icon='plus' size='small' color = 'teal' disabled={this.state.order.status ==='finished'}/>
 						        </Form.Group>
 					    	</Form>
+						</Grid.Column>
+					</Grid.Row>
+					<Grid.Row>
+						<Grid.Column width={16} >
+							<div align="center">
+								<Image 
+									label={{ color: 'teal', content: 'Menu', icon: 'food', ribbon: true }}
+									src={this.state.order.menu} size="large" />
+							</div>
 						</Grid.Column>
 					</Grid.Row>
 

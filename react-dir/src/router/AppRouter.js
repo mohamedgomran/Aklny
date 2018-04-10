@@ -9,6 +9,7 @@ import Register from '../components/Register';
 import Header from '../components/Header';
 import Groups from '../components/Groups';
 import AddOreder from '../components/AddOrder';
+import ViewOrderUser from '../components/ViewOrderUser';
 import Forgetpassword from '../components/Forgetpassword';
 import ViewOrder from '../components/ViewOrder';
 import { ActionCableProvider } from 'react-actioncable-provider'
@@ -27,7 +28,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 
 
 export default class AppRouter extends Component {
-    
+
     state = {
         jwt: localStorage.getItem('token'),
         cable: this.cable,
@@ -50,6 +51,7 @@ export default class AppRouter extends Component {
                             <PrivateRoute path="/groups" component={Groups} exact={true} />
                             <PrivateRoute path="/groups/:name" component={Groups}/>
                             <PrivateRoute path="/add-order" component={AddOreder} />
+                            <PrivateRoute path="/vieworderuser" component={ViewOrderUser} />
                             <Route path="/login" component={Login} />
                             <Route path="/register" component={Register}/>
                             <Route path="/forgetpassword" component={Forgetpassword}/>
@@ -58,7 +60,7 @@ export default class AppRouter extends Component {
                         </Switch>
                     </div>
                 </BrowserRouter>
-            </ActionCableProvider>    
+            </ActionCableProvider>
         )
     }
 }
