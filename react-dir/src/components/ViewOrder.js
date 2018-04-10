@@ -241,7 +241,7 @@ export default class ViewOrder extends Component {
 						          <Form.Field required name='amount' control='input' type='number' min={1} max={5} width={3}/>
 						          <Form.Field required name='price' control='input' type='number' min={1} width={3}/>
 						          <Form.Input required name='comment' type='text' placeholder='Comment' />
-						          <Button type='submit' icon='plus' size='small' color = 'teal' disabled={this.state.order.status!=='finished'}/>
+						          <Button type='submit' icon='plus' size='small' color = 'teal' disabled={this.state.order.status ==='finished'}/>
 						        </Form.Group>
 					    	</Form>
 						</Grid.Column>
