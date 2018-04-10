@@ -23,6 +23,7 @@ export default class ViewOrder extends Component {
 
 	constructor(props){
 		super(props);
+		this.getUserId();
 	}
 
 
@@ -32,7 +33,7 @@ export default class ViewOrder extends Component {
     			this.setState({order:res.message})
     		}
     	})
-		this.getUserId();
+		// this.getOrderItems();
 		this.getInvited();
 	}
 
@@ -90,7 +91,6 @@ export default class ViewOrder extends Component {
 
 	getUserId = () => {
 		UserAPI.getuserdata((res) => {
-			// console.log("user from view order",res.data.user)
 			this.setState({
 				user: res.data.user
 			})
@@ -121,13 +121,14 @@ export default class ViewOrder extends Component {
 				'Authorization':"Bearer "+localStorage.getItem('token')
 			}}).then((response)=>{
 				// this.getOrderItems();
+				console.log(response)
 			}).catch(error=>{
 				console.log(error)
 			})
 	}
 
 	onReceived(orderDetails){
-		console.log(orderDetails)
+		console.log("hello",orderDetails)
 		this.setState({orders: orderDetails})
 	}
 
