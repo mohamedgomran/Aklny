@@ -1,4 +1,5 @@
 import React from 'react';
+import {Redirect} from 'react-router-dom';
 import { Form, Grid, Dropdown, Button, Icon, Label,Segment } from "semantic-ui-react";
 import axios from 'axios';
 import GroupsAPI from '../API/groups-api';
@@ -31,7 +32,8 @@ export default class AddOrder extends React.Component{
 			friends : [] ,
 			groups :[],
 			members :[],
-            publish:true
+            publish:false,
+            oid: '',
 
 	}
 
@@ -102,6 +104,10 @@ export default class AddOrder extends React.Component{
         },
         {headers: headers }).then((response)=>{
             console.log("response",response);
+            this.setState({
+                publish: true,
+                oid: response.data.message.id,
+            })
 
         }).catch((error)=>{
             console.log("error", error);
@@ -151,6 +157,9 @@ export default class AddOrder extends React.Component{
     }
 
     render = ()=>{
+        if (this.state.publish) {
+            return <Redirect to={`/orders/${this.state.oid}`} />
+        }
         return (
             <Grid divided='vertically' centered>
                 <h1>Add Order</h1>

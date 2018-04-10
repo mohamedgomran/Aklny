@@ -3,6 +3,8 @@ import { Redirect } from "react-router-dom";
 import { Button, Grid, Label, Segment, Menu, Icon, Table, Form ,Dimmer} from 'semantic-ui-react'
 import axios from 'axios';
 import {ActionCable} from 'react-actioncable-provider'
+import UserAPI from '../API/users-api'
+import OrdersAPI from '../API/orders-api';
 
 let uuid = require('uuid-v4');
 
@@ -15,11 +17,22 @@ export default class ViewOrder extends Component {
 		orders : [],
 		joined : [],
 		invited : [],
+		user:'',
+		order : "",
 	}
 
 	constructor(props){
 		super(props);
-		this.getOrderItems();
+	}
+
+
+    componentDidMount(){
+    	OrdersAPI.getOrder(this.orderId,(res)=>{
+    		if (res.success) {
+    			this.setState({order:res.message})
+    		}
+    	})
+		this.getUserId();
 		this.getInvited();
 	}
 
@@ -75,11 +88,22 @@ export default class ViewOrder extends Component {
 
 	}
 
-  handleShowInvited = () => this.setState({ active: true ,flag : 'invited'})
+	getUserId = () => {
+		UserAPI.getuserdata((res) => {
+			// console.log("user from view order",res.data.user)
+			this.setState({
+				user: res.data.user
+			})
+			console.log("res",this.state.user.id)
+			this.getOrderItems();
+		})
+	}
+
+  	handleShowInvited = () => this.setState({ active: true ,flag : 'invited'})
 
 	handleShowJoin = () => this.setState({ active: true ,flag : 'joined'})
 
-  handleHide = () => this.setState({ active: false })
+  	handleHide = () => this.setState({ active: false })
 
 	handleSubmit = (e) => {
 		let form = document.getElementById('itemForm')
@@ -116,11 +140,11 @@ export default class ViewOrder extends Component {
     return (
 			<Grid>
 			<ActionCable ref='MyNotifications' channel={{channel: 'OrderDetailsChannel', oid: this.orderId}} onReceived={this.onReceived.bind(this)} />
-			 <Dimmer.Dimmable as={Segment} blurring dimmed={active}>
+			 <Dimmer.Dimmable  blurring dimmed={active}>
 				 <Dimmer active={active} onClickOutside={this.handleHide}>
 
 				 <Grid centered >
-				 	<Grid.Column centered='true' computer={9}>
+				 	<Grid.Column centered='true' width={9}>
 						<Grid centered columns={5}>
 							{
 								this.state.flag === 'invited' && this.state.invited.map((invite)=>{
@@ -177,7 +201,7 @@ export default class ViewOrder extends Component {
 
 					<Grid.Row>
 
-						<Grid.Column computer={8}>
+						<Grid.Column width={8}>
 							<Table size='large' textAlign='center' celled selectable>
 							    <Table.Header>
 							      <Table.Row>
@@ -209,10 +233,9 @@ export default class ViewOrder extends Component {
 										        <Table.Cell>{order.price}</Table.Cell>
 										        <Table.Cell>{order.comment}</Table.Cell>
 												<Table.Cell>
-														{(JSON.parse(localStorage.getItem('user'))).id === order.user_id && <Button value={order.id} size="medium" basic color="red" onClick={this.removeOrder}>Remove</Button> }
+														{this.state.user.id === order.user_id && this.state.order.status !== 'finished' && <Button value={order.id} size="medium" basic color="red" onClick={this.removeOrder}>Remove</Button> }
 										        </Table.Cell>
 										      </Table.Row>
-
 								    		)
 								    	})
 							    	}
@@ -221,25 +244,19 @@ export default class ViewOrder extends Component {
 
 
 						</Grid.Column>
-
-
 					</Grid.Row>
 					<Grid.Row>
-						<Grid.Column computer={8}>
+						<Grid.Column width={8}>
 						    <Form onSubmit={this.handleSubmit} id='itemForm'>
 						        <Form.Group>
-						          <Form.Input required name='item' type='text' placeholder='Item'/>
-						          <Form.Field required name='amount' control='input' type='number' min={1} max={5} width={3}/>
-						          <Form.Field required name='price' control='input' type='number' min={1} width={3}/>
-						          <Form.Input required name='comment' type='text' placeholder='Comment' />
-						          <Button type='submit' icon='plus' size='small' color = 'teal'/>
+						          <Form.Input required name='item' type='text' placeholder='Item' disabled={this.state.order.status ==='finished'}/>
+						          <Form.Field required name='amount' control='input' type='number' min={1} max={5} width={3} disabled={this.state.order.status ==='finished'}/>
+						          <Form.Field required name='price' control='input' type='number' min={1} width={3} disabled={this.state.order.status ==='finished'} />
+						          <Form.Input required name='comment' type='text' placeholder='Comment' disabled={this.state.order.status ==='finished'}/>
+						          <Button type='submit' icon='plus' size='small' color = 'teal' disabled={this.state.order.status ==='finished'}/>
 						        </Form.Group>
 					    	</Form>
 						</Grid.Column>
-
-
-
-
 					</Grid.Row>
 
 				</Grid>

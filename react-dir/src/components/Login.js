@@ -191,19 +191,7 @@ export default class Login extends Component {
         <Message>
         <Grid.Column  computer={2}>
 
-            <Button color='facebook' fluid >
 
-                    <SocialButton
-                    color='facebook' fluid
-                    provider='facebook'
-                    appId='156850814994978'
-                    onLoginSuccess={this.handleSocialLogin}
-                    onLoginFailure={this.handleSocialLoginFailure}
-                    >
-                    <Icon name='facebook' />
-                    Login with Facebook
-                  </SocialButton>
-            </Button>
             <br/>
 
             <Button color='google plus' fluid >
