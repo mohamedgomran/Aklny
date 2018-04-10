@@ -82,7 +82,7 @@ export default class ViewOrder extends Component {
 				'Authorization':"Bearer "+localStorage.getItem('token')
 			}
 		}).then(response=>{
-			this.getOrderItems();
+			// this.getOrderItems();
 		}).catch(error=>{
 			console.log(error);
 		})
