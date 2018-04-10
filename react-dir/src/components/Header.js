@@ -207,7 +207,7 @@ join = (e) => {
 		          onClick={this.handleItemClick}
 		        >
 						{this.state.logged?
-			      <Image src={this.state.userimg} size='mini' />:<Image src={logo} avatar />
+			      <Image src={this.state.userimg} size='mini' circular />:<Image src={logo} avatar />
 						}
 			      <span>
 							{this.state.user !== ''?

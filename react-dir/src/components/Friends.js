@@ -52,9 +52,9 @@ export default class Friends extends React.Component{
 
     }
 
-    removeFriend = (e)=>{
+    removeFriend = (friendId)=>{
 				// console.log("removing"+e.target.value);
-				axios.delete(`http://localhost:3000/users/friends/${e.target.value}`, {
+				axios.delete(`http://localhost:3000/users/friends/${friendId}`, {
 					headers:{
                             'Content-Type': 'application/json',
                             'Authorization':"Bearer "+localStorage.getItem('token')
@@ -86,26 +86,24 @@ export default class Friends extends React.Component{
         return (
             <Grid centered>
                 <GridRow >
-                    <GridColumn centered="true" width={8}>
-                        <GridRow>
+                    <GridColumn centered="true" width={2}>
                             <Header as='h3' icon>
                                 <Icon name='users' circular/>
                                 <Header.Content>Friends List</Header.Content>
                             </Header>
-                        </GridRow>
-                            <GridRow>
-                                <GridColumn centered="true" width={5}>
-                                    <Form>
-                                        <Form.Group>
-                                            <Form.Field>
-                                                <Input id="friendEmail" icon='user' iconPosition='left' placeholder='mail@example.com' onChange={this.handelInputChange} />
-                                                {this.state.groupError&&<Label basic color='red' pointing>{this.state.groupError}</Label>}
-                                            </Form.Field>
-                                            <Form.Button secondary onClick={this.addFriend}>ADD</Form.Button>
-                                        </Form.Group>
-                                    </Form>
-                                </GridColumn>
-                            </GridRow>
+                    </GridColumn>
+                </GridRow>
+                <GridRow>
+                    <GridColumn centered="true" width={4}>
+                        <Form>
+                            <Form.Group>
+                                <Form.Field>
+                                    <Input id="friendEmail" icon='user' iconPosition='left' placeholder='mail@example.com' onChange={this.handelInputChange} />
+                                    {this.state.groupError&&<Label basic color='red' pointing>{this.state.groupError}</Label>}
+                                </Form.Field>
+                                <Form.Button secondary onClick={this.addFriend}>ADD</Form.Button>
+                            </Form.Group>
+                        </Form>
                     </GridColumn>
                 </GridRow>
                 <GridRow >
@@ -117,15 +115,13 @@ export default class Friends extends React.Component{
                             {
                                 this.state.friends.map(friend=>{
                                     return (
-                                        <Card  key={uuid()}>
-                                            <Card.Content>
-                                                <Image className="ui avatar image" floated='right' size='large' src={friend.pic}/>
-                                                <Card.Header>{friend.name}</Card.Header>
-                                            </Card.Content>
-                                            <Card.Content extra>
-                                                <Button className="ui button" size='mini' value={friend.id} basic color='red'onClick={this.removeFriend}>Remove</Button>
-                                            </Card.Content>
-                                        </Card>
+                                        <Label key={friend.id} size="massive" image>
+                                        <img src={friend.pic} alt={friend.name}/>
+                                        {friend.name}
+                                        
+                                        <Icon name="delete" onClick={this.removeFriend.bind(this,friend.id)}/>
+                                     </Label>
+                                        
                                     )
                                 })
                             }
