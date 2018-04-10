@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from "react-router-dom";
-import { Button, Grid, Label, Segment, Menu, Icon, Table, Form ,Dimmer} from 'semantic-ui-react'
+import GridRow, { Button, Grid, Label, Segment, Menu, Icon, Table, Form, Dimmer, Image } from 'semantic-ui-react'
 import axios from 'axios';
 import {ActionCable} from 'react-actioncable-provider'
 import UserAPI from '../API/users-api'
@@ -35,6 +35,7 @@ export default class ViewOrder extends Component {
     	})
 		// this.getOrderItems();
 		this.getInvited();
+		this.getJoined();		
 	}
 
 	getInvited = ()=>{
@@ -132,6 +133,21 @@ export default class ViewOrder extends Component {
 		this.setState({orders: orderDetails})
 	}
 
+	getJoined = ()=>{
+		axios.get(`http://localhost:3000/orders/${this.orderId}/joined`, {
+				headers:{
+					'Content-Type': 'application/json',
+					'Authorization':"Bearer "+localStorage.getItem('token')
+				}
+			}).then((response)=>{
+				this.setState({joined: response.data.message})
+				console.log(response.data.message);
+				
+			}).catch((error)=>{
+				console.log(error)
+			})
+	}
+
     render() {
 	const { active , flag} = this.state
 
@@ -165,8 +181,8 @@ export default class ViewOrder extends Component {
 									return(
 										<Grid.Column key={uuid()}>
 										<Label as='a' image size='medium'>
-												<img src={join.img} alt="img" />
-												{join.user}
+												<img src={join.pic} alt="img" />
+												{join.name}
 											</Label>
 											</Grid.Column>
 									)
@@ -201,7 +217,6 @@ export default class ViewOrder extends Component {
 
 
 					<Grid.Row>
-
 						<Grid.Column width={8}>
 							<Table size='large' textAlign='center' celled selectable>
 							    <Table.Header>
@@ -259,11 +274,19 @@ export default class ViewOrder extends Component {
 					    	</Form>
 						</Grid.Column>
 					</Grid.Row>
+					<Grid.Row>
+						<Grid.Column width={16} >
+							<div align="center">
+								<Image 
+									label={{ color: 'teal', content: 'Menu', icon: 'food', ribbon: true }}
+									src={this.state.order.menu} size="large" />
+							</div>
+						</Grid.Column>
+					</Grid.Row>
 
 				</Grid>
 
 			</Dimmer.Dimmable>
-
 	</Grid>
     )
   }
