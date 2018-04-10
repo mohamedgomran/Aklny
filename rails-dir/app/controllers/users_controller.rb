@@ -104,4 +104,15 @@ class UsersController < ApplicationController
         end
         render json: {success: true, message: @joinedOrders}
     end
+
+    def list_invited_orders
+        user_id= current_user.id    
+        @invitedOrders = []
+        Notification.where(user_id: user_id, notification_type: "invitation").find_each do |notif|
+            if ! Notification.where(user_id: user_id, notification_type: "join", order_id: notif.order_id)
+                @invitedOrders << Order.find(notif.order_id)
+            end
+        end
+        render json: {success: true, message: @invitedOrders}
+    end
 end

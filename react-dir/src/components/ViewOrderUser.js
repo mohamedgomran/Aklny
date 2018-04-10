@@ -2,9 +2,10 @@ import React from 'react'
 import { Link } from "react-router-dom";
 import { Confirm ,Table,Grid,Icon,Pagination } from 'semantic-ui-react'
 import OrdersAPI from '../API/orders-api';
+import axios from 'axios';
 let uuid = require('uuid-v4');
 
-class Orders extends React.Component {
+class ViewOrderUser extends React.Component {
 
   constructor(props){
    super(props);
@@ -24,45 +25,40 @@ class Orders extends React.Component {
  handleConfirm = () => this.setState({ result: 'confirmed', open: false })
  handleCancel = () => this.setState({ result: 'cancelled', open: false })
  componentDidMount(){
-  OrdersAPI.getAllOrders((res)=>{
-    if (res.success) {
-      console.log(res.message)
-      this.setState({orders:res.message})
-    }
-  })
+  this.getOrderItems()
  }
- finishOrder = (oid)=>{
-  OrdersAPI.finishOrder(oid, (res)=>{
-    if (res.success) {
-      this.setState({orders:res.message})
-    }
-  })
+
+ getOrderItems = ()=>{
+   axios.get(`http://localhost:3000/users/joined`, {
+     headers:{
+       'Content-Type': 'application/json',
+       'Authorization':"Bearer "+localStorage.getItem('token')
+     }
+   }).then((response)=>{
+     console.log("ll",response.data.message);
+     if (response.data.success === false) {
+       console.log(response.data.success)
+       this.setState({
+         badRequest: true,
+       })
+     } else {
+       console.log(response.data.message)
+       this.setState({orders: response.data.message})
+     }
+   }).catch((error)=>{
+     console.log(error)
+   })
+
  }
- deleteOrder = (oid)=>{
-  console.log(oid)
-  OrdersAPI.deleteOrder(oid, (res)=>{
-    if (res.success) {
-      this.setState({orders:res.message})
-    }
-  })
- }
+
+
   render() {
-    // const { open, result } = this.state
-    // let rows = [];
-    // for (var i = 0; i < this.state.size; i++){
-    //   let rowID = `row${i}`
-    //   let cell = []
-    //   for (var idx = 0; idx < this.state.size; idx++){
-    //     let cellID = `cell${i}-${idx}`
-    //     cell.push(<td key={cellID} id={cellID}></td>)
-    //   }
-    //   rows.push(<tr key={i} id={rowID}>{cell}</tr>)
-    // }
+
     return(
 
   <Grid centered celled columns={8} >
   <Grid.Column celled='centered' width={4}>
-      <h1><b>All Orders</b></h1>
+      <h1><b>My Orders</b></h1>
   </Grid.Column>
 
 
@@ -87,7 +83,8 @@ class Orders extends React.Component {
             <Table.HeaderCell >Invited</Table.HeaderCell>
             <Table.HeaderCell >Joined</Table.HeaderCell>
             <Table.HeaderCell >Status</Table.HeaderCell>
-            <Table.HeaderCell width={4} >Actions</Table.HeaderCell>
+            <Table.HeaderCell width={4} >View order</Table.HeaderCell>
+
           </Table.Row>
         </Table.Header>
 
@@ -95,16 +92,15 @@ class Orders extends React.Component {
           {
             this.state.orders.length>0&&this.state.orders.map((order) => {
                 return (
-                  <Table.Row key={uuid()}>
+                  <Table.Row key={uuid()} >
                     <Table.Cell>{order.res_name}</Table.Cell>
                     <Table.Cell>{order.invited}</Table.Cell>
                     <Table.Cell>{order.joined}</Table.Cell>
                     <Table.Cell>{order.status}</Table.Cell>
-                    <Table.Cell>
-                      <Link to={`/orders/${order.id}`}> <Icon link name='folder open' size='big' color='teal'/></Link>
-                      {order.status!=='finished'&&<Icon link name='checkmark'  size='big' color='green' onClick={this.finishOrder.bind(this, order.id)}/>}
-                      {order.status!=='finished'&&<Icon link name='delete' size='big' color='red'onClick={this.deleteOrder.bind(this, order.id)}/>}
-                    </Table.Cell>
+
+                  <Table.Cell>
+                    <Link to={`/orders/${order.id}`}> <Icon link name='folder open' size='big' color='teal'/></Link>
+                  </Table.Cell>
                   </Table.Row>
                 )
             })
@@ -129,4 +125,4 @@ class Orders extends React.Component {
   }
 }
 
-export default Orders;
+export default ViewOrderUser;
