@@ -3,6 +3,13 @@ import { Link } from "react-router-dom";
 import { Confirm ,Table,Grid,Icon,Pagination,List } from 'semantic-ui-react'
 import OrdersAPI from '../API/orders-api';
 import axios from 'axios';
+
+let headers = {
+    'Content-Type': 'application/json',
+     'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }
+
+
 let uuid = require('uuid-v4');
 
 class ViewOrderUser extends React.Component {
@@ -15,7 +22,8 @@ class ViewOrderUser extends React.Component {
         open: false,
         result: 'show the modal to capture a result',
         orders:[],
-        joined:[]
+        joined:[],
+        invited:[],
    }
  }
 
@@ -27,24 +35,36 @@ class ViewOrderUser extends React.Component {
  handleCancel = () => this.setState({ result: 'cancelled', open: false })
 
  componentDidMount(){
-  this.getOrderItems()
+  this.getOrderJoined()
+  this.getInvitedOrder()
  }
 
- getOrderItems = ()=>{
+
+
+ getInvitedOrder =()=>{
+   axios.get('http://localhost:3000/users/invited', { headers: headers })
+     .then((response)=> {
+       console.log(response.data);
+       this.setState({invited:response.data})
+     })
+     .catch((error)=> {
+       console.log(error);
+   })
+
+ }
+
+ getOrderJoined = ()=>{
    axios.get(`http://localhost:3000/users/joined`, {
-     headers:{
-       'Content-Type': 'application/json',
-       'Authorization':"Bearer "+localStorage.getItem('token')
-     }
+     headers:headers
    }).then((response)=>{
      console.log("ll",response.data.message);
      if (response.data.success === false) {
-       console.log(response.data.success)
+       console.log("noooo"+response.data.success)
        this.setState({
          badRequest: true,
        })
      } else {
-       console.log("ressss"+response.data)
+       console.log("ressss"+response.data.message)
        this.setState({joined: response.data.message})
        console.log("my oders"+this.state.orders+"end");
      }
@@ -136,16 +156,16 @@ class ViewOrderUser extends React.Component {
         <Table.Body>
 
           {
-            this.state.joined.length>0&&this.state.joined.map((joined) => {
+            this.state.invited.length>0&&this.state.invited.map((invited) => {
                 return (
                   <Table.Row key={uuid()} >
-                    <Table.Cell>{joined.res_name}</Table.Cell>
-                    <Table.Cell>{joined.invited}</Table.Cell>
-                    <Table.Cell>{joined.joined}</Table.Cell>
-                    <Table.Cell>{joined.status}</Table.Cell>
+                    <Table.Cell>{invited.res_name}</Table.Cell>
+                    <Table.Cell>{invited.invited}</Table.Cell>
+                    <Table.Cell>{invited.joined}</Table.Cell>
+                    <Table.Cell>{invited.status}</Table.Cell>
 
                   <Table.Cell>
-                    <Link to={`/orders/${joined.id}`}> <Icon link name='folder open' size='big' color='teal'/></Link>
+                    <Link to={`/orders/${invited.id}`}> <Icon link name='folder open' size='big' color='teal'/></Link>
                   </Table.Cell>
                   </Table.Row>
                 )
