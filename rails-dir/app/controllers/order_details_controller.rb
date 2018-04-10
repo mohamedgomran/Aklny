@@ -11,7 +11,6 @@ class OrderDetailsController < ApplicationController
         	@order_item = OrderDetail.new(params[:order_detail])
             if @order_item.save
                 Notification.where(order_id=params[:oid], notification_type="join").find_each do |notif|
-                    p "sssssssssssssssssssssssssssssssssssssssssssssssss"
                     ActionCable.server.broadcast "order_details_#{params[:oid]}_#{notif.user_id}", self.listRefresh(params[:oid])
                 end
                 ActionCable.server.broadcast "order_details_#{params[:oid]}_#{@order.user_id}", self.listRefresh(params[:oid])                
@@ -23,7 +22,7 @@ class OrderDetailsController < ApplicationController
     end
     def listRefresh(oid)
         @order_details = Order.find(oid).order_details.map{ |order|
-                user_name = User.find(order.user_id)
+                user_name = User.where(id: order.user_id).select(:id, :name)[0]
                 order = order.as_json
                 order[:user_name] = user_name
                 order

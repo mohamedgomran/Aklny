@@ -49,7 +49,7 @@ class OrdersController < ApplicationController
         p user_id
         orderOwner_id = Order.find(params[:oid]).user.id
         @notification = Notification.find_by(order_id: params[:oid], user_id: user_id, notification_type: "invitation")
-        if @notification
+        if @notification && Notification.find_by(order_id: params[:oid], user_id: user_id, notification_type: "join" == [])
             self.class.notify([user_id],"join",params[:oid],"false")
             render json: {success: true, message:  orderOwner_id}
         end
