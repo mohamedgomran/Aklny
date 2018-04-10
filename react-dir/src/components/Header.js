@@ -90,7 +90,6 @@ export default class Header extends Component {
 		localStorage.getItem('token') !== null ?localStorage.removeItem('token'):'';
 		localStorage.getItem('user') !== null ?localStorage.removeItem('user'):'';
 		this.setState({logout:true,logged:false});
-		
 	};
 
 
@@ -241,9 +240,7 @@ join = (e) => {
 	        	<Menu.Item />
 
 			</Menu.Menu>
-	      
-
-				</Menu>
+			</Menu>
     )
   }
 }

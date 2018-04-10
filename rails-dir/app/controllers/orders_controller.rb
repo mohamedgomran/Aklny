@@ -89,4 +89,9 @@ class OrdersController < ApplicationController
         end
         render json: {success: true, message: @joined}
     end
+    def get_order
+        params.permit(:oid)
+        @order = Order.find(params[:oid])
+        render json: {success: true, message: @order}
+    end
 end
