@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Image, Grid, List, Label, Segment, Divider } from 'semantic-ui-react'
 import logo from '../logo.svg';
 import OrdersAPI from '../API/orders-api';
@@ -19,6 +19,7 @@ export default class Home extends Component {
 		join_notif : [],
 		invite_notif : [],
 		'friendActivities' : [],
+		join: false
 	}
 
 	componentDidMount() {
@@ -39,6 +40,14 @@ export default class Home extends Component {
 		})
 	}
 
+	join = (oid) => {
+		console.log(oid)
+		OrdersAPI.joinOrder(oid, (response) => {
+				console.log(response);
+			})
+		this.setState({join:oid})
+	}
+
 	onReceived(notif) {
 		console.log(notif)
 		this.setState({
@@ -49,6 +58,10 @@ export default class Home extends Component {
 
   render() {
 
+	if(this.state.join) {
+		return( <Redirect to={`/orders/${this.state.join}`} />)
+	}
+	
     return (
 	<Grid centered celled='internally' columns={8}>
 	<ActionCable ref='MyNotifications' channel={{channel: 'MyNotificationsChannel'}} onReceived={this.onReceived.bind(this)} />			
@@ -84,7 +97,7 @@ export default class Home extends Component {
 							        <Image avatar src={logo} />
 									<List.Content>
 									<List.Header as='a'><h3>{order.host.name}</h3></List.Header>
-									<List.Description><h3>Created an <Link to={`/orders/${order.id}`}><b>order</b></Link> for <a><b>{order.order_for==='BF' ? "breakfast" : "lunch"}</b></a> from <a><b>{order.res_name}</b></a>.</h3></List.Description>
+									<List.Description><h3>Created an <a onClick={this.join.bind(this,order.order_id)}><b>order</b></a> for <a><b>{order.order_for}</b></a> from <a><b>{order.res_name}</b></a>.</h3></List.Description>
 									</List.Content>
 									<Divider />
 								</List.Item>

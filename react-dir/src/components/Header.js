@@ -170,6 +170,7 @@ join = (e) => {
 										<List>
 												<List.Item key={uuid()}>
 													<List.Content floated='left'>
+													<Image avatar src={item.invited.pic} />  																										
 														{item.invited.name} has joined your <Link to={`/orders/${item.order_id}`}><b>{item.order_for}</b></Link>
 													</List.Content>
 													{/* <List.Content floated='right'>
@@ -186,7 +187,8 @@ join = (e) => {
 										<List>
 												<List.Item key={uuid()}>
 													<List.Content floated='left'>
-													{item.host.name} has invited you to his <Link to={`/orders/${item.order_id}`}><b>{item.order_for}</b></Link>
+													<Image avatar src={item.host.pic} />  	
+													{item.host.name} has invited you to his <Link onClick={this.join} to={`/orders/${item.order_id}`}><b>{item.order_for}</b></Link>
 													</List.Content>
 
 													<List.Content floated='right'>

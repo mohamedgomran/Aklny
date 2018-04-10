@@ -2,9 +2,7 @@ class UsersController < ApplicationController
      before_action :authenticate_user,  only: [:auth]
 
     def register
-        # password_digest
         uparams = params.permit(:name, :email, :password, :pic)
-        # puts uparams
         @user = User.new(uparams)
         if User.find_by(email:uparams[:email])
             render json: { success: false, message:'email already exist'}
@@ -14,7 +12,6 @@ class UsersController < ApplicationController
             render json: { success: false, message: @user.errors }
         end 
     end
-    ###########################################forgetPassword###############33
 
         def forgetPassword()
                     
@@ -31,7 +28,6 @@ class UsersController < ApplicationController
         end
 
 
-    ################################user id to be get from authentication ##################################
     def add_friend
         # user_id = 5 #to be get from authentication
         user_id = current_user.id
@@ -48,7 +44,6 @@ class UsersController < ApplicationController
         end
     end            
 
-    ################################user id to be get from authentication ##################################
     def del_friend
         user_id = current_user.id
         @user = User.find(user_id);
@@ -62,15 +57,12 @@ class UsersController < ApplicationController
         end
     end
   
-    ################################user id to be get from authentication ##################################    
     def list_friends
-        # user_id = ####
         user_id = current_user.id        
         @friends = User.find(user_id).friends.select(:email, :name, :id, :pic)
         render json: {success: true, message: @friends}
     end
 
-    ################################user id to be get from authentication ##################################        
     def list_notifications
         user_id = current_user.id
         @join_notif=[]
@@ -88,14 +80,11 @@ class UsersController < ApplicationController
         render json: {success: true, message: {join_notif: @join_notif, invite_notif: @invite_notif }}
     end
 
-    ################################user id to be get from authentication ##################################            
     def list_my_orders
-        p "current user is ",current_user.id
         user_id= current_user.id
-        render json: User.find(user_id).orders
+        render json: User.find(user_id).orders.order(created_at: :desc).limit(10)
     end
 
-    ################################user id to be get from authentication ##################################            
     def list_joined_orders
         user_id= current_user.id    
         @joinedOrders = []
@@ -109,7 +98,7 @@ class UsersController < ApplicationController
         user_id= current_user.id    
         @invitedOrders = []
         Notification.where(user_id: user_id, notification_type: "invitation").find_each do |notif|
-            if ! Notification.where(user_id: user_id, notification_type: "join", order_id: notif.order_id)
+            if(Notification.where(user_id: user_id, notification_type: "join", order_id: notif.order_id) == [] )
                 @invitedOrders << Order.find(notif.order_id)
             end
         end

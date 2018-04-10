@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Confirm, Table, Grid, Icon, Pagination, List, Image, Button, Divider } from 'semantic-ui-react'
 import OrdersAPI from '../API/orders-api';
 import UsersAPI from '../API/users-api';
@@ -12,6 +12,7 @@ class AllNotification extends React.Component {
   state = {
         join_notif:[],
         invite_notif: [],
+        join: false,
    }
 
   constructor(props){
@@ -19,12 +20,20 @@ class AllNotification extends React.Component {
    
 }
 
- onReceived(notif) {
+  onReceived(notif) {
   console.log(notif)
   this.setState({
     join_notif: notif.message.join_notif,
     invite_notif: notif.message.invite_notif
   })
+}
+
+join = (oid) => {
+  console.log(oid)
+  OrdersAPI.joinOrder(oid, (response) => {
+      console.log(response);
+    })
+  this.setState({join:oid})
 }
 
   componentDidMount() {
@@ -39,6 +48,11 @@ class AllNotification extends React.Component {
 }
 
   render() {
+
+    if(this.state.join) {
+      return( <Redirect to={`/orders/${this.state.join}`} />)
+    }
+
     return (
     <Grid centered >
       <ActionCable ref='MyNotifications' channel={{channel: 'MyNotificationsChannel'}} onReceived={this.onReceived.bind(this)} />			    
@@ -55,6 +69,7 @@ class AllNotification extends React.Component {
                   <List.Content floated='right'>
                     <Button as={Link} to={`/orders/${invited.order_id}`} size='large' color='teal'>View</Button>
                   </List.Content>
+                  <Image avatar src={invited.invited.pic} />                  
                   <List.Content>
                     <h3>
                       <List.Header>
@@ -64,7 +79,6 @@ class AllNotification extends React.Component {
                     </h3>
                   </List.Content>
                   
-                  {/* <Image avatar src={invited.img} /> */}
                 </List.Item>
             )            
             })
@@ -79,9 +93,9 @@ class AllNotification extends React.Component {
               return(
                   <List.Item key={uuid()}>
                     <List.Content floated='right'>
-                      <Button as={Link} to={`/orders/${invite.order_id}`} size='large' color='teal'>Join</Button>
+                      <Button onClick={this.join.bind(this,invite.order_id)} size='large' color='teal'>Join</Button>
                     </List.Content>
-                    {/* <Image avatar src={invite.img} /> */}
+                    <Image avatar src={invite.host.pic} />
                     <List.Content>
                       <h3>
                         <List.Header>

@@ -45,7 +45,7 @@ class MyOrders extends React.Component {
    axios.get('http://localhost:3000/users/invited', { headers: headers })
      .then((response)=> {
        console.log(response.data);
-       this.setState({invited:response.data})
+       this.setState({invited:response.data.message})
      })
      .catch((error)=> {
        console.log(error);
@@ -77,7 +77,7 @@ class MyOrders extends React.Component {
 
   render() {
 
-    return(
+  return(
 
   <Grid centered celled columns={8} >
   <Grid.Column celled='centered' width={4}>
