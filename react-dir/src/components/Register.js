@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Form, Message,  Grid, Header, Segment} from 'semantic-ui-react'
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
-
+import FileBase64 from 'react-file-base64';
 
 export default class Register extends Component {
 
@@ -42,8 +42,13 @@ export default class Register extends Component {
     // console.log('image',event.target.files[0]);
   }
 
+  getFiles = (file)=>{
+    console.log('img..............',file.base64)
+    this.setState({ image: file.base64 })
+    }
+
   handleSubmit(event) {
-    
+
      if(this.state.password !== this.state.confirmpass )
      {
 
@@ -59,6 +64,38 @@ export default class Register extends Component {
      }
      else{
             //send data to backend
+             let data = {
+               name:this.state.username,
+               email:this.state.Email,
+               password:this.state.password,
+               pic:this.state.image
+             }
+
+             console.log('data',data)
+      
+            axios.post('http://localhost:3000/users', data, {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+              }).then( (response)=> {
+                
+                if(response.data.success)
+                {
+                  this.setState({ redirect: true });
+                 }else
+                 {
+                  this.setState({ errmsg: response.data.message });
+                  // redirect to login
+                 }
+                   
+                
+              })
+              .catch( (error)=> {
+                this.setState({errmsg:'invalid user data'});
+              });
+            
+/**
+ //send data to backend
             let form=document.getElementById('registerform');
             let data = new FormData(form);
       
@@ -74,8 +111,8 @@ export default class Register extends Component {
               .catch( (error)=> {
                 this.setState({errmsg:'invalid user data'});
               });
-            
-
+             
+ */
      }
     event.preventDefault();
   }
@@ -141,8 +178,11 @@ export default class Register extends Component {
               type='password'
               value={this.state.confirmpass} onChange={this.handleChangeconfirm} required
             />
-
-            <Form.Input
+              <Form.Field required>             
+                        <FileBase64 multiple={ false } onDone={ this.getFiles }/>
+                        
+              </Form.Field>
+            {/* <Form.Input
               fluid
               icon='upload icon'
               iconPosition='left'
@@ -150,7 +190,7 @@ export default class Register extends Component {
               type='file'
               name='userimage'
               onChange={this.handleChangecimage} required
-            />
+            /> */}
 
             <Button color='teal' fluid size='large'>Register</Button>
           </Segment>

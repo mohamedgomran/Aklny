@@ -26,9 +26,11 @@ module RailsDir
      config.web_socket_server_url = 'ws://localhost:3000/cable'
      config.action_cable.allowed_request_origins = [
        # Local address of our RoR server
-       'http://localhost:3000',
-       # Local address we use for our React standalone client
-       'http://localhost:3001',
+    'http://localhost:3001',
+    'https://localhost:3001',
+    # Local address we use for our React standalone client
+    'http://127.0.0.1:3001',
+    'https://127.0.0.1:3001',
      ]
      
      config.middleware.insert_before 0, Rack::Cors do
