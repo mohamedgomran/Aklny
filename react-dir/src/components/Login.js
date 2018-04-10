@@ -35,7 +35,7 @@ export default class Login extends Component {
     var body={
       name:user.profile.name,
       email:user.profile.email,
-      img:user.profile.profilePicURL,
+      pic:user.profile.profilePicURL,
       password:'social'
     }
 
@@ -45,7 +45,16 @@ export default class Login extends Component {
         'Content-Type': 'application/json'
       }
       }).then( (response)=> {
-      
+          
+          
+        // if(response.data.success)
+        // {
+        //   this.setState({ redirect: true });
+        //  }else
+        //  {
+        //   this.setState({ errmsg: response.data.message });
+        //   // redirect to login
+        //  }
         //get user token
         const b={auth:{"email":body.email,"password":body.password}}
         axios.post('http://localhost:3000/user_token',b,{
