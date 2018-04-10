@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import { Button, Grid, Label, Segment, Menu, Icon, Table, Form ,Dimmer} from 'semantic-ui-react'
 import axios from 'axios';
 import {ActionCable} from 'react-actioncable-provider'
+import UserAPI from '../API/users-api'
 import OrdersAPI from '../API/orders-api';
 
 let uuid = require('uuid-v4');
@@ -16,6 +17,7 @@ export default class ViewOrder extends Component {
 		orders : [],
 		joined : [],
 		invited : [],
+		user:'',
 		order : "",
 	}
 
@@ -30,7 +32,7 @@ export default class ViewOrder extends Component {
     			this.setState({order:res.message})
     		}
     	})
-		this.getOrderItems();
+		this.getUserId();			
 		this.getInvited();		
 	}
 
@@ -86,11 +88,22 @@ export default class ViewOrder extends Component {
 		
 	}
 
-  handleShowInvited = () => this.setState({ active: true ,flag : 'invited'})
+	getUserId = () => {
+		UserAPI.getuserdata((res) => {
+			// console.log("user from view order",res.data.user)
+			this.setState({
+				user: res.data.user
+			})
+			console.log("res",this.state.user.id)
+			this.getOrderItems();
+		})
+	}
+
+  	handleShowInvited = () => this.setState({ active: true ,flag : 'invited'})
 
 	handleShowJoin = () => this.setState({ active: true ,flag : 'joined'})
 
-  handleHide = () => this.setState({ active: false })
+  	handleHide = () => this.setState({ active: false })
 
 	handleSubmit = (e) => {
 		let form = document.getElementById('itemForm')
@@ -220,10 +233,9 @@ export default class ViewOrder extends Component {
 										        <Table.Cell>{order.price}</Table.Cell>
 										        <Table.Cell>{order.comment}</Table.Cell>
 												<Table.Cell>
-														{(JSON.parse(localStorage.getItem('user'))).id === order.user_id && <Button value={order.id} size="medium" basic color="red" onClick={this.removeOrder}>Remove</Button> }
+														{this.state.user.id === order.user_id && <Button value={order.id} size="medium" basic color="red" onClick={this.removeOrder}>Remove</Button> }
 										        </Table.Cell>
 										      </Table.Row>
-
 								    		)
 								    	})
 							    	}
