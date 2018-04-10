@@ -74,7 +74,7 @@ class UsersController < ApplicationController
             end
         end
         Notification.where(user_id: user_id,notification_type: "invitation").limit(5).order(created_at: :desc).each do |notif|
-            user = {name: Order.find(notif.order_id).user.name, id: Order.find(notif.order_id).user.id}
+            user = {name: Order.find(notif.order_id).user.name, id: Order.find(notif.order_id).user.id, pic: Order.find(notif.order_id).user.pic}
             @invite_notif << {order_id: notif.order_id, order_for: Order.find(notif.order_id).order_for,res_name: Order.find(notif.order_id).res_name , host: user, created_at: notif.created_at}
         end
         render json: {success: true, message: {join_notif: @join_notif, invite_notif: @invite_notif }}
