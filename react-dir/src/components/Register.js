@@ -3,6 +3,7 @@ import { Button, Form, Message,  Grid, Header, Segment} from 'semantic-ui-react'
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
 import FileBase64 from 'react-file-base64';
+import DOMAIN from '../API/domain';
 
 export default class Register extends Component {
 
@@ -43,7 +44,6 @@ export default class Register extends Component {
   }
 
   getFiles = (file)=>{
-    console.log('img..............',file.base64)
     this.setState({ image: file.base64 })
     }
 
@@ -77,7 +77,7 @@ export default class Register extends Component {
 
              console.log('data',data)
       
-            axios.post('http://localhost:3000/users', data, {
+            axios.post(`${DOMAIN}/users`, data, {
               headers: {
                 'Content-Type': 'application/json'
               }

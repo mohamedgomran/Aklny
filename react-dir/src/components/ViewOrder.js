@@ -5,6 +5,7 @@ import axios from 'axios';
 import {ActionCable} from 'react-actioncable-provider'
 import UserAPI from '../API/users-api'
 import OrdersAPI from '../API/orders-api';
+import DOMAIN from '../API/domain';
 
 let uuid = require('uuid-v4');
 
@@ -39,7 +40,7 @@ export default class ViewOrder extends Component {
 	}
 
 	getInvited = ()=>{
-		axios.get(`http://localhost:3000/orders/${this.orderId}/invited`, {
+		axios.get(`${DOMAIN}/orders/${this.orderId}/invited`, {
 			headers:{
 				'Content-Type': 'application/json',
 				'Authorization':"Bearer "+localStorage.getItem('token')
@@ -52,7 +53,7 @@ export default class ViewOrder extends Component {
 	}
 
 	getOrderItems = ()=>{
-		axios.get(`http://localhost:3000/orders/${this.orderId}/items`, {
+		axios.get(`${DOMAIN}/orders/${this.orderId}/items`, {
 			headers:{
 				'Content-Type': 'application/json',
 				'Authorization':"Bearer "+localStorage.getItem('token')
@@ -77,7 +78,7 @@ export default class ViewOrder extends Component {
 	removeOrder = (e)=>{
 		console.log(e.target.value);
 		let itemToDeleteId = e.target.value;
-		axios.delete(`http://localhost:3000/orders/${this.orderId}/items/${itemToDeleteId}`,{
+		axios.delete(`${DOMAIN}/orders/${this.orderId}/items/${itemToDeleteId}`,{
 			headers:{
 				'Content-Type': 'application/json',
 				'Authorization':"Bearer "+localStorage.getItem('token')
@@ -111,7 +112,7 @@ export default class ViewOrder extends Component {
 		let formData = new FormData(form)
 		console.log(formData);
 
-		axios.post(`http://localhost:3000/orders/${this.orderId}/items`, {
+		axios.post(`${DOMAIN}/orders/${this.orderId}/items`, {
 			"item": formData.get("item"),
 			"price": formData.get("price"),
 			"amount": formData.get("amount"),
@@ -134,7 +135,7 @@ export default class ViewOrder extends Component {
 	}
 
 	getJoined = ()=>{
-		axios.get(`http://localhost:3000/orders/${this.orderId}/joined`, {
+		axios.get(`${DOMAIN}/orders/${this.orderId}/joined`, {
 				headers:{
 					'Content-Type': 'application/json',
 					'Authorization':"Bearer "+localStorage.getItem('token')

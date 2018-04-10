@@ -24,7 +24,7 @@ class GroupsController < ApplicationController
         user_id = current_user.id
         puts user_id
         @user = User.find(user_id)
-        render json: @user.user_groups.select(:id, :name)
+        render json: {success: true, message: @user.user_groups.select(:id, :name)}
     end
 
     def delete

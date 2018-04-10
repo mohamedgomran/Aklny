@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Confirm ,Table,Grid,Icon,Pagination,List } from 'semantic-ui-react'
 import OrdersAPI from '../API/orders-api';
 import axios from 'axios';
+import DOMAIN from '../API/domain';
 
 let headers = {
     'Content-Type': 'application/json',
@@ -42,7 +43,7 @@ class MyOrders extends React.Component {
 
 
  getInvitedOrder =()=>{
-   axios.get('http://localhost:3000/users/invited', { headers: headers })
+   axios.get(`${DOMAIN}/users/invited`, { headers: headers })
      .then((response)=> {
        console.log(response.data);
        this.setState({invited:response.data.message})
@@ -54,7 +55,7 @@ class MyOrders extends React.Component {
  }
 
  getOrderJoined = ()=>{
-   axios.get(`http://localhost:3000/users/joined`, {
+   axios.get(`${DOMAIN}/users/joined`, {
      headers:headers
    }).then((response)=>{
      console.log("ll",response.data.message);

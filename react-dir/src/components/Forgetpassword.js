@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, Message, Grid, Header, Segment } from 'semantic-ui-react'
+import DOMAIN from '../API/domain';
 import axios from 'axios';
 
 
@@ -39,7 +40,7 @@ export default class Forgetpassword extends Component {
           }
 
           //***********************send mail to this user 
-          axios.post('http://localhost:3000/users/forget', data, {
+          axios.post(`${DOMAIN}/users/forget`, data, {
             headers: {
               'Content-Type':  'application/json'
             }

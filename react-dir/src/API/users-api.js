@@ -1,4 +1,5 @@
 import axios from 'axios';
+import DOMAIN from './domain';
 let headers = { 
     'Content-Type': 'application/json',
     'Authorization':"Bearer "+localStorage.getItem('token')
@@ -6,7 +7,7 @@ let headers = {
 
 let UsersAPI={
 	getMyNotifications:(callback) =>{
-        axios.get('http://localhost:3000/users/notifications', { headers: headers })
+        axios.get(`${DOMAIN}/users/notifications`, { headers: headers })
           .then((response)=> {
             callback(response.data)
           })
@@ -17,7 +18,7 @@ let UsersAPI={
 	getuserdata: (callback) => {
     if(localStorage.getItem('token') !== null)
     {
-       axios.get('http://localhost:3000/auth', {headers: headers})
+       axios.get(`${DOMAIN}/auth`, {headers: headers})
         .then( (response)=> {
           console.log(response.data.user);
           callback(response);

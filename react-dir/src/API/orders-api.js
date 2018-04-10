@@ -1,4 +1,5 @@
 import axios from 'axios';
+import DOMAIN from './domain';
 let headersFactory = ()=>{
   return { 
 	'Content-Type': 'application/json',
@@ -8,7 +9,7 @@ let headersFactory = ()=>{
 
 let OrdersAPI = {
 	getAllOrders:(callback)=>{
-        axios.get('http://localhost:3000/orders', { headers: headersFactory() })
+        axios.get(`${DOMAIN}/orders`, { headers: headersFactory() })
           .then((response)=> {
             callback(response.data)
           })
@@ -17,7 +18,7 @@ let OrdersAPI = {
         })
 	},
 	finishOrder:(oid, callback)=>{
-        axios.put(`http://localhost:3000/orders/${oid}`,{} , { headers: headersFactory() })
+        axios.put(`${DOMAIN}/orders/${oid}`,{} , { headers: headersFactory() })
           .then((response)=> {
             callback(response.data)
           })
@@ -26,7 +27,7 @@ let OrdersAPI = {
         })
 	},
 	deleteOrder:(oid, callback)=>{
-        axios.delete(`http://localhost:3000/orders/${oid}`, { headers: headersFactory() })
+        axios.delete(`${DOMAIN}/orders/${oid}`, { headers: headersFactory() })
           .then((response)=> {
             callback(response.data)
           })
@@ -36,7 +37,7 @@ let OrdersAPI = {
     },
     
   getMyOrders:(callback) =>{
-        axios.get('http://localhost:3000/users/orders', { headers: headersFactory() })
+        axios.get(`${DOMAIN}/users/orders`, { headers: headersFactory() })
         .then((response)=> {
             callback(response.data)
           })
@@ -46,7 +47,7 @@ let OrdersAPI = {
   },
   
   joinOrder: (oid, callback) => {
-    axios.put(`http://localhost:3000/orders/${oid}/join`,{} , {headers: headersFactory() })
+    axios.put(`${DOMAIN}/orders/${oid}/join`,{} , {headers: headersFactory() })
     .then ((response) => {
       callback(response)
     })
@@ -55,7 +56,7 @@ let OrdersAPI = {
     })
   },
   getOrder: (oid, callback) => {
-    axios.get(`http://localhost:3000/orders/${oid}/`,{} , {headers: headersFactory() })
+    axios.get(`${DOMAIN}/orders/${oid}/`,{} , {headers: headersFactory() })
     .then ((response) => {
       console.log(response)
       callback(response.data)

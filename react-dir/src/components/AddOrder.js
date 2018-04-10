@@ -5,6 +5,7 @@ import axios from 'axios';
 import GroupsAPI from '../API/groups-api';
 import GroupMember  from './GroupMembers';
 import FileBase64 from 'react-file-base64';
+import DOMAIN from '../API/domain';
 var uuid = require('uuid-v4');
 
 let headers = {
@@ -37,12 +38,14 @@ export default class AddOrder extends React.Component{
 	componentDidMount(){
 		this.getallFriends()
 		GroupsAPI.getAllGroups((res)=>{
-            var groups = res.map((group)=>{
-                group = {key:uuid(), value:group.id, text: group.name}
-                return group
-                }
-            )
-            this.setState({groups:groups});
+            if (res.success) {
+                var groups = res.message.map((group)=>{
+                    group = {key:uuid(), value:group.id, text: group.name}
+                    return group
+                    }
+                )
+                this.setState({groups:groups});
+            }
 		})
 	}
 
@@ -51,7 +54,7 @@ export default class AddOrder extends React.Component{
     }
 
     getallFriends = ()=>{
-         axios.get(`http://localhost:3000/users/friends`, {
+         axios.get(`${DOMAIN}/users/friends`, {
              headers: headers
          }).then((response)=>{
                 var friends = response.data.message.map((friend)=>{
@@ -66,7 +69,7 @@ export default class AddOrder extends React.Component{
 
     addOrder = ()=>{
         this.setState( ()=>{
-        axios.post(`http://localhost:3000/orders`,{
+        axios.post(`${DOMAIN}/orders`,{
     		order_for:this.order.order_for,
             res_name: this.order.res_name,
     		invited : this.order.invited,

@@ -6,6 +6,7 @@ import UsersAPI from '../API/users-api';
 import {ActionCable} from 'react-actioncable-provider'
 import axios from 'axios';
 import OrdersAPI from '../API/orders-api';
+import DOMAIN from '../API/domain';
 
 
 let uuid = require('uuid-v4');
@@ -37,7 +38,7 @@ export default class Header extends Component {
 	 if(localStorage.getItem('token') !== null)
 	 {
 			//request to get User data
-			axios.get('http://localhost:3000/auth', {
+			axios.get(`${DOMAIN}/auth`, {
 			 headers: {
 				 'Content-Type': 'application/json',
 				 'Authorization':"Bearer "+localStorage.getItem('token')

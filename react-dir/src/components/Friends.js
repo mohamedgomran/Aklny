@@ -1,6 +1,7 @@
 import React from 'react'
 import   { Form, Label,Input, Header, Icon, Card, Grid, GridRow, GridColumn } from 'semantic-ui-react'
 import axios from 'axios';
+import DOMAIN from '../API/domain';
 
 export default class Friends extends React.Component{
     emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -20,7 +21,7 @@ export default class Friends extends React.Component{
         this.setState({input:document.getElementById("friendEmail").value}, ()=>{
             if (this.emailRegex.test(this.state.input)){
 
-                axios.post(`http://localhost:3000/users/friends/add`,{
+                axios.post(`${DOMAIN}/users/friends/add`,{
                         'email': this.state.input
                 },
                 {headers: {
@@ -37,7 +38,6 @@ export default class Friends extends React.Component{
                             this.setState({groupError:"Friend Not found"})
                         }
                     }
-                        // console.log("response",response);
                 }).catch((error)=>{
                         console.log("error", error);
                 })
@@ -48,24 +48,21 @@ export default class Friends extends React.Component{
     handelInputChange = (e)=>{
         this.setState({input:e.target.value})
         this.setState({groupError:""})
-
     }
 
     removeFriend = (friendId)=>{
-				// console.log("removing"+e.target.value);
-				axios.delete(`http://localhost:3000/users/friends/${friendId}`, {
+				axios.delete(`${DOMAIN}/users/friends/${friendId}`, {
 					headers:{
                             'Content-Type': 'application/json',
                             'Authorization':"Bearer "+localStorage.getItem('token')
 					}}).then((response)=>{
 						this.getMyFriends();
 					}).catch((error)=>{
-
-					})
+				})
     }
 
     getMyFriends = ()=>{
-        axios.get(`http://localhost:3000/users/friends`, {
+        axios.get(`${DOMAIN}/users/friends`, {
             headers:{
                 'Content-Type': 'application/json',
                 'Authorization':"Bearer "+localStorage.getItem('token')

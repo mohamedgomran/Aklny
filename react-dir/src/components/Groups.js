@@ -26,7 +26,9 @@ export default class Groups extends React.Component {
 
     componentDidMount(){
         GroupsAPI.getAllGroups((res)=>{
-            this.setState({groups:res})
+            if (res.success) {
+                this.setState({groups:res.message})
+            }
         })
     }
 

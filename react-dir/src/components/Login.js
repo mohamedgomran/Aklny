@@ -3,12 +3,13 @@ import { Button, Form, Message, Icon, Grid, Header, Segment ,Color } from 'seman
 import { Link,Redirect } from "react-router-dom";
 import SocialButton from './SocialButton';
 import axios from 'axios';
+import DOMAIN from '../API/domain';
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
     if(localStorage.getItem('token')) {
-      window.location.replace('http://localhost:3001/')
+      window.location.replace(DOMAIN)
     }
     this.state = {Email: '',password:'',errmsg:''};
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
@@ -39,7 +40,7 @@ export default class Login extends Component {
       password:'social'
      }
     
-    axios.post('http://localhost:3000/users',body, {
+    axios.post(`${DOMAIN}/users`,body, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -47,7 +48,7 @@ export default class Login extends Component {
          
         //get user token
         const b={auth:{"email":body.email,"password":body.password}}
-        axios.post('http://localhost:3000/user_token',b,{
+        axios.post(`${DOMAIN}/user_token`,b,{
             headers: {
               'Content-Type': 'application/json'
             }
@@ -87,7 +88,7 @@ export default class Login extends Component {
           let data = new FormData(form);
 
           const body={auth:{"email":data.get('email'),"password":data.get('password')}}
-          axios.post('http://localhost:3000/user_token',body,{
+          axios.post(`${DOMAIN}/user_token`,body,{
               headers: {
                 'Content-Type': 'application/json'
               }
