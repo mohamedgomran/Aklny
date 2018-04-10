@@ -180,7 +180,7 @@ export default class AddOrder extends React.Component{
                             })
                         }
 						{
-							this.state.groups.map(group =>{
+							this.state.groups.length>0&&this.state.groups.map(group =>{
 								return(
 									<option key={group.id} value={group.id} onClick={this.handleItemClick} >{group.name}</option>
 								)
