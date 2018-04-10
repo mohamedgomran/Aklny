@@ -34,7 +34,7 @@ class OrderDetailsController < ApplicationController
     def list
         user_id = current_user.id
         if User.find(user_id).orders.include?(Order.find(params[:oid])) || Notification.where(order_id: params[:oid], user_id: user_id).count > 0
-            listRefresh(params[:oid])
+            @order_details = listRefresh(params[:oid])
             render json: {success: true, message:@order_details}
         else
             render json: {success: false, message: 'Order Not Found'}            
