@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Redirect } from "react-router-dom";
 import { Button, Grid, Label, Segment, Menu, Icon, Table, Form ,Dimmer} from 'semantic-ui-react'
 import axios from 'axios';
-import img from '../12.jpg';
 import {ActionCable} from 'react-actioncable-provider'
 
 let uuid = require('uuid-v4');
@@ -21,7 +20,7 @@ export default class ViewOrder extends Component {
 	constructor(props){
 		super(props);
 		this.getOrderItems();
-		this.getInvited();		
+		this.getInvited();
 	}
 
 	getInvited = ()=>{
@@ -73,7 +72,7 @@ export default class ViewOrder extends Component {
 		}).catch(error=>{
 			console.log(error);
 		})
-		
+
 	}
 
   handleShowInvited = () => this.setState({ active: true ,flag : 'invited'})
@@ -86,7 +85,7 @@ export default class ViewOrder extends Component {
 		let form = document.getElementById('itemForm')
 		let formData = new FormData(form)
 		console.log(formData);
-		
+
 		axios.post(`http://localhost:3000/orders/${this.orderId}/items`, {
 			"item": formData.get("item"),
 			"price": formData.get("price"),
@@ -116,7 +115,7 @@ export default class ViewOrder extends Component {
 	}
     return (
 			<Grid>
-			<ActionCable ref='MyNotifications' channel={{channel: 'OrderDetailsChannel', oid: this.orderId}} onReceived={this.onReceived.bind(this)} />						
+			<ActionCable ref='MyNotifications' channel={{channel: 'OrderDetailsChannel', oid: this.orderId}} onReceived={this.onReceived.bind(this)} />
 			 <Dimmer.Dimmable as={Segment} blurring dimmed={active}>
 				 <Dimmer active={active} onClickOutside={this.handleHide}>
 
