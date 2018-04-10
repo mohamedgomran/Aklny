@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import { Confirm ,Table,Grid,Icon,Pagination } from 'semantic-ui-react'
+import { Confirm ,Table,Grid,Icon,Pagination,List } from 'semantic-ui-react'
 import OrdersAPI from '../API/orders-api';
 import axios from 'axios';
 let uuid = require('uuid-v4');
@@ -14,7 +14,8 @@ class ViewOrderUser extends React.Component {
         size: 3,
         open: false,
         result: 'show the modal to capture a result',
-        orders:[]
+        orders:[],
+        joined:[]
    }
  }
 
@@ -24,6 +25,7 @@ class ViewOrderUser extends React.Component {
  show = () => this.setState({open: true })
  handleConfirm = () => this.setState({ result: 'confirmed', open: false })
  handleCancel = () => this.setState({ result: 'cancelled', open: false })
+
  componentDidMount(){
   this.getOrderItems()
  }
@@ -42,8 +44,9 @@ class ViewOrderUser extends React.Component {
          badRequest: true,
        })
      } else {
-       console.log(response.data.message)
-       this.setState({orders: response.data.message})
+       console.log("ressss"+response.data)
+       this.setState({joined: response.data.message})
+       console.log("my oders"+this.state.orders+"end");
      }
    }).catch((error)=>{
      console.log(error)
@@ -75,7 +78,9 @@ class ViewOrderUser extends React.Component {
   </Grid.Row>
 	<Grid.Row>
     <Grid.Column computer={12}>
-
+    <List.Header color='teal'>
+      <h2>Joined</h2>
+    </List.Header>
       <Table size='small' textAlign='center' celled selectable>
         <Table.Header>
           <Table.Row>
@@ -89,17 +94,18 @@ class ViewOrderUser extends React.Component {
         </Table.Header>
 
         <Table.Body>
+
           {
-            this.state.orders.length>0&&this.state.orders.map((order) => {
+            this.state.joined.length>0&&this.state.joined.map((joined) => {
                 return (
                   <Table.Row key={uuid()} >
-                    <Table.Cell>{order.res_name}</Table.Cell>
-                    <Table.Cell>{order.invited}</Table.Cell>
-                    <Table.Cell>{order.joined}</Table.Cell>
-                    <Table.Cell>{order.status}</Table.Cell>
+                    <Table.Cell>{joined.res_name}</Table.Cell>
+                    <Table.Cell>{joined.invited}</Table.Cell>
+                    <Table.Cell>{joined.joined}</Table.Cell>
+                    <Table.Cell>{joined.status}</Table.Cell>
 
                   <Table.Cell>
-                    <Link to={`/orders/${order.id}`}> <Icon link name='folder open' size='big' color='teal'/></Link>
+                    <Link to={`/orders/${joined.id}`}> <Icon link name='folder open' size='big' color='teal'/></Link>
                   </Table.Cell>
                   </Table.Row>
                 )
@@ -109,6 +115,49 @@ class ViewOrderUser extends React.Component {
         </Table.Body>
       </Table>
     </Grid.Column>
+    </Grid.Row>
+    <Grid.Row>
+    <Grid.Column computer={12}>
+    <List.Header color='teal'>
+      <h2>Invited</h2>
+    </List.Header>
+      <Table size='small' textAlign='center' celled selectable>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell >Resturnats</Table.HeaderCell>
+            <Table.HeaderCell >Invited</Table.HeaderCell>
+            <Table.HeaderCell >Joined</Table.HeaderCell>
+            <Table.HeaderCell >Status</Table.HeaderCell>
+            <Table.HeaderCell width={4} >View order</Table.HeaderCell>
+
+          </Table.Row>
+        </Table.Header>
+
+        <Table.Body>
+
+          {
+            this.state.joined.length>0&&this.state.joined.map((joined) => {
+                return (
+                  <Table.Row key={uuid()} >
+                    <Table.Cell>{joined.res_name}</Table.Cell>
+                    <Table.Cell>{joined.invited}</Table.Cell>
+                    <Table.Cell>{joined.joined}</Table.Cell>
+                    <Table.Cell>{joined.status}</Table.Cell>
+
+                  <Table.Cell>
+                    <Link to={`/orders/${joined.id}`}> <Icon link name='folder open' size='big' color='teal'/></Link>
+                  </Table.Cell>
+                  </Table.Row>
+                )
+            })
+
+          }
+        </Table.Body>
+      </Table>
+    </Grid.Column>
+
+
+
   </Grid.Row>
 
 { /*  <Grid.Row>
