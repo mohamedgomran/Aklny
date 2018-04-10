@@ -25,8 +25,6 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
         )} />
 )
 
-
-
 export default class AppRouter extends Component {
 
     state = {
