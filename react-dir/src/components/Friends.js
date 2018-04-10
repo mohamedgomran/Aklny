@@ -1,7 +1,6 @@
 import React from 'react'
-import   { Form, Label,Input, Button, Container, Header, Icon, Card, Image, Grid, GridRow, GridColumn } from 'semantic-ui-react'
+import   { Form, Label,Input, Header, Icon, Card, Grid, GridRow, GridColumn } from 'semantic-ui-react'
 import axios from 'axios';
-var uuid = require('uuid-v4');
 
 export default class Friends extends React.Component{
     emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -109,7 +108,7 @@ export default class Friends extends React.Component{
                 <GridRow >
                     <GridColumn centered="true" width={12}>
                             {
-                                this.state.friends.length==0 && (<h1 align="center">Start adding your friends...</h1>)
+                                this.state.friends.length===0 && (<h1 align="center">Start adding your friends...</h1>)
                             }
                             <Card.Group className="six wide">
                             {
