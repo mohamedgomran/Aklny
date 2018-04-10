@@ -133,10 +133,10 @@ export default class AddOrder extends React.Component{
     }
 
 
-    notInvite = (e)=>{
+    notInvite = (friendId)=>{
         let newInvitedArr = [];
         this.state.invitedFriends.forEach(invitedFriend=>{
-            if(e.target.value != invitedFriend.id){
+            if(friendId != invitedFriend.id){
                 newInvitedArr.push(invitedFriend);
             }
         })
@@ -152,10 +152,10 @@ export default class AddOrder extends React.Component{
 
     render = ()=>{
         return (
-            <Grid divided='vertically'>
+            <Grid divided='vertically' centered>
                 <h1>Add Order</h1>
                 <Grid.Row columns={2}>
-                    <Grid.Column>
+                    <Grid.Column width={6}>
                     <Form onSubmit={this.addOrder}>
 
                     <Form.Field onChange={this.handleChangeType} value={this.state.order_for} id ='add_order'>
@@ -180,7 +180,7 @@ export default class AddOrder extends React.Component{
                             })
                         }
 						{
-							this.state.groups.map(group =>{
+							this.state.groups.length>0&&this.state.groups.map(group =>{
 								return(
 									<option key={group.id} value={group.id} onClick={this.handleItemClick} >{group.name}</option>
 								)
@@ -191,22 +191,21 @@ export default class AddOrder extends React.Component{
                     <Form.Field>
                         <FileBase64 multiple={ false } onDone={ this.getFiles }/>
                     </Form.Field>
-                    <Button basic color="green" size="large" floated="right">Publish</Button>
+                    <Button basic color="green" size="large" floated="left">Publish</Button>
                 </Form>
                 </Grid.Column>
 
-                   <Grid.Column>
+                   <Grid.Column width={6}>
                     <h4>Invited Friends</h4>
                     <div>
                         {
                             this.state.invitedFriends.map(invitedFriend =>{
                                 return(
                                      <Label key={invitedFriend.id} size="huge" image>
-                                        {/*<img src={invitedFriend.image} alt={invitedFriend.name}/>*/}
+                                        <img src={invitedFriend.pic} alt={invitedFriend.name}/>
                                         {invitedFriend.name}
-                                        {<Button size="mini" value={invitedFriend.id} name="delete" onClick={this.notInvite} circular>
-                                            <i className="icon close"></i>
-                                        </Button>}
+                                        
+                                        <Icon name="delete" onClick={this.notInvite.bind(this,invitedFriend.id)}/>
                                      </Label>
                                 )
                             })

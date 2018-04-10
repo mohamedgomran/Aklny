@@ -3,11 +3,11 @@ class UsersController < ApplicationController
 
     def register
         # password_digest
-        uparams = params.permit(:name, :email, :password)
+        uparams = params.permit(:name, :email, :password, :pic)
         # puts uparams
-        @user = User.create(uparams)
+        @user = User.new(uparams)
         if User.find_by(email:uparams[:email])
-            render json: { success: false, message:  User.find_by(email:uparams[:email]).select(:email, :name, :id, :pic)}
+            render json: { success: false, message:'email already exist'}
         elsif @user.save
             render json: { success: true, message: 'user added' }
         else
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
         # user_id = 5 #to be get from authentication
         user_id = current_user.id
         @user = User.find(user_id);
-        @friend = User.find_by(email: params[:email]).select(:email, :name, :id, :pic);
+        @friend = User.find_by(email: params[:email]);
 
         if @user.friends.include?(@friend)
             render json: {success: false, message: "already a friend"}
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     def del_friend
         user_id = current_user.id
         @user = User.find(user_id);
-        @friend = User.find(params[:friend_id].to_i).select(:email, :name, :id, :pic);
+        @friend = User.find(params[:friend_id].to_i);
 
         if User.find(user_id).friends.include?(@friend)
 			@user.friends.delete(@friend)

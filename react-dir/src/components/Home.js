@@ -61,7 +61,7 @@ export default class Home extends Component {
 						this.state.latestOrders.length > 0 && this.state.latestOrders.map((order)=>{
 							return(
 								<List.Item key={uuid()} as={Link} to={`/orders/${order.id}`}>
-								  <List.Icon name={order.order_for==='breakfast' ? "sun" : "food"} />
+								  <List.Icon name={order.order_for==='Breakfast' ? "sun" : "food"} />
 								  <List.Content><h3>{order.order_for} on {dateFormat(order.created_at,"fullDate")}</h3></List.Content>
 								  <Divider />
 								</List.Item>

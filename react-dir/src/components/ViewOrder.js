@@ -139,7 +139,7 @@ export default class ViewOrder extends Component {
 									return(
 										<Grid.Column key={uuid()}>
 										<Label as='a' image size='medium'>
-												<img src={invite.img} alt="alt"/>
+												<img src={invite.pic} alt="alt"/>
 												{invite.name}
 											</Label>
 											</Grid.Column>
