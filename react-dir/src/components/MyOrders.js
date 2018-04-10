@@ -12,7 +12,7 @@ let headers = {
 
 let uuid = require('uuid-v4');
 
-class ViewOrderUser extends React.Component {
+class MyOrders extends React.Component {
 
   constructor(props){
    super(props);
@@ -105,8 +105,7 @@ class ViewOrderUser extends React.Component {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell >Resturnats</Table.HeaderCell>
-            <Table.HeaderCell >Invited</Table.HeaderCell>
-            <Table.HeaderCell >Joined</Table.HeaderCell>
+            <Table.HeaderCell >order for</Table.HeaderCell>
             <Table.HeaderCell >Status</Table.HeaderCell>
             <Table.HeaderCell width={4} >View order</Table.HeaderCell>
 
@@ -120,8 +119,7 @@ class ViewOrderUser extends React.Component {
                 return (
                   <Table.Row key={uuid()} >
                     <Table.Cell>{joined.res_name}</Table.Cell>
-                    <Table.Cell>{joined.invited}</Table.Cell>
-                    <Table.Cell>{joined.joined}</Table.Cell>
+                    <Table.Cell>{joined.order_for}</Table.Cell>
                     <Table.Cell>{joined.status}</Table.Cell>
 
                   <Table.Cell>
@@ -145,8 +143,7 @@ class ViewOrderUser extends React.Component {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell >Resturnats</Table.HeaderCell>
-            <Table.HeaderCell >Invited</Table.HeaderCell>
-            <Table.HeaderCell >Joined</Table.HeaderCell>
+            <Table.HeaderCell >order for</Table.HeaderCell>
             <Table.HeaderCell >Status</Table.HeaderCell>
             <Table.HeaderCell width={4} >View order</Table.HeaderCell>
 
@@ -160,8 +157,7 @@ class ViewOrderUser extends React.Component {
                 return (
                   <Table.Row key={uuid()} >
                     <Table.Cell>{invited.res_name}</Table.Cell>
-                    <Table.Cell>{invited.invited}</Table.Cell>
-                    <Table.Cell>{invited.joined}</Table.Cell>
+                    <Table.Cell>{invited.order_for}</Table.Cell>
                     <Table.Cell>{invited.status}</Table.Cell>
 
                   <Table.Cell>
@@ -194,4 +190,4 @@ class ViewOrderUser extends React.Component {
   }
 }
 
-export default ViewOrderUser;
+export default MyOrders;
