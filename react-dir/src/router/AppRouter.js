@@ -15,7 +15,6 @@ import ViewOrder from '../components/ViewOrder';
 import { ActionCableProvider } from 'react-actioncable-provider'
 import ActionCable from 'action-cable-react-jwt';
 import NotFound from '../components/NotFound';
-import test from '../components/test';
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
         <Route {...rest} render={props => (
@@ -53,7 +52,6 @@ export default class AppRouter extends Component {
                             <Route path="/login" component={Login} />
                             <Route path="/register" component={Register}/>
                             <Route path="/forgetpassword" component={Forgetpassword}/>
-                            <Route path="/test" component={test}/>
                             <Route  component={NotFound}/>
                         </Switch>
                     </div>
