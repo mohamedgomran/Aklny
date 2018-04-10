@@ -53,7 +53,17 @@ let OrdersAPI = {
     .catch((error) => {
       callback(error)
     })
-  }
+  },
+  getOrder: (oid, callback) => {
+    axios.get(`http://localhost:3000/orders/${oid}/`,{} , {headers: headersFactory() })
+    .then ((response) => {
+      console.log(response)
+      callback(response.data)
+    })
+    .catch((error) => {
+      callback(error)
+    })
+  },
 
 }
 
