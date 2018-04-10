@@ -1,5 +1,5 @@
 import React from 'react'
-import   { Input, Button, Container, Header, Icon, Card, Image, Grid, GridRow, GridColumn } from 'semantic-ui-react'
+import   { Form, Label,Input, Button, Container, Header, Icon, Card, Image, Grid, GridRow, GridColumn } from 'semantic-ui-react'
 import axios from 'axios';
 var uuid = require('uuid-v4');
 
@@ -9,6 +9,7 @@ export default class Friends extends React.Component{
     state = {
         friends:[],
         input: "",
+        groupError: "",
 		}
 
 		constructor(props){
@@ -32,9 +33,9 @@ export default class Friends extends React.Component{
                         console.log("friend added");
                     }else{
                         if(response.data.message === "already a friend"){
-                            alert("already a friend")
+                            this.setState({groupError:"already a friend"})
                         }else if(response.data.message === "Friend Not found"){
-                            alert("not found")
+                            this.setState({groupError:"Friend Not found"})
                         }
                     }
                         // console.log("response",response);
@@ -43,6 +44,12 @@ export default class Friends extends React.Component{
                 })
             }
         })
+    }
+
+    handelInputChange = (e)=>{
+        this.setState({input:e.target.value})
+        this.setState({groupError:""})
+
     }
 
     removeFriend = (e)=>{
@@ -77,32 +84,42 @@ export default class Friends extends React.Component{
 
     render(){
         return (
-            <Grid>
-                <GridRow centered>
-                    <GridColumn width={8}>
-                        <div align="center">
+            <Grid centered>
+                <GridRow >
+                    <GridColumn centered="true" width={8}>
+                        <GridRow>
                             <Header as='h3' icon>
                                 <Icon name='users' circular/>
                                 <Header.Content>Friends List</Header.Content>
                             </Header>
-                            <br/>
-                            <Input id="friendEmail" icon='user' iconPosition='left' placeholder='mail@example.com'  />
-                            <Button secondary onClick={this.addFriend}>ADD</Button>
-                        </div>
+                        </GridRow>
+                            <GridRow>
+                                <GridColumn centered="true" width={5}>
+                                    <Form>
+                                        <Form.Group>
+                                            <Form.Field>
+                                                <Input id="friendEmail" icon='user' iconPosition='left' placeholder='mail@example.com' onChange={this.handelInputChange} />
+                                                {this.state.groupError&&<Label basic color='red' pointing>{this.state.groupError}</Label>}
+                                            </Form.Field>
+                                            <Form.Button secondary onClick={this.addFriend}>ADD</Form.Button>
+                                        </Form.Group>
+                                    </Form>
+                                </GridColumn>
+                            </GridRow>
                     </GridColumn>
                 </GridRow>
-                <GridRow centered>
-                    <GridColumn width={12}>
+                <GridRow >
+                    <GridColumn centered="true" width={12}>
                             {
                                 this.state.friends.length==0 && (<h1 align="center">Start adding your friends...</h1>)
                             }
-                            <Card.Group className="eight wide">
+                            <Card.Group className="six wide">
                             {
                                 this.state.friends.map(friend=>{
                                     return (
                                         <Card  key={uuid()}>
                                             <Card.Content>
-                                                <Image className="ui avatar image" floated='right' size='mini' src='https://react.semantic-ui.com/assets/images/avatar/large/steve.jpg'/>
+                                                <Image className="ui avatar image" floated='right' size='large' src={friend.pic}/>
                                                 <Card.Header>{friend.name}</Card.Header>
                                             </Card.Content>
                                             <Card.Content extra>
