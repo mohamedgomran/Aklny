@@ -34,7 +34,7 @@ export default class ViewOrder extends Component {
     		}
     	})
 		// this.getOrderItems();
-		this.getInvited();		
+		this.getInvited();
 	}
 
 	getInvited = ()=>{
@@ -86,7 +86,7 @@ export default class ViewOrder extends Component {
 		}).catch(error=>{
 			console.log(error);
 		})
-		
+
 	}
 
 	getUserId = () => {
@@ -109,7 +109,7 @@ export default class ViewOrder extends Component {
 		let form = document.getElementById('itemForm')
 		let formData = new FormData(form)
 		console.log(formData);
-		
+
 		axios.post(`http://localhost:3000/orders/${this.orderId}/items`, {
 			"item": formData.get("item"),
 			"price": formData.get("price"),
@@ -140,7 +140,7 @@ export default class ViewOrder extends Component {
 	}
     return (
 			<Grid>
-			<ActionCable ref='MyNotifications' channel={{channel: 'OrderDetailsChannel', oid: this.orderId}} onReceived={this.onReceived.bind(this)} />						
+			<ActionCable ref='MyNotifications' channel={{channel: 'OrderDetailsChannel', oid: this.orderId}} onReceived={this.onReceived.bind(this)} />
 			 <Dimmer.Dimmable  blurring dimmed={active}>
 				 <Dimmer active={active} onClickOutside={this.handleHide}>
 

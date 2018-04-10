@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   get 'users/notifications', to: 'users#list_notifications'
   #list my joined orders
   get 'users/joined', to: 'users#list_joined_orders'
+  #list my invited orders
+   get 'users/invited', to: 'users#list_invited_orders'
+
   #list my orders
   get 'users/orders', to: 'users#list_my_orders'
   

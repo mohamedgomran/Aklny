@@ -86,7 +86,7 @@ export default class AddOrder extends React.Component{
 
     getFiles = (file)=>{
         console.log(file.base64)
-        this.setState({ menu: file.base64 })
+        this.menu = file.base64
     }
 
     selectFriendHandle = (e, {value}) =>{

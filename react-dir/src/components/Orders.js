@@ -62,7 +62,7 @@ class Orders extends React.Component {
 
   <Grid centered celled columns={8} >
   <Grid.Column celled='centered' width={4}>
-      <h1><b>Orders</b></h1>
+      <h1><b>All Orders</b></h1>
   </Grid.Column>
 
 
@@ -108,7 +108,7 @@ class Orders extends React.Component {
                   </Table.Row>
                 )
             })
-            
+
           }
         </Table.Body>
       </Table>
@@ -121,7 +121,7 @@ class Orders extends React.Component {
          limit={10}
          total={100}
          onClick={(e, props, offset) => this.handleClick(offset)}
-       /> 
+       />
   </Grid.Row>*/}
 </Grid>
 
