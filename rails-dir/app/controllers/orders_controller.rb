@@ -74,7 +74,7 @@ class OrdersController < ApplicationController
         params.permit(:oid)
         @invited = []
         Notification.where(order_id: params[:oid], notification_type: "invitation").find_each do |notif|
-            user = User.find(notif.user_id)
+            user = User.find(notif.user_id).select(:email, :name, :id, :pic)
             @invited << user
         end
         render json: {success: true, message: @invited}
@@ -84,7 +84,7 @@ class OrdersController < ApplicationController
         params.permit(:oid)
         @joined = []
         Notification.where(order_id: params[:oid], notification_type: "join").find_each do |notif|
-            user = User.find(notif.user_id)
+            user = User.find(notif.user_id).select(:email, :name, :id, :pic)
             @joined << user
         end
         render json: {success: true, message: @joined}
