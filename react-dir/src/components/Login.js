@@ -56,6 +56,7 @@ export default class Login extends Component {
           }).then( (response)=> {
 
               localStorage.setItem('token',response.data.jwt)
+              localStorage.setItem('user',JSON.stringify(response.data.user))
               //request to get User data
               this.setState({logged:true});
             })
@@ -69,17 +70,11 @@ export default class Login extends Component {
         this.setState({errmsg:"invalid Social Login"})
       });
 
-
-
-
   }
 
  handleSocialLoginFailure = (err) => {
     console.error(err)
   }
-
-
-
 
   handleSubmit(event) {
        //if data incorrect show in errmsg
