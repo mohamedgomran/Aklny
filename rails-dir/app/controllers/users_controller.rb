@@ -36,7 +36,7 @@ class UsersController < ApplicationController
         # user_id = 5 #to be get from authentication
         user_id = current_user.id
         @user = User.find(user_id);
-        @friend = User.find_by(email: params[:email]).select(:email, :name, :id, :pic);
+        @friend = User.find_by(email: params[:email]);
 
         if @user.friends.include?(@friend)
             render json: {success: false, message: "already a friend"}
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     def del_friend
         user_id = current_user.id
         @user = User.find(user_id);
-        @friend = User.find(params[:friend_id].to_i).select(:email, :name, :id, :pic);
+        @friend = User.find(params[:friend_id].to_i);
 
         if User.find(user_id).friends.include?(@friend)
 			@user.friends.delete(@friend)
@@ -99,7 +99,7 @@ class UsersController < ApplicationController
     def list_joined_orders
         user_id= current_user.id    
         @joinedOrders = []
-        Notification.where(user_id: user_id, notification_type: "join").find_each do |notif|
+        Notification.where(user_id: user_id, notification_type: "join", notification_type: "invitation" ).find_each do |notif|
             @joinedOrders << Order.find(notif.order_id)
         end
         render json: {success: true, message: @joinedOrders}

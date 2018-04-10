@@ -14,17 +14,19 @@ let UsersAPI={
             callback(error)
         })
 	},
-	// addGroup: (name, callback)=>{
-	// 	let payLoad = {'name':name}
-    //     axios.post('http://localhost:3000/groups', payLoad ,{ headers: headers })
-    //       .then((response)=> {
-    //         callback(response.data)
-    //       })
-    //       .catch((error)=> {
-    //         callback(error)
-    //     })
-	// },
-
+	getuserdata: (callback) => {
+    if(localStorage.getItem('token') !== null)
+    {
+       axios.get('http://localhost:3000/auth', {headers: headers})
+        .then( (response)=> {
+          console.log(response.data.user);
+          callback(response);
+        })
+        .catch((error)=> {
+          callback(error);
+        });
+     }
+   }
 };
 
 export default UsersAPI;

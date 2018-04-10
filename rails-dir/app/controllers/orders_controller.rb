@@ -9,7 +9,7 @@ class OrdersController < ApplicationController
         if @order.save
             invited = params[:invited]
             self.class.notify(invited,"invitation",@order.id,"true");
-            render json: {success: true, message: invited}
+            render json: {success: true, message: @order}
         else
             render json: {success: false, message: @order.errors}
         end
@@ -74,7 +74,7 @@ class OrdersController < ApplicationController
         params.permit(:oid)
         @invited = []
         Notification.where(order_id: params[:oid], notification_type: "invitation").find_each do |notif|
-            user = User.find(notif.user_id).select(:email, :name, :id, :pic)
+            user = User.find(notif.user_id)
             @invited << user
         end
         render json: {success: true, message: @invited}
@@ -84,9 +84,14 @@ class OrdersController < ApplicationController
         params.permit(:oid)
         @joined = []
         Notification.where(order_id: params[:oid], notification_type: "join").find_each do |notif|
-            user = User.find(notif.user_id).select(:email, :name, :id, :pic)
+            user = User.find(notif.user_id)
             @joined << user
         end
         render json: {success: true, message: @joined}
+    end
+    def get_order
+        params.permit(:oid)
+        @order = Order.find(params[:oid])
+        render json: {success: true, message: @order}
     end
 end
