@@ -42,9 +42,7 @@ export default class AddOrder extends React.Component{
                 return group
                 }
             )
-             this.setState({groups:groups});
-
-			console.log(res);
+            this.setState({groups:groups});
 		})
 	}
 
@@ -87,14 +85,26 @@ export default class AddOrder extends React.Component{
     }
 
     getFiles = (file)=>{
-        console.log(file.base64)
         this.order.menu = file.base64
     }
 
     selectFriendHandle = (e, {value}) =>{
-        this.order.invited = value
+        value.forEach((id)=>{
+            this.order.invited.indexOf(id)<0&&this.order.invited.push(id)
+        })
     }
 
+    selectGroupHandle = (e, {value})=>{
+        if (value.length>0) {
+            value.forEach((group)=>{
+                GroupsAPI.listMembers(group, (res)=>{
+                    res.message.forEach((member)=>{
+                        this.order.invited.indexOf(member.id)<0&&this.order.invited.push(member.id)
+                    })
+                })
+            })
+        }
+    }
     chooseMeal = (e, {value})=>{
         this.order.order_for = value
     }
