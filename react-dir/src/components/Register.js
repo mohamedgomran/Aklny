@@ -62,6 +62,10 @@ export default class Register extends Component {
      {
       this.setState({errmsg:'Email is'});
      }
+     else if(this.state.image === '')
+     {
+      this.setState({errmsg:'image is required'});
+     }
      else{
             //send data to backend
              let data = {
@@ -94,25 +98,6 @@ export default class Register extends Component {
                 this.setState({errmsg:'invalid user data'});
               });
             
-/**
- //send data to backend
-            let form=document.getElementById('registerform');
-            let data = new FormData(form);
-      
-            axios.post('http://localhost:3000/users', data, {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
-              }).then( (response)=> {
-                  this.setState({ redirect: true });
-                  // redirect to login   
-                
-              })
-              .catch( (error)=> {
-                this.setState({errmsg:'invalid user data'});
-              });
-             
- */
      }
     event.preventDefault();
   }
@@ -178,8 +163,8 @@ export default class Register extends Component {
               type='password'
               value={this.state.confirmpass} onChange={this.handleChangeconfirm} required
             />
-              <Form.Field required>             
-                        <FileBase64 multiple={ false } onDone={ this.getFiles }/>
+              <Form.Field>             
+                        <FileBase64 multiple={ false } onDone={ this.getFiles } required/>
                         
               </Form.Field>
             {/* <Form.Input

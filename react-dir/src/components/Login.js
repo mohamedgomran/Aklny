@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, Message, Icon, Grid, Header, Segment } from 'semantic-ui-react';
+import { Button, Form, Message, Icon, Grid, Header, Segment ,Color } from 'semantic-ui-react';
 import { Link,Redirect } from "react-router-dom";
 import SocialButton from './SocialButton';
 import axios from 'axios';
@@ -37,24 +37,14 @@ export default class Login extends Component {
       email:user.profile.email,
       pic:user.profile.profilePicURL,
       password:'social'
-    }
-
-
+     }
+    
     axios.post('http://localhost:3000/users',body, {
       headers: {
         'Content-Type': 'application/json'
       }
       }).then( (response)=> {
-          
-          
-        // if(response.data.success)
-        // {
-        //   this.setState({ redirect: true });
-        //  }else
-        //  {
-        //   this.setState({ errmsg: response.data.message });
-        //   // redirect to login
-        //  }
+         
         //get user token
         const b={auth:{"email":body.email,"password":body.password}}
         axios.post('http://localhost:3000/user_token',b,{
@@ -207,14 +197,15 @@ export default class Login extends Component {
             <br/>
 
             <Button color='google plus' fluid >
-                   <SocialButton  
-                   
+                   <SocialButton 
+                    color='google plus'      
                     provider='google'
                     appId='372012466129-8uv0cpjq7v3cforvq0evfq2vl9v0f9sd.apps.googleusercontent.com'
                     onLoginSuccess={this.handleSocialLogin}
                     onLoginFailure={this.handleSocialLoginFailure}
                     >
                     <Icon name='google plus' />
+                         
                     Login with Google
                     </SocialButton>
             </Button>

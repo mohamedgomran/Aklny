@@ -43,11 +43,8 @@ export default class Header extends Component {
 				 'Authorization':"Bearer "+localStorage.getItem('token')
 			 }
 			 }).then( (response)=> {
-				 console.log(response);
-				 console.log(response.data.user);
-				 console.log(response.data.user.name);
+				 
 				 this.setState({logged:true,user:response.data.user.name,userId:response.data.user.id,userimg:response.data.user.pic});
-				
 				 //redirect to hom page
 				 
 			 })
