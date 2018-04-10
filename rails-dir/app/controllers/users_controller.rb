@@ -2,9 +2,7 @@ class UsersController < ApplicationController
      before_action :authenticate_user,  only: [:auth]
 
     def register
-        # password_digest
         uparams = params.permit(:name, :email, :password, :pic)
-        # puts uparams
         @user = User.new(uparams)
         if User.find_by(email:uparams[:email])
             render json: { success: false, message:'email already exist'}
@@ -33,7 +31,6 @@ class UsersController < ApplicationController
 
     ################################user id to be get from authentication ##################################
     def add_friend
-        # user_id = 5 #to be get from authentication
         user_id = current_user.id
         @user = User.find(user_id);
         @friend = User.find_by(email: params[:email]);
@@ -64,7 +61,6 @@ class UsersController < ApplicationController
   
     ################################user id to be get from authentication ##################################    
     def list_friends
-        # user_id = ####
         user_id = current_user.id        
         @friends = User.find(user_id).friends.select(:email, :name, :id, :pic)
         render json: {success: true, message: @friends}
