@@ -9,7 +9,7 @@ class OrdersController < ApplicationController
         if @order.save
             invited = params[:invited]
             self.class.notify(invited,"invitation",@order.id,"true");
-            render json: {success: true, message: invited}
+            render json: {success: true, message: @order}
         else
             render json: {success: false, message: @order.errors}
         end
