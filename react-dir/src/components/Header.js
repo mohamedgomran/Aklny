@@ -16,7 +16,7 @@ export default class Header extends Component {
           { value: "ahmed invited you to his breakfast  ",Status: 'joined' },
           { value: "omran Joined to your order  ",Status: 'orders' },
 					],
-					logout:false,user:'',userId:'',logged:false,
+					logout:false,user:'',userId:'',userimg:'',logged:false,
             join_notif : [],
 						invite_notif : []
  					}
@@ -44,9 +44,9 @@ export default class Header extends Component {
 			 }).then( (response)=> {
 				 console.log(response);
 				 console.log(response.data.user);
-				 this.setState({logged:true,user:response.data.user.name,userId:response.data.user.id});
-				//  this.setState({user:response.data.user.name})
-				 console.log('user from header ',this.state.user)
+				 console.log(response.data.user.name);
+				 this.setState({logged:true,user:response.data.user.name,userId:response.data.user.id,userimg:response.data.user.pic});
+				
 				 //redirect to hom page
 				 
 			 })
@@ -189,7 +189,9 @@ onReceived(notif) {
 		          active={activeItem === 'profile'}
 		          onClick={this.handleItemClick}
 		        >
-			      <Image src={logo} avatar />
+						{this.state.logged?
+			      <Image src={this.state.userimg} size='medium' />:<Image src={logo} avatar />
+						}
 			      <span>
 							{this.state.user !== ''?
 							 this.state.user

@@ -3,11 +3,11 @@ class UsersController < ApplicationController
 
     def register
         # password_digest
-        uparams = params.permit(:name, :email, :password)
+        uparams = params.permit(:name, :email, :password, :pic)
         # puts uparams
-        @user = User.create(uparams)
+        @user = User.new(uparams)
         if User.find_by(email:uparams[:email])
-            render json: { success: false, message:  User.find_by(email:uparams[:email]).select(:email, :name, :id, :pic)}
+            render json: { success: false, message:'email already exist'}
         elsif @user.save
             render json: { success: true, message: 'user added' }
         else
