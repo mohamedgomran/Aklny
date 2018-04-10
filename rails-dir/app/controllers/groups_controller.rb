@@ -5,7 +5,6 @@ class GroupsController < ApplicationController
 
     def create
         params.require(:group).permit!
-        # user_id = 1
         user_id = current_user.id
         @user = User.find(user_id)
         if @user.user_groups.find_by(params[:group])
@@ -22,7 +21,6 @@ class GroupsController < ApplicationController
     end
 
     def list
-        #  user_id = 44 #to be get from authentication
         user_id = current_user.id
         puts user_id
         @user = User.find(user_id)
@@ -30,7 +28,6 @@ class GroupsController < ApplicationController
     end
 
     def delete
-        # user_id = 5 #to be get from authentication
         user_id = current_user.id
         @user = User.find(user_id)
         @group = Group.find(params[:gid])
@@ -43,15 +40,13 @@ class GroupsController < ApplicationController
     end
 
     def add_member
-        # params.require(:group).permit!
-        # user_id = 5 #to be get from authentication
         user_id = current_user.id
         @user = User.find(user_id)
         @group = Group.find(params[:gid])
-        @friend = User.find_by(email: params[:email])
-		if @user.user_groups.include?(@group) && @group.users.include?(@friend)
+        @friend = @user.friends.find_by(email: params[:email])
+		if @user.user_groups.include?(@group) && @group.users.include?(@friend) 
             render json: {success: false, message: "already added"}
-        elsif @group && @friend
+        elsif @group && @friend 
         	@group.users << @friend
             render json: {success: true, message: @group.users.select(:email, :name, :id, :pic)}
         else
@@ -60,7 +55,6 @@ class GroupsController < ApplicationController
     end
 
     def del_member
-        # user_id = 5 #to be get from authentication
         user_id = current_user.id
         @user = User.find(user_id)
         @group = Group.find(params[:gid])

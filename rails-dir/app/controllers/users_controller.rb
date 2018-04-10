@@ -29,7 +29,6 @@ class UsersController < ApplicationController
 
 
     def add_friend
-        # user_id = 5 #to be get from authentication
         user_id = current_user.id
         @user = User.find(user_id);
         @friend = User.find_by(email: params[:email]);

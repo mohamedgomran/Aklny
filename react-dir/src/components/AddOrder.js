@@ -18,10 +18,12 @@ export default class AddOrder extends React.Component{
 		this.handleChangeRes = this.handleChangeRes.bind(this);
     }
 
-    res_name = ""
-    order_for = "Breakfast"
-    invited = []
-    menu= ""
+    order = {
+        res_name: "",
+        order_for: "Breakfast",
+        invited: [],
+        menu: "",
+    }
 
 	state = {
 			activeItem: '',
@@ -40,14 +42,12 @@ export default class AddOrder extends React.Component{
                 return group
                 }
             )
-             this.setState({groups:groups});
-
-			console.log(res);
+            this.setState({groups:groups});
 		})
 	}
 
     handleChangeRes(event) {
-        this.res_name = event.target.value
+        this.order.res_name = event.target.value
     }
 
     getallFriends = ()=>{
@@ -67,10 +67,10 @@ export default class AddOrder extends React.Component{
     addOrder = ()=>{
         this.setState( ()=>{
         axios.post(`http://localhost:3000/orders`,{
-    		order_for:this.order_for,
-            res_name: this.res_name,
-    		invited : this.invited,
-            menu: this.menu
+    		order_for:this.order.order_for,
+            res_name: this.order.res_name,
+    		invited : this.order.invited,
+            menu: this.order.menu
         },
         {headers: headers }).then((response)=>{
             this.setState({
@@ -85,16 +85,28 @@ export default class AddOrder extends React.Component{
     }
 
     getFiles = (file)=>{
-        console.log(file.base64)
-        this.menu = file.base64
+        this.order.menu = file.base64
     }
 
     selectFriendHandle = (e, {value}) =>{
-        this.invited = value
+        value.forEach((id)=>{
+            this.order.invited.indexOf(id)<0&&this.order.invited.push(id)
+        })
     }
 
+    selectGroupHandle = (e, {value})=>{
+        if (value.length>0) {
+            value.forEach((group)=>{
+                GroupsAPI.listMembers(group, (res)=>{
+                    res.message.forEach((member)=>{
+                        this.order.invited.indexOf(member.id)<0&&this.order.invited.push(member.id)
+                    })
+                })
+            })
+        }
+    }
     chooseMeal = (e, {value})=>{
-        this.order_for = value
+        this.order.order_for = value
     }
 
     render = ()=>{
